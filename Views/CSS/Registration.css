@@ -15,7 +15,7 @@ body {
     margin-bottom: 25px;
 }
 
-.container {
+.register-wrapper {
     background-color: rgb(255, 255, 255);
     box-shadow: 5px 5px 10px #888888;
     margin: auto;
@@ -25,11 +25,10 @@ body {
     transition: box-shadow 500ms linear;
 }
 
-.container:hover {
+.register-wrapper:hover {
     box-shadow: 5px 5px 15px #888888;
     transition: box-shadow 500ms linear;
 }
-
 
 .form-title {
     font-size: 28px;
@@ -38,11 +37,11 @@ body {
     padding: 8px;
 }
 
-.form-container {
+.field-wrapper {
     padding: 10px;
 }
 
-.form-label {
+.field-label {
     display: block;
     cursor: pointer;
     font-size: 12px;
@@ -54,43 +53,57 @@ body {
     color:rgb(222, 79, 84);
 }
 
-.form-input {
-    width: 100%;
+.input-wrapper {
+    position: relative;
+    width: auto;
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.input {
     font-size: 13px;
+    line-height: 20px;
+    width: 100%;
     outline: none;
     border-radius: 5px;
-    line-height: 20px;
     padding: 4px;
 }
 
-.form-input-correct {
-    border: 1px solid gray;
-    transition: border 200ms linear;
-}
-
-.form-input-incorrect {
-    border: 1px solid rgb(222, 79, 84);
-}
-
-.form-input:focus {
+.input:focus {
     border: 1px solid #1890ff;
     transition: border 200ms linear;
 }
 
-.form-error {
+.input-correct {
+    border: 1px solid gray;
+    transition: border 200ms linear;
+}
+
+.input-incorrect {
+    border: 1px solid rgb(222, 79, 84);
+}
+
+.input-warning {
+    color: rgb(222, 79, 84);
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    visibility: hidden;
+}
+
+.field-error {
     color: rgb(222, 79, 84);
     padding-top: 5px;
     font-size: 12px;
     display: none;
 }
 
-.form-warning {
-    color: rgb(222, 79, 84);
-    position: absolute;
-    top: 8px;
-    right: 9px;
-    display: none;
-}
+
+
+
+
 
 .form-input-file {
     width: 0.1px;
@@ -99,20 +112,6 @@ body {
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
-}
-
-
-
-
-
-
-.form-input-container {
-    position: relative;
-    width: auto;
-    display: flex;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
 }
 
 .form-photo {
