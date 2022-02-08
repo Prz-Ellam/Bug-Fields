@@ -111,24 +111,18 @@ form.addEventListener('submit', (e) => {
     if (password.value === '') {
         SetMessageError(password, 'Contraseña no puede estar vacío.');
     }
-    else if (password.length === 8) {
-
+    else if (!validatePassword(password.value)) {
+        SetMessageError(password, 'Contraseña no válida');
     }
-    else if (password.match(/([A-Z])/)) {
-
-    }
-    else if (password.match(/([a-z])/)) {
-
-    }
-    else if (password.match(/([0-9])/)) {
-
+    else {
+        SetMessageSuccess(password);
     }
 
-    if (confirmPassword.validatePassword === '') {
+    if (confirmPassword.value === '') {
         SetMessageError(confirmPassword, 'Confirmar contraseña no puede estar vacío.');
     }
     else if (password.value != confirmPassword) {
-        SetMessageError(confirmPassword, 'Verificar contraseña');
+        SetMessageError(confirmPassword, 'Confirmar contraseña no coincide con contraseña');
     }
     else {
         SetMessageSuccess(confirmPassword);
@@ -168,35 +162,65 @@ function SetMessageSuccess(input) {
 
 function validatePassword(password) {
 
-    let msg = '';
-    let checks = new Map([['Upper', false], 
-                        ['Lower', false], 
-                        ['Number', false], 
-                        ['Lenght', false]]);
+    let msg = 'Contraseña debe contener:';
+    let result = true;
 
-    if (password.match(/([A-Z])/)) {
+    if (!password.match(/([A-Z])/)) {
+        let upper = document.getElementById('field-password-upper');
+        upper.style.color = 'rgb(222, 79, 84)';
         msg += ' una mayúscula';
-        checks.set('Upper', true);
-        console.log('Mayuscula');
+        result = false;
     }
-    if (password.match(/([a-z])/)) {
-        msg += ' una minuscula';
-        checks.set('Lower', true);
-        console.log('Minuscula');
-    }
-    if (password.match(/([0-9])/)) {
-        msg += ' un número';
-        checks.set('Number', true);
-        console.log('Numero');
-    }
-    if (password.length === 8) {
-        msg += ' y un tamaño mínimo de 8 caracteres';
-        checks.set('Length', true);
-        console.log('Tamanio');
+    else {
+        let upper = document.getElementById('field-password-upper');
+        upper.style.color = 'rgb(121, 177, 143)';
     }
 
-    console.log(msg);
-    return checks;
+    if (!password.match(/([a-z])/)) {
+        let lower = document.getElementById('field-password-lower');
+        lower.style.color = 'rgb(222, 79, 84)';
+        msg += ', una minúscula';
+        result = false;
+    }
+    else {
+        let lower = document.getElementById('field-password-lower');
+        lower.style.color = 'rgb(121, 177, 143)';
+    }
+
+    if (!password.match(/([0-9])/)) {
+        let number = document.getElementById('field-password-number');
+        number.style.color = 'rgb(222, 79, 84)';
+        msg += ', un número';
+        result = false;
+    }
+    else {
+        let number = document.getElementById('field-password-number');
+        number.style.color = 'rgb(121, 177, 143)';
+    }
+
+    if (!password.match(/[.,\/#!$%\^&\*;:{}=\-_`~()”“"…]/)) {
+        let symbol = document.getElementById('field-password-symbol');
+        symbol.style.color = 'rgb(222, 79, 84)';
+        msg += ", un símbolo";
+        result = false;
+    }
+    else {
+        let symbol = document.getElementById('field-password-symbol');
+        symbol.style.color = 'rgb(121, 177, 143)';
+    }
+
+    if (password.length < 8) {
+        let length = document.getElementById('field-password-length');
+        length.style.color = 'rgb(222, 79, 84)';
+        msg += ' y un tamaño mínimo de 8 caracteres';
+        result = false;
+    }
+    else {
+        let length = document.getElementById('field-password-length');
+        length.style.color = 'rgb(121, 177, 143)';
+    }
+
+    return result;
 
 }
 
