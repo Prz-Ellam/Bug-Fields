@@ -37,6 +37,7 @@
                     <div class="input-wrapper">
                         <input type="text" class="input input-correct" id="name" name="name" autocomplete="off">
                         <i class="fas fa-exclamation-circle input-warning" id="name-warning"></i>
+                        <i class="fas fa-check-circle input-success" id="name-success"></i>
                     </div>
                     <label class="field-error" id="name-error">Nombre(s) no puede estar vacío.</p>
                 </div>
@@ -46,6 +47,7 @@
                     <div class="input-wrapper">
                         <input type="text" class="input input-correct" id="last-name" name="last-name" autocomplete="off">
                         <i class="fas fa-exclamation-circle input-warning" id="last-name-warning"></i>
+                        <i class="fas fa-check-circle input-success" id="name-success"></i>
                     </div>
                     <p class="field-error" id="last-name-error">Apellidos no puede estar vacío.</p>
                 </div>
@@ -62,6 +64,7 @@
                     <div class="input-wrapper">
                         <input type="text"class="input input-correct" id="email" placeholder="example@email.com">
                         <i class="fas fa-exclamation-circle input-warning" id="email-warning"></i>
+                        <i class="fas fa-check-circle input-success" id="name-success"></i>
                     </div>
                     <p class="field-error" id="email-error">Correo electrónico no puede estar vacío.</p>
                 </div>
@@ -71,6 +74,7 @@
                     <div class="input-wrapper">
                         <input type="text" class="input input-correct" id="username" name="username" autocomplete="off">
                         <i class="fas fa-exclamation-circle input-warning" id="username-warning"></i>
+                        <i class="fas fa-check-circle input-success" id="name-success"></i>
                     </div>
                     <p class="field-error" id="username-error">Nombre de usuario no puede estar vacío.</p>
                 </div>
@@ -80,6 +84,7 @@
                     <div class="input-wrapper">
                         <input type="password" class="input input-correct" id="password" placeholder="Debe contener mínimo 8 caracteres">
                         <i class="fas fa-eye show-password" id="show-password"></i>
+                        <i class="fas fa-check-circle input-success" id="name-success"></i>
                         <i class="fas fa-eye-slash hide-password" id="hide-password"></i>
                         <i class="fas fa-exclamation-circle input-warning" id="password-warning"></i>
                     </div>
@@ -91,8 +96,16 @@
                     <div class="input-wrapper">
                         <input type="password" class="input input-correct" id="confirm-password">
                         <i class="fas fa-exclamation-circle input-warning" id="confirm-password-warning"></i>
+                        <i class="fas fa-check-circle input-success" id="name-success"></i>
                     </div>
                     <p class="field-error" id="confirm-password-error">Confirmar contraseña no puede estar vacío.</p>
+                    <ul>
+                        <li class="field-password-requirements">Debe contener mínimo 8 caracteres</li>
+                        <li class="field-password-requirements">Debe contener una mayúscula</li>
+                        <li class="field-password-requirements">Debe contener una minúscula</li>
+                        <li class="field-password-requirements">Debe contener un número</li>
+                        <li class="field-password-requirements">Debe contener un signo de puntuación</li>
+                    </ul>
                 </div>
 
                 <div class="form-submit">

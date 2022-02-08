@@ -46,81 +46,15 @@ form.addEventListener('submit', (e) => {
 
     let errors = false;
 
+    // Obtain inputs
+    let photo = form['photo'];
     let name = form['name'];
     let lastName = form['last-name'];
+    let dateOfBirth = form['date-of-birth'];
     let email = form['email'];
     let username = form['username'];
     let password = form['password'];
     let confirmPassword = form['confirm-password'];
-    let dateOfBirth = form['date-of-birth'];
-    let photo = form['photo'];
-
-
-    if (name.value === '') {
-        name.classList.add('form-input-incorrect');
-        const nameErrorLabel = document.getElementById('name-error');
-        const nameWarning = document.getElementById('name-warning');
-        nameErrorLabel.style.display = 'block';
-        nameWarning.style.visibility = 'visible';
-        errors = true;
-    }
-
-
-    if (lastName.value === '') {
-        lastName.classList.add('form-input-incorrect');
-
-        const lastNameErrorLabel = document.getElementById('last-name-error');
-        const lastNameWarning = document.getElementById('last-name-warning');
-        lastNameErrorLabel.style.display = 'block';
-        lastNameWarning.style.visibility = 'visible';
-        
-        errors = true;
-    }
-
-    if (email.value === '') {
-        email.classList.add('form-input-incorrect');
-
-        const emailErrorLabel = document.getElementById('email-error');
-        const emailWarning = document.getElementById('email-warning');
-
-        emailErrorLabel.style.display = 'block';
-        emailWarning.style.visibility = 'visible';
-        errors = true;
-    }
-
-    if (username.value === '') {
-        username.classList.add('form-input-incorrect');
-
-        const usernameErrorLabel = document.getElementById('username-error');
-        const usernameWarning = document.getElementById('username-warning');
-
-        usernameErrorLabel.style.display = 'block';
-        usernameWarning.style.visibility = 'visible';
-        errors = true;
-    }
-
-    if (password.value === '') {
-        password.classList.add('form-input-incorrect');
-
-        const passwordErrorLabel = document.getElementById('password-error');
-        const passwordWarning = document.getElementById('password-warning');
-
-        passwordErrorLabel.style.display = 'block';
-        passwordWarning.style.visibility = 'visible';
-        errors = true;
-    }
-
-    if (confirmPassword.value === '') {
-        confirmPassword.classList.add('form-input-incorrect');
-
-        const confirmPasswordErrorLabel = document.getElementById('confirm-password-error');
-        const confirmPasswordWarning = document.getElementById('confirm-password-warning');
-
-        confirmPasswordErrorLabel.style.display = 'block';
-        confirmPasswordWarning.style.visibility = 'visible';
-        errors = true;
-    }
-
 
     // Solo letras del alfabeto
     var rgxAlphas = /^[a-zA-Z \u00C0-\u00FF]+$/;
@@ -132,44 +66,104 @@ form.addEventListener('submit', (e) => {
     var rgxWhitespaces = /^\s*$/; 
 
     let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    
 
-/*
-    if (errors) {
-        e.preventDefault();
-        return;
+    if (name.value === '') {
+        SetMessageError(name, 'Nombre(s) no puede estar vacío.');
     }
-*/
-
-
-    // Solo alfabeto y que no haya espacios en blanco solamente
-    if (!name.value.match(rgxAlphas) || name.value.match(rgxWhitespaces)) {
-        const nameErrorLabel = document.getElementById('name-error');
-        nameErrorLabel.style.display = 'block';
+    else if (!name.value.match(rgxAlphas) || name.value.match(rgxWhitespaces)) {
+        SetMessageError(name, 'Nombre(s) no válido.');
+    }
+    else {
+        SetMessageSuccess(name);
     }
 
-    if (!lastName.value.match(rgxAlphas) || lastName.value.match(rgxWhitespaces)) {
-        const lastNameErrorLabel = document.getElementById('name-error');
-        lastNameErrorLabel.style.display = 'block';
+    if (lastName.value === '') {
+        SetMessageError(lastName, 'Apellidos no puede estar vacío.');
+    }
+    else if (!lastName.value.match(rgxAlphas) || lastName.value.match(rgxWhitespaces)) {
+        SetMessageError(name, 'Apellidos no válido.');
+    }
+    else {
+        SetMessageSuccess(lastName);
     }
 
-    if (!username.value.match(rgxAlphaNum) || username.value.match(rgxWhitespaces)) {
+    if (email.value === '') {
+        SetMessageError(email, 'Correo electrónico no puede estar vacío.');
+    }
+    else if (!email.value.match(rgxEmail) || email.value.match(rgxWhitespaces)) {
+        SetMessageError(email, 'Correo electrónico no válido.');
+    }
+    else {
+        SetMessageSuccess(email);
+    }
+
+    if (username.value === '') {
+        SetMessageError(username, 'Nombre de usuario no puede estar vacío.');
+    }
+    else if (!username.value.match(rgxAlphaNum) || lastName.value.match(rgxWhitespaces)) {
+        SetMessageError(username, 'Nombre de usuario no válido.');
+    }
+    else {
+        SetMessageSuccess(username);
+    }
+
+    if (password.value === '') {
+        SetMessageError(password, 'Contraseña no puede estar vacío.');
+    }
+    else if (password.length === 8) {
+
+    }
+    else if (password.match(/([A-Z])/)) {
+
+    }
+    else if (password.match(/([a-z])/)) {
+
+    }
+    else if (password.match(/([0-9])/)) {
 
     }
 
-    if (!email.value.match(rgxEmail) || email.value.match(rgxWhitespaces)) {
-        
+    if (confirmPassword.validatePassword === '') {
+        SetMessageError(confirmPassword, 'Confirmar contraseña no puede estar vacío.');
+    }
+    else if (password.value != confirmPassword) {
+        SetMessageError(confirmPassword, 'Verificar contraseña');
+    }
+    else {
+        SetMessageSuccess(confirmPassword);
     }
 
     // Password
-    let results = validatePassword(password);
-
-    if (password.value != confirmPassword.value) {
-        // Error, la contraseña no es igual
-    }
+    // let results = validatePassword(password);
 
     e.preventDefault();
     
 });
+
+function SetMessageError(input, errorMessage) {
+
+    let fieldWrapper = input.parentElement.parentElement;
+
+    let fieldError = fieldWrapper.children[2];
+    let inputWarning = fieldWrapper.children[1].children[1];
+    
+    fieldError.style.display = 'block';
+    fieldError.innerHTML =  errorMessage;
+    inputWarning.style.visibility = 'visible';
+    input.classList.add('input-incorrect');
+
+}
+
+function SetMessageSuccess(input) {
+
+    let inputWrapper = input.parentElement;
+    let inputSucess = inputWrapper.children[2];
+
+    inputSucess.style.visibility = 'visible';
+    input.classList.remove('input-incorrect');
+
+}
 
 
 function validatePassword(password) {
@@ -205,9 +199,6 @@ function validatePassword(password) {
     return checks;
 
 }
-
-validatePassword('9a');
-
 
 showPassword.onclick = function() {
     showPassword.style.visibility = 'hidden';

@@ -93,6 +93,14 @@ body {
     visibility: hidden;
 }
 
+.input-success {
+    color: rgb(121, 177, 143);
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    visibility: hidden;
+}
+
 .field-error {
     color: rgb(222, 79, 84);
     padding-top: 5px;
@@ -261,4 +269,12 @@ body {
 .github {
     color: black;
     font-size: 48px;
+}
+
+ul {
+    padding: 5px 15px 5px 15px;
+}
+
+.field-password-requirements {
+    font-size: 12px;
 }
