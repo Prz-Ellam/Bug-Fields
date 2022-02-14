@@ -1,3 +1,8 @@
+var date = new Date();
+var dateFormat = date.getFullYear() + '-' + 
+String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDay()).padStart(2, '0');
+document.getElementById('date-of-birth').value = dateFormat;
+
 const pictureBox = document.getElementById('picture-box');
 
 const form = document.getElementById('register-form');
@@ -69,63 +74,65 @@ form.addEventListener('submit', (e) => {
     
 
     if (name.value === '') {
-        SetMessageError(name, 'Nombre(s) no puede estar vacío.');
+        setMessageError(name, 'Nombre(s) no puede estar vacío.');
     }
     else if (!name.value.match(rgxAlphas) || name.value.match(rgxWhitespaces)) {
-        SetMessageError(name, 'Nombre(s) no válido.');
+        setMessageError(name, 'Nombre(s) no válido.');
     }
     else {
-        SetMessageSuccess(name);
+        setMessageSuccess(name);
     }
 
+
+
     if (lastName.value === '') {
-        SetMessageError(lastName, 'Apellidos no puede estar vacío.');
+        setMessageError(lastName, 'Apellidos no puede estar vacío.');
     }
     else if (!lastName.value.match(rgxAlphas) || lastName.value.match(rgxWhitespaces)) {
-        SetMessageError(name, 'Apellidos no válido.');
+        setMessageError(name, 'Apellidos no válido.');
     }
     else {
-        SetMessageSuccess(lastName);
+        setMessageSuccess(lastName);
     }
 
     if (email.value === '') {
-        SetMessageError(email, 'Correo electrónico no puede estar vacío.');
+        setMessageError(email, 'Correo electrónico no puede estar vacío.');
     }
     else if (!email.value.match(rgxEmail) || email.value.match(rgxWhitespaces)) {
-        SetMessageError(email, 'Correo electrónico no válido.');
+        setMessageError(email, 'Correo electrónico no válido.');
     }
     else {
-        SetMessageSuccess(email);
+        setMessageSuccess(email);
     }
 
     if (username.value === '') {
-        SetMessageError(username, 'Nombre de usuario no puede estar vacío.');
+        setMessageError(username, 'Nombre de usuario no puede estar vacío.');
     }
     else if (!username.value.match(rgxAlphaNum) || lastName.value.match(rgxWhitespaces)) {
-        SetMessageError(username, 'Nombre de usuario no válido.');
+        setMessageError(username, 'Nombre de usuario no válido.');
     }
     else {
-        SetMessageSuccess(username);
+        setMessageSuccess(username);
     }
 
     if (password.value === '') {
-        SetMessageError(password, 'Contraseña no puede estar vacío.');
+        setMessageError(password, 'Contraseña no puede estar vacío.');
     }
     else if (!validatePassword(password.value)) {
-        SetMessageError(password, 'Contraseña no válida');
+        setMessageError(password, 'Contraseña no válida');
     }
     else {
-        SetMessageSuccess(password);
+        setMessageSuccess(password);
     }
 
     if (confirmPassword.value === '') {
-        SetMessageError(confirmPassword, 'Confirmar contraseña no puede estar vacío.');
+        setMessageError(confirmPassword, 'Confirmar contraseña no puede estar vacío.');
     }
     else if (password.value != confirmPassword) {
-        SetMessageError(confirmPassword, 'Confirmar contraseña no coincide con contraseña');
+        setMessageError(confirmPassword, 'Confirmar contraseña no coincide con contraseña');
     }
     else {
-        SetMessageSuccess(confirmPassword);
+        setMessageSuccess(confirmPassword);
     }
 
     // Password
@@ -135,7 +142,7 @@ form.addEventListener('submit', (e) => {
     
 });
 
-function SetMessageError(input, errorMessage) {
+function setMessageError(input, errorMessage) {
 
     let fieldWrapper = input.parentElement.parentElement;
 
@@ -149,7 +156,7 @@ function SetMessageError(input, errorMessage) {
 
 }
 
-function SetMessageSuccess(input) {
+function setMessageSuccess(input) {
 
     let inputWrapper = input.parentElement;
     let inputSucess = inputWrapper.children[2];
