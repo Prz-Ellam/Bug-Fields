@@ -1,6 +1,6 @@
 var date = new Date();
 var dateFormat = date.getFullYear() + '-' + 
-String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDay()).padStart(2, '0');
+String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
 document.getElementById('date-of-birth').value = dateFormat;
 
 const pictureBox = document.getElementById('picture-box');
@@ -95,6 +95,10 @@ form.addEventListener('submit', (e) => {
         setMessageSuccess(lastName);
     }
 
+    if(Date.parse(dateFormat) < Date.parse(document.getElementById('date-of-birth').value)){
+        setMessageError(dateOfBirth, 'Fecha de nacimiento no válida.');
+    }
+
     if (email.value === '') {
         setMessageError(email, 'Correo electrónico no puede estar vacío.');
     }
@@ -139,7 +143,6 @@ form.addEventListener('submit', (e) => {
     // let results = validatePassword(password);
 
     e.preventDefault();
-    
 });
 
 function setMessageError(input, errorMessage) {
