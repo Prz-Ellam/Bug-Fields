@@ -12,8 +12,6 @@ const showPassword = document.getElementById('show-password');
 const hidePassword = document.getElementById('hide-password');
 const inputPassword = document.getElementById('password');
 
-var regexX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8})$/;
-
 /*
 names.onclick = function() {
     nameWarning.style.visibility = null;
@@ -49,8 +47,6 @@ photo.onclick = function() {
 */
 form.addEventListener('submit', (e) => {
 
-    let errors = false;
-
     // Obtain inputs
     let photo = form['photo'];
     let name = form['name'];
@@ -70,6 +66,7 @@ form.addEventListener('submit', (e) => {
     // Solo hay espacios en blanco
     var rgxWhitespaces = /^\s*$/; 
 
+    // Validar formato de email
     let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     
 
@@ -83,8 +80,6 @@ form.addEventListener('submit', (e) => {
         setMessageSuccess(name);
     }
 
-
-
     if (lastName.value === '') {
         setMessageError(lastName, 'Apellidos no puede estar vacío.');
     }
@@ -95,8 +90,11 @@ form.addEventListener('submit', (e) => {
         setMessageSuccess(lastName);
     }
 
-    if(Date.parse(dateFormat) < Date.parse(document.getElementById('date-of-birth').value)){
+    if(Date.parse(dateFormat) < Date.parse(dateOfBirth.value)){
         setMessageError(dateOfBirth, 'Fecha de nacimiento no válida.');
+    }
+    else {
+        setMessageSuccess(dateOfBirth)
     }
 
     if (email.value === '') {
