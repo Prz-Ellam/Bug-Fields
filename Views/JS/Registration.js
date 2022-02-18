@@ -70,6 +70,13 @@ form.addEventListener('submit', (e) => {
     let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     
 
+    if(photo.value === ''){
+        setMessageErrorOnPhoto();
+    }else{
+        setMessageSuccessOnPhoto();
+    }
+
+
     if (name.value === '') {
         setMessageError(name, 'Nombre(s) no puede estar vacío.');
     }
@@ -130,7 +137,7 @@ form.addEventListener('submit', (e) => {
     if (confirmPassword.value === '') {
         setMessageError(confirmPassword, 'Confirmar contraseña no puede estar vacío.');
     }
-    else if (password.value != confirmPassword) {
+    else if (password.value != confirmPassword.value) {
         setMessageError(confirmPassword, 'Confirmar contraseña no coincide con contraseña');
     }
     else {
@@ -242,4 +249,14 @@ hidePassword.onclick = function() {
     showPassword.style.visibility = 'visible';
     hidePassword.style.visibility = 'hidden';
     inputPassword.setAttribute('type', 'password');
+}
+
+function setMessageErrorOnPhoto(){
+    let photoMessage =  document.getElementById('photo-error');
+    photoMessage.style.display = 'block';
+}
+
+function setMessageSuccessOnPhoto(){
+    let photoMessage =  document.getElementById('photo-error');
+    photoMessage.style.display = 'none';
 }
