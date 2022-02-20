@@ -11,8 +11,18 @@ body {
 
 .navbar {
     background-color: #449342;
-    height: 64px;
-    margin-bottom: 25px;
+    height: 56px;
+    margin-bottom: 24px;
+    position: relative;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+#logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 48px;
 }
 
 .register-wrapper {
@@ -72,17 +82,21 @@ body {
 }
 
 .input:focus {
-    border: 1px solid #1890ff;
+    border: 2px solid #1890ff;
     transition: border 200ms linear;
 }
 
-.input-correct {
-    border: 1px solid gray;
+.input-normal {
+    border: 2px solid gray;
     transition: border 200ms linear;
 }
 
 .input-incorrect {
-    border: 1px solid rgb(222, 79, 84);
+    border: 2px solid rgb(222, 79, 84);
+}
+
+.input-correct {
+    border: 2px solid rgb(121, 177, 143);
 }
 
 .input-warning {
@@ -246,9 +260,12 @@ body {
 
 
 .footer {
+    color: rgb(224, 224, 224);
+    text-align: center;
+    padding: 48px;
     margin-top: 50px;
-    height: 200px;
-    background-color: #449342;
+    height: 224px;
+    background-color: rgb(48, 48, 48);
 }
 
 #password {
@@ -267,11 +284,11 @@ body {
 }
 
 .github {
-    color: black;
+    color: rgb(224, 224, 224);
     font-size: 48px;
 }
 
-ul {
+.password-requirements {
     padding: 5px 15px 5px 15px;
 }
 
