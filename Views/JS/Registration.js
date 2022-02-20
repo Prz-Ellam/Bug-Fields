@@ -227,13 +227,14 @@ document.getElementById('register-form').addEventListener('submit', (e) => {
     let password = this['password'];
     let confirmPassword = this['confirm-password'];
 
+    let result = 0;
     if(photo.value === ''){
         setMessageErrorOnPhoto();
+        result += 1;
     }else{
         setMessageSuccessOnPhoto();
     }
 
-    let result = 0;
     result += validateName(name);
     result += validateLastName(lastName);
     result += validateDateOfBirth(dateOfBirth);
@@ -359,6 +360,7 @@ function checkPassword(password) {
 function setMessageErrorOnPhoto(){
     let photoMessage =  document.getElementById('photo-error');
     photoMessage.style.display = 'block';
+    photoMessage.style.color = 'rgb(222, 78, 84)';
 }
 
 function setMessageSuccessOnPhoto(){
