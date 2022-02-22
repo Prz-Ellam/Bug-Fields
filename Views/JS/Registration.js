@@ -2,6 +2,7 @@ var date = new Date();
 var dateFormat = date.getFullYear() + '-' + 
 String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
 document.getElementById('date-of-birth').value = dateFormat;
+//document.getElementById('date-of-birth').setAttribute('max', dateFormat);
 
 photo.onchange = function(e) {
 
@@ -20,15 +21,13 @@ photo.onchange = function(e) {
 var rgxAlphas = /^[a-zA-Z \u00C0-\u00FF]+$/;
 
 // Solo letras del alfabeto y numeros
-var rgxAlphaNum = /^[a-zA-Z0-9 \u00C0-\u00FF]+$/;
+var rgxAlphaNum = /^[a-zA-Z0-9_-\u00C0-\u00FF]+$/;
 
 // Solo hay espacios en blanco
 var rgxWhitespaces = /^\s*$/; 
 
 // Validar formato de email
 let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-
-
 
 function validateName(input) {
 
@@ -104,7 +103,7 @@ function validateUsername(input) {
         setMessageError(input, 'Nombre de usuario no puede estar vacío.');
         return 1;
     }
-    if (!input.value.match(rgxAlphas) || input.value.match(rgxWhitespaces)) {
+    if (!input.value.match(rgxAlphaNum) || input.value.match(rgxWhitespaces)) {
         setMessageError(input, 'Nombre de usuario no válido.');
         return 1;
     }
@@ -144,7 +143,7 @@ function validatePassword(input) {
 function validateConfirmPassword(input) {
 
     if (input.value === '') {
-        setMessageError(input, 'Contraseña no puede estar vacía.');
+        setMessageError(input, 'Confirmar contraseña no puede estar vacío.');
         return 1;
     }
     if (document.getElementById('password').value != input.value) {
@@ -156,7 +155,6 @@ function validateConfirmPassword(input) {
     return 0;
 
 }
-
 
 document.getElementById('first-name').addEventListener('blur', function() {
     validateName(this);
@@ -214,7 +212,6 @@ document.getElementById('confirm-password').addEventListener('focus', function()
     onFocus(this);
 });
 
-
 document.getElementById('register-form').addEventListener('submit', (e) => {
 
     // Obtain inputs
@@ -245,6 +242,7 @@ document.getElementById('register-form').addEventListener('submit', (e) => {
 
     if (result > 0) {
         e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
 });

@@ -6,22 +6,19 @@
         <link rel="shortcut icon" href="../Assets/blank-profile-picture.svg" type="image/x-icon">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=:wght@400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="../CSS/Registration.css">
     </head>
     <body>
 
         <header>
-            
             <nav class="navbar">
                 <img src="../Assets/bugFields.png" id="logo">
             </nav>
-            
         </header>
-        
-    
+
         <div class="register-wrapper">
-            <form class="form" id="register-form">
+            <form action="#" method="post" class="form" id="register-form">
 
                 <h1 class="form-title">Registrarte</h1>
 
@@ -30,17 +27,15 @@
                         <img src="../Assets/blank-profile-picture.svg" class="form-photo" id="picture-box">
                         <div class="photo-container">
                             <label class="file-button" for="photo">Elegir un archivo</label>
-                            <input type="file" class="form-input-file" id="photo" accept="image/*">
+                            <input type="file" class="form-input-file" id="photo" name="photo" accept="image/*">
                         </div>
                     </div>
-                    <!--<p class="form-error">Mensaje de error</p>
-                    <label class="form-label" for="photo">*Imagen de perfil:</label>-->
-                    <label class="form-label" id="photo-error" style="display: none;">Seleccione una imagen de perfil</label>
+                    <label class="field-error" id="photo-error" style="display: none; text-align: center">Seleccione una imagen de perfil</label>
                 </div>
 
                 <!-- Un input esta conformado por el label, el input con su simbolo de warning y el error-->
                 <div class="field-wrapper">
-                    <label class="field-label" for="name">Nombre(s):</label>
+                    <label class="field-label" for="first-name">Nombre(s):</label>
                     <div class="input-wrapper">
                         <input type="text" class="input input-normal" id="first-name" name="name" autocomplete="off">
                         <i class="fas fa-exclamation-circle input-warning" id="name-warning"></i>
@@ -126,8 +121,8 @@
         
         <footer class="footer">
             <p>Bug Fields</p>
-            <p>Osvaldo Estrada Gutierrez</p>
-            <p>Eliam Rodríguez Pérez</p>
+            <p>Osvaldo Estrada Gutierrez (Mt. 1898206)</p>
+            <p>Eliam Rodríguez Pérez (Mt. 1898666)</p><br>
             <a href="https://github.com/Prz-Ellam/Bug-Fields"><i class="fab fa-github github"></i></a>
         </footer>
         <script src="https://kit.fontawesome.com/48ce36e499.js" crossorigin="anonymous"></script>

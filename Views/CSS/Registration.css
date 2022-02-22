@@ -5,30 +5,33 @@
 }
 
 body {
-    background-color:#e6f7ff;
+    background-color:#EFEFEF;
     font-family: "Roboto", sans-serif;
 }
 
 .navbar {
+    position: fixed;
     background-color: #449342;
     height: 56px;
-    margin-bottom: 24px;
-    position: relative;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    width: 100%;
+    margin-top: -80px;
+    z-index: 100;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 
 #logo {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    height: 48px;
+    height: 42px;
 }
 
 .register-wrapper {
     background-color: rgb(255, 255, 255);
     box-shadow: 5px 5px 10px #888888;
     margin: auto;
+    margin-top: 80px;
     width: 36%;
     padding: 10px;
     border-radius: 10px;
@@ -41,7 +44,7 @@ body {
 }
 
 .form-title {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: normal;
     text-align: center;
     padding: 8px;
@@ -73,7 +76,8 @@ body {
 }
 
 .input {
-    font-size: 13px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
     line-height: 20px;
     width: 100%;
     outline: none;
@@ -122,11 +126,6 @@ body {
     display: none;
 }
 
-
-
-
-
-
 .form-input-file {
     width: 0.1px;
 	height: 0.1px;
@@ -138,8 +137,8 @@ body {
 
 .form-photo {
     position: absolute;
-    width: 125px;
-    height: 125px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
 
     display: flex;
@@ -158,12 +157,13 @@ body {
 .file-button {
     background-color: #096dd9;
     color: white;
-    font-weight: bolder;
-    width: 125px;
-    height: 125px;
+    font-weight: bold;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
 
     display: flex;
+    text-align: center;
     align-items: center;
     justify-content: center;
 
@@ -295,4 +295,14 @@ body {
 .field-password-requirements {
     font-size: 12px;
     color: black;
+}
+
+
+#date-of-birth {
+    -webkit-appearance: none;
+}
+#date-of-birth::-webkit-inner-spin-button,
+#date-of-birth::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
 }
