@@ -5,20 +5,33 @@
 }
 
 body {
-    background-color:#e6f7ff;
+    background-color:#EFEFEF;
     font-family: "Roboto", sans-serif;
 }
 
 .navbar {
+    position: fixed;
     background-color: #449342;
-    height: 64px;
-    margin-bottom: 25px;
+    height: 56px;
+    width: 100%;
+    margin-top: -80px;
+    z-index: 100;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+#logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 42px;
 }
 
 .login-wrapper {
     background-color: rgb(255, 255, 255);
     box-shadow: 5px 5px 10px #888888;
     margin: auto;
+    margin-top: 80px;
     width: 36%;
     padding: 10px;
     border-radius: 10px;
@@ -31,7 +44,7 @@ body {
 }
 
 .form-title {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: normal;
     text-align: center;
     padding: 8px;
@@ -63,7 +76,8 @@ body {
 }
 
 .input {
-    font-size: 13px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
     line-height: 20px;
     width: 100%;
     outline: none;
@@ -72,21 +86,33 @@ body {
 }
 
 .input:focus {
-    border: 1px solid #1890ff;
+    border: 2px solid #1890ff;
     transition: border 200ms linear;
 }
 
-.input-correct {
-    border: 1px solid gray;
+.input-normal {
+    border: 2px solid gray;
     transition: border 200ms linear;
 }
 
 .input-incorrect {
-    border: 1px solid rgb(222, 79, 84);
+    border: 2px solid rgb(222, 79, 84);
+}
+
+.input-correct {
+    border: 2px solid rgb(121, 177, 143);
 }
 
 .input-warning {
     color: rgb(222, 79, 84);
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    visibility: hidden;
+}
+
+.input-success {
+    color: rgb(121, 177, 143);
     position: absolute;
     top: 8px;
     right: 9px;
@@ -100,10 +126,64 @@ body {
     display: none;
 }
 
+.form-input-file {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
 
+.form-photo {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    opacity: 1;
+    transition: 0.5s ease;
+    backface-visibility: hidden;
+}
 
+.form-photo:hover {
+    cursor: pointer;
+}
 
+.file-button {
+    background-color: #096dd9;
+    color: white;
+    font-weight: bold;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+
+    transition: background-color 1000ms linear;
+}
+
+.file-button:hover {
+    background-color: #0050b3;
+    opacity: 0.5;
+    transition: background-color 1000ms linear;
+    cursor: pointer;
+}
+
+.file-button:active {
+    background-color: #003a8c;
+    transition: background-color 100ms linear;
+    cursor: pointer;
+}
 
 .show-password {
     visibility: hidden;
@@ -151,7 +231,6 @@ body {
 }
 
 
-
 /* Submit Button */
 .form-submit-btn {
     font-size: 18px;
@@ -176,32 +255,50 @@ body {
     cursor: pointer;
 }
 
-
-
-
-
 .footer {
-    margin-top: 353px;
-    height: 200px;
-    background-color: #449342;
+    color: rgb(224, 224, 224);
+    text-align: center;
+    padding: 48px;
+    margin-top: 50px;
+    height: 224px;
+    background-color: rgb(48, 48, 48);
 }
 
 #password {
     padding-right: 40px;
 }
 
-.registration {
+.login {
     padding: 10px;
     display: block;
     text-align: center;
     font-size: 16px;
 }
 
-.registration a {
+.login a {
     text-decoration: none;
 }
 
 .github {
-    color: black;
+    color: rgb(224, 224, 224);
     font-size: 48px;
+}
+
+.password-requirements {
+    padding: 5px 15px 5px 15px;
+}
+
+.field-password-requirements {
+    font-size: 12px;
+    color: black;
+}
+
+
+#date-of-birth {
+    -webkit-appearance: none;
+}
+#date-of-birth::-webkit-inner-spin-button,
+#date-of-birth::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
 }

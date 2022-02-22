@@ -1,83 +1,111 @@
-const form = document.getElementById('login-form');
-const btnSubmit = document.getElementById('btn-submit');
 
-const showPassword = document.getElementById('show-password');
-const hidePassword = document.getElementById('hide-password');
-const inputPassword = document.getElementById('password');
+function validateUsername(input) {
 
-
-form.addEventListener('submit', (e) => {
-
-    let errors = false;
-
-    let username = form['username'];
-    let password = form['password'];
-
-    if (username.value === '') {
-        username.classList.add('form-input-incorrect');
-
-        const usernameErrorLabel = document.getElementById('username-error');
-        const usernameWarning = document.getElementById('username-warning');
-
-        usernameErrorLabel.style.display = 'block';
-        usernameWarning.style.visibility = 'visible';
-        errors = true;
+    if (input.value === '') {
+        setMessageError(input, 'Nombre de usuario no puede estar vacío.');
+        return 1;
     }
 
-    if (password.value === '') {
-        password.classList.add('form-input-incorrect');
+    setMessageSuccess(input);
+    return 0;
 
-        const passwordErrorLabel = document.getElementById('password-error');
-        const passwordWarning = document.getElementById('password-warning');
+}
 
-        passwordErrorLabel.style.display = 'block';
-        passwordWarning.style.visibility = 'visible';
-        errors = true;
+function validatePassword(input) {
+
+    if (input.value === '') {
+        setMessageError(input, 'Contraseña no puede estar vacía');
+        return 1;
     }
 
+    setMessageSuccess(input);
+    return 0;
 
-    // Solo letras del alfabeto
-    //var rgxAlphas = /^[a-zA-Z \u00C0-\u00FF]+$/;
+}
 
-    // Solo letras del alfabeto y numeros
-    //var rgxAlphaNum = /^[a-zA-Z0-9 \u00C0-\u00FF]+$/;
+document.getElementById('username').addEventListener('blur', function() {
+    validateUsername(this);
+});
 
-    // Solo hay espacios en blanco
-    //var rgxWhitespaces = /^\s*$/; 
+document.getElementById('username').addEventListener('focus', function() {
+    onFocus(this);
+});
 
+document.getElementById('password').addEventListener('blur', function() {
+    validatePassword(this);
+});
 
-/*
-    if (errors) {
-        e.preventDefault();
-        return;
-    }
-*/
-
-    /*
-    //Username
-    if (!username.value.match(rgxAlphaNum) || username.value.match(rgxWhitespaces)) {
-
-    }
-
-    // Password
-    if (password.value != confirmPassword.value) {
-        // Error, la contraseña no es igual
-    }
-    */
-
-    e.preventDefault();
-    
+document.getElementById('password').addEventListener('focus', function() {
+    onFocus(this);
 });
 
 
-showPassword.onclick = function() {
-    showPassword.style.visibility = 'hidden';
-    hidePassword.style.visibility = 'visible';
-    inputPassword.setAttribute('type', 'text');
+document.getElementById('login-form').addEventListener('submit', (e) => {
+
+    let username = this['username'];
+    let password = this['password'];
+
+    let result = 0;
+    result += validateUsername(username);
+    result += validatePassword(password);
+
+    if (result > 0) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+});
+
+function setMessageSuccess(input) {
+
+    let fieldWrapper = input.parentElement.parentElement;
+
+    let fieldError = fieldWrapper.children[2];
+    let inputWarning = fieldWrapper.children[1].children[1];
+    let inputSucess = fieldWrapper.children[1].children[2];
+
+    fieldError.style.display = 'none';
+    fieldError.innerHTML = '';
+
+    inputWarning.style.visibility = 'hidden';
+    inputSucess.style.visibility = 'visible';
+
+    input.classList.add('input-correct');
+    input.classList.remove('input-incorrect');
+
 }
 
-hidePassword.onclick = function() {
-    showPassword.style.visibility = 'visible';
-    hidePassword.style.visibility = 'hidden';
-    inputPassword.setAttribute('type', 'password');
+function setMessageError(input, errorMessage) {
+
+    let fieldWrapper = input.parentElement.parentElement;
+
+    let fieldError = fieldWrapper.children[2];
+    let inputWarning = fieldWrapper.children[1].children[1];
+    let inputSucess = fieldWrapper.children[1].children[2];
+    
+    fieldError.style.display = 'block';
+    fieldError.innerHTML =  errorMessage;
+
+    inputWarning.style.visibility = 'visible';
+    inputSucess.style.visibility = 'hidden';
+
+    input.classList.add('input-incorrect');
+    input.classList.remove('input-correct');
+
+}
+
+function onFocus(input) {
+
+    let fieldWrapper = input.parentElement.parentElement;
+
+    let fieldError = fieldWrapper.children[2];
+    let inputWarning = fieldWrapper.children[1].children[1];
+    let inputSucess = fieldWrapper.children[1].children[2];
+
+    fieldError.style.display = 'none';
+    fieldError.innerHTML = '';
+
+    inputWarning.style.visibility = 'hidden';
+    inputSucess.style.visibility = 'hidden';
+
 }
