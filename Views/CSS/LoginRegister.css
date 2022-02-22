@@ -27,7 +27,7 @@ body {
     height: 42px;
 }
 
-.login-wrapper {
+.login-wrapper, .register-wrapper {
     background-color: rgb(255, 255, 255);
     box-shadow: 5px 5px 10px #888888;
     margin: auto;
@@ -38,7 +38,7 @@ body {
     transition: box-shadow 500ms linear;
 }
 
-.login-wrapper:hover {
+.login-wrapper:hover, .register-wrapper:hover {
     box-shadow: 5px 5px 15px #888888;
     transition: box-shadow 500ms linear;
 }
@@ -268,14 +268,14 @@ body {
     padding-right: 40px;
 }
 
-.login {
+.login, .registration {
     padding: 10px;
     display: block;
     text-align: center;
     font-size: 16px;
 }
 
-.login a {
+.login a, .registration a {
     text-decoration: none;
 }
 
