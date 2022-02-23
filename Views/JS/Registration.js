@@ -70,7 +70,7 @@ function validateDateOfBirth(input) {
         return 1;
     }
 
-    if (Date.parse(dateFormat) < Date.parse(input.value)) {
+    if (Date.parse(input.value) > Date.parse(dateFormat) || Date.parse(input.value) < Date.parse('1900-01-01')) {
         setMessageError(input, 'Fecha de nacimiento no válida.');
         return 1;
     }
