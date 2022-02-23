@@ -21,10 +21,10 @@ photo.onchange = function(e) {
 var rgxAlphas = /^[a-zA-Z \u00C0-\u00FF]+$/;
 
 // Solo letras del alfabeto y numeros
-var rgxAlphaNum = /^[a-zA-Z0-9_-\u00C0-\u00FF]+$/;
+var rgxUsername = /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/;
 
 // Solo hay espacios en blanco
-var rgxWhitespaces = /^\s*$/; 
+var rgxWhitespaces = /^\s*$/;
 
 // Validar formato de email
 let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -103,7 +103,7 @@ function validateUsername(input) {
         setMessageError(input, 'Nombre de usuario no puede estar vacío.');
         return 1;
     }
-    if (!input.value.match(rgxAlphaNum) || input.value.match(rgxWhitespaces)) {
+    if (!input.value.match(rgxUsername) || input.value.match(rgxWhitespaces)) {
         setMessageError(input, 'Nombre de usuario no válido.');
         return 1;
     }
@@ -335,7 +335,7 @@ function checkPassword(password) {
         number.style.color = 'rgb(121, 177, 143)';
     }
 
-    if (!password.match(/[.,\/#!$%\^&\*;:{}=\-_`~()”“"…]/)) {
+    if (!password.match(/[.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"…]/)) {
         symbol.style.color = 'rgb(222, 79, 84)';
         result = false;
     }
