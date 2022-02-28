@@ -1,0 +1,38 @@
+body {
+    background-color: #EFEFEF;
+    font-family: "Roboto", sans-serif;
+}
+
+#navbar {
+    background-color: #449342;
+    height: 64px;
+}
+
+#container-user-info {
+    background-color: #FFFFFF;
+    width: 50%;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    padding: 10px;
+}
+
+#photo {
+    height: 128px;
+}
+
+.input-normal {
+    border: 2px solid gray;
+    transition: border 200ms linear;
+}
+
+.input-incorrect {
+    border: 2px solid rgb(222, 79, 84);
+}
+
+.input-correct {
+    border: 2px solid rgb(121, 177, 143);
+}
+
+.c-pointer {
+    cursor: pointer;
+}

@@ -66,7 +66,7 @@ function validateLastName(input) {
 function validateDateOfBirth(input) {
 
     if (input.value === '') {
-        setMessageError(input, 'Fecha de nacimiento no puede estar vacío.');r
+        setMessageError(input, 'Fecha de nacimiento no válida.');
         return 1;
     }
 
