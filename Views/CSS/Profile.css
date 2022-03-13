@@ -3,9 +3,32 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
-#navbar {
+/*#navbar {
     background-color: #449342;
     height: 64px;
+}*/
+
+.navbar{
+    background-color: #449342;
+}
+
+.nav-logo {
+    width: 170px;
+}
+
+.login-logo {
+    width: 40px;
+}
+
+.github {
+    color: rgb(224, 224, 224);
+    font-size: 48px;
+}
+
+.page-footer{
+    padding: 48px;
+    margin-top: 50px;
+    height: 224px;
 }
 
 #container-user-info {
@@ -35,4 +58,13 @@ body {
 
 .c-pointer {
     cursor: pointer;
+}
+
+.password-requirements {
+    padding: 5px 15px 5px 15px;
+}
+
+.field-password-requirements {
+    font-size: 12px;
+    color: black;
 }
