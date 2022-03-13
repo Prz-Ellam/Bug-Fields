@@ -49,17 +49,6 @@ function validatePassword(){
     return 0;
 }
 
-function validateSearching(){
-
-    if($(".search-input").val() === ""){
-        return 1;      
-    }else if(!$(".search-input").val().match(rgxAlphas) || $(".search-input").val().match(rgxWhitespaces)){
-        return 1;
-    }else
-        return 0;
-
-}
-
 
 //VALIDACIONES
 
@@ -93,9 +82,28 @@ $("#LoginForm").submit(function(e){
 
 });
 
+
+function onFocus(input){
+    $(input).removeClass("is-valid").removeClass("is-invalid");
+}
+
+
+// FORM BUSQUEDA
+
+function validateSearching(){
+
+    if($("#search-input").val() === ""){
+        return 1;      
+    }else if(!$("#search-input").val().match(rgxAlphas) || $("#search-input").val().match(rgxWhitespaces)){
+        return 1;
+    }else
+        return 0;
+
+}
+
 $("#SearchForm").submit(function(e){
 
-    let search = $(".search-input").val();
+    let search = $("#search-input").val();
 
     let result = 0;
     result += validateSearching(search);
@@ -106,8 +114,3 @@ $("#SearchForm").submit(function(e){
     }
 
 });
-
-
-function onFocus(input){
-    $(input).removeClass("is-valid").removeClass("is-invalid");
-}

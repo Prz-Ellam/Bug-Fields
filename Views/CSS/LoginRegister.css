@@ -9,7 +9,7 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
-.navbar {
+/*.navbar {
     position: fixed;
     background-color: #449342;
     height: 56px;
@@ -18,14 +18,26 @@ body {
     z-index: 100;
     padding-top: 7px;
     padding-bottom: 7px;
+}*/
+
+.navbar{
+    background-color: #449342;
 }
 
-#logo {
+.nav-logo {
+    width: 170px;
+}
+
+.login-logo {
+    width: 40px;
+}
+
+/*#logo {
     display: block;
     margin-left: auto;
     margin-right: auto;
     height: 42px;
-}
+}*/
 
 .login-wrapper, .register-wrapper {
     background-color: rgb(255, 255, 255);
@@ -255,13 +267,19 @@ body {
     cursor: pointer;
 }
 
-.footer {
+/*.footer {
     color: rgb(224, 224, 224);
     text-align: center;
     padding: 48px;
     margin-top: 50px;
     height: 224px;
     background-color: rgb(48, 48, 48);
+}*/
+
+.page-footer{
+    padding: 48px;
+    margin-top: 50px;
+    height: 224px;
 }
 
 #password {
@@ -301,4 +319,8 @@ body {
 #date-of-birth::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;
+}
+
+.main{
+    margin-top: 108px;
 }

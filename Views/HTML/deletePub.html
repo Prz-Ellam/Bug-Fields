@@ -26,7 +26,7 @@
         
     </nav-->
 
-    <nav class="navbar">
+    <nav class="navbar fixed-top">
 
         <div class="d-inline col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 text-center text-sm-center text-md-left text-lg-left text-xl-left">
             <a href="index.html">
@@ -35,8 +35,8 @@
         </div>
 
         <div class="d-inline col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-center">
-            <form action="#" method="get">
-                <input class="form-control d-inline w-75 shadow-none" type="text" placeholder="Buscar">
+            <form action="#" method="get" id="SearchForm">
+                <input class="form-control d-inline w-75 shadow-none" type="text" placeholder="Buscar" id="search-input">
                 <button class="btn btn-dark shadow-none" type="submit">Buscar</button>
             </form>
         </div>
@@ -52,7 +52,7 @@
 
 
 
-    <div class="container mt-5">
+    <div class="container main">
         <div class="row d-flex justify-content-center">
             <div class="col-md-10">
                 <form class="card px-5 py-5" id="ModifyForm" method="post">

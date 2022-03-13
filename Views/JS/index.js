@@ -1,11 +1,19 @@
-// Titulo y descripción
-var rgxTitleDesc = /^[\w\-\s]+$/;
-
 // Solo letras del alfabeto
 var rgxAlphas = /^[a-zA-Z0-9 \u00C0-\u00FF]+$/;
 
 // Solo hay espacios en blanco
 var rgxWhitespaces = /^\s*$/;
+
+
+// Botones para redirigir
+
+$("#btn-createPub").click(function(){
+    location.href = "createPub.html";
+});
+
+$("#btn-advSearch").click(function(){
+    location.href = "AdvancedSearch.html";
+});
 
 
 // FORM BUSQUEDA

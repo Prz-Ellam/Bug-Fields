@@ -1,6 +1,12 @@
-body{
+body {
     background-color: #EFEFEF;
+    font-family: "Roboto", sans-serif;
 }
+
+/*#navbar {
+    background-color: #449342;
+    height: 64px;
+}*/
 
 .navbar{
     background-color: #449342;
@@ -25,6 +31,6 @@ body{
     height: 224px;
 }
 
-.main {
-    margin-top: 108px;
+main{
+    margin-top: 35px;
 }
