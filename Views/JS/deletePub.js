@@ -34,3 +34,9 @@ $("#SearchForm").submit(function(e){
     }
 
 });
+
+
+// Tags
+$(document).ready(function(){
+    $(".tags").val('jQuery,C++,HTML');
+});

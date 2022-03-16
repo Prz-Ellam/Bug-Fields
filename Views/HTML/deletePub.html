@@ -5,6 +5,16 @@
     <link rel="shortcut icon" href="../Login con Bootstrap/Assets/blank-profile-picture.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/abcPub.css">
+    <!--TagsInput-->
+    <!--link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
+      rel="stylesheet"
+    /-->
+    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -67,6 +77,12 @@
                         <div class="form-group mb-4">
                             <label class="form-label descripcion-label"> Descripción: </label>
                             <textarea class="form-control descripcion" name="descripcion" rows="6" disabled></textarea>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="form-label tags-label"> Categorías: </label>
+                            <input class="form-control tags" name="tags" autocomplete="off" type="text" disabled data-role="tagsinput">
+                            <div class="valid-feedback tags-valid"></div>
+                            <div class="invalid-feedback tags-invalid"> Categoría no válida. </div>
                         </div>
                         <div class="mb-3 mt-3">
                             <button type="button" class="btn btn-danger w-100 btn-submit" data-toggle="modal" data-target="#exampleModal">
@@ -149,5 +165,47 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../js/deletePub.js"></script>
     <script src="https://kit.fontawesome.com/48ce36e499.js" crossorigin="anonymous"></script>
+    <!--TagsInput-->
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+    <script>
+        $(function () {
+        $('.tags')
+            .on('change', function (event) {
+            var $element = $(event.target);
+            var $container = $element.closest('.example');
+
+            if (!$element.data('tagsinput')) return;
+
+            var val = $element.val();
+            if (val === null) val = 'null';
+            var items = $element.tagsinput('items');
+
+            $('code', $('pre.val', $container)).html(
+                $.isArray(val)
+                ? JSON.stringify(val)
+                : '"' + val.replace('"', '\\"') + '"'
+            );
+            $('code', $('pre.items', $container)).html(
+                JSON.stringify($element.tagsinput('items'))
+            );
+            })
+            .trigger('change');
+        });
+    </script-->
+    <script src="https://unpkg.com/@yaireo/tagify"></script>
+    <script src="https://unpkg.com/@yaireo/tagify@3.1.0/dist/tagify.polyfills.min.js"></script>
+    <script>
+            // The DOM element you wish to replace with Tagify
+            var input = document.querySelector('input[name=tags]');
+            
+            // initialize Tagify on the above input node reference
+            new Tagify(input,{
+                whitelist        : ['jQuery', 'tags', 'plugin', 'Javascript'],      
+                dropdown : {
+                enabled: 1, // suggest tags after a single character input
+                classname : 'extra-properties', // custom class for the suggestions dropdown
+                },
+            });
+    </script>
 </body>
 </html>

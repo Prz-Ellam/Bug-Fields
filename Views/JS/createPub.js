@@ -88,7 +88,6 @@ $("#CreateForm").submit(function(e){
 
     if(result > 0)
         e.preventDefault();
-
 });
 
 
