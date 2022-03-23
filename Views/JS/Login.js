@@ -1,111 +1,110 @@
+$(document).ready(function() {
 
-function validateUsername(input) {
+    //VALIDACIONES
+    $('#username').blur(function() {
+        let validator = $("#login-form").validate();
+        if (validator.element("#username") === false) {
+            $("#username").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#username").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
 
-    if (input.value === '') {
-        setMessageError(input, 'Nombre de usuario no puede estar vacío.');
-        return 1;
+    $('#username').focus(function() {
+        $("#username").removeClass("is-invalid").removeClass("is-valid");
+        $("#username-error-label").remove();
+    });
+
+    $('#password').blur(function() {
+        let validator = $("#login-form").validate();
+        if (validator.element("#password") === false) {
+            $("#password").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#password").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
+
+    $('#password').focus(function() {
+        $("#password").removeClass("is-invalid").removeClass("is-valid");
+        $("#password-error-label").remove();
+    });
+
+    $("#login-form").submit(function(e) {
+
+        if($('#login-form').valid() === false) {
+            $("#username").addClass("is-invalid").removeClass("is-valid");
+            $("#password").addClass("is-invalid").removeClass("is-valid");
+            e.preventDefault();
+            return;
+        }
+
+    });
+
+    $.validator.addMethod('whitespaces', function(value, element, parameter) {
+        return this.optional(element) || !/^\s*$/.test(value);
+    }, 'El correo electrónico no puede estar vacío');
+
+    $.validator.addMethod('alphanumeric', function(value, element, parameter) {
+        return this.optional(element) || /^[a-zA-Z0-9 \u00C0-\u00FF]+$/.test(value);
+    })
+
+    $('#login-form').validate({
+        rules: {
+            username: {
+                required: true,
+                whitespaces: true
+            },
+            password: {
+                required: true,
+                whitespaces: true
+            }
+        },
+        messages: {
+            username: {
+                required: 'El correo electrónico no puede estar vacío.',
+                whitespaces: 'El correo electrónico no puede estar vacío'
+            },
+            password: {
+                required: 'La contraseña no puede estar vacía.'
+            }
+        },
+        errorElement: 'small',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
+        }
+    });
+
+
+
+
+
+    // FORM BUSQUEDA
+
+    function validateSearching(){
+
+        if($("#search-input").val() === ""){
+            return 1;      
+        }else if(!$("#search-input").val().match(rgxAlphas) || $("#search-input").val().match(rgxWhitespaces)){
+            return 1;
+        }else
+            return 0;
+
     }
 
-    setMessageSuccess(input);
-    return 0;
+    $("#SearchForm").submit(function(e){
 
-}
+        let search = $("#search-input").val();
 
-function validatePassword(input) {
+        let result = 0;
+        result += validateSearching(search);
 
-    if (input.value === '') {
-        setMessageError(input, 'Contraseña no puede estar vacía');
-        return 1;
-    }
+        if(result > 0){
+            e.preventDefault();
+            alert("Búsqueda no válida.");
+        }
 
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-document.getElementById('username').addEventListener('blur', function() {
-    validateUsername(this);
-});
-
-document.getElementById('username').addEventListener('focus', function() {
-    onFocus(this);
-});
-
-document.getElementById('password').addEventListener('blur', function() {
-    validatePassword(this);
-});
-
-document.getElementById('password').addEventListener('focus', function() {
-    onFocus(this);
-});
-
-
-document.getElementById('login-form').addEventListener('submit', (e) => {
-
-    let username = this['username'];
-    let password = this['password'];
-
-    let result = 0;
-    result += validateUsername(username);
-    result += validatePassword(password);
-
-    if (result > 0) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    });
 
 });
-
-function setMessageSuccess(input) {
-
-    let fieldWrapper = input.parentElement.parentElement;
-
-    let fieldError = fieldWrapper.children[2];
-    let inputWarning = fieldWrapper.children[1].children[1];
-    let inputSucess = fieldWrapper.children[1].children[2];
-
-    fieldError.style.display = 'none';
-    fieldError.innerHTML = '';
-
-    inputWarning.style.visibility = 'hidden';
-    inputSucess.style.visibility = 'visible';
-
-    input.classList.add('input-correct');
-    input.classList.remove('input-incorrect');
-
-}
-
-function setMessageError(input, errorMessage) {
-
-    let fieldWrapper = input.parentElement.parentElement;
-
-    let fieldError = fieldWrapper.children[2];
-    let inputWarning = fieldWrapper.children[1].children[1];
-    let inputSucess = fieldWrapper.children[1].children[2];
-    
-    fieldError.style.display = 'block';
-    fieldError.innerHTML =  errorMessage;
-
-    inputWarning.style.visibility = 'visible';
-    inputSucess.style.visibility = 'hidden';
-
-    input.classList.add('input-incorrect');
-    input.classList.remove('input-correct');
-
-}
-
-function onFocus(input) {
-
-    let fieldWrapper = input.parentElement.parentElement;
-
-    let fieldError = fieldWrapper.children[2];
-    let inputWarning = fieldWrapper.children[1].children[1];
-    let inputSucess = fieldWrapper.children[1].children[2];
-
-    fieldError.style.display = 'none';
-    fieldError.innerHTML = '';
-
-    inputWarning.style.visibility = 'hidden';
-    inputSucess.style.visibility = 'hidden';
-
-}

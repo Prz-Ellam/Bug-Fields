@@ -1,124 +1,120 @@
-// Titulo y descripción
-var rgxTitleDesc = /^[\w\-\s]+$/;
+$(document).ready(function() {
 
-// Solo letras del alfabeto
-var rgxAlphas = /^[a-zA-Z0-9 \u00C0-\u00FF]+$/;
+    // Titulo y descripción
+    var rgxTitleDesc = /^[\w\-\s]+$/;
 
-// Solo letras del alfabeto y numeros
-//var rgxUsername = /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/;
+    // Solo letras del alfabeto
+    var rgxAlphas = /^[a-zA-Z0-9 \u00C0-\u00FF]+$/;
 
-// Solo hay espacios en blanco
-var rgxWhitespaces = /^\s*$/;
+    // Solo letras del alfabeto y numeros
+    //var rgxUsername = /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/;
 
-// Validar formato de email
-//let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    // Solo hay espacios en blanco
+    var rgxWhitespaces = /^\s*$/;
+
+    // Validar formato de email
+    //let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 
-//FUNCIONES PARA VALIDAR
+    //FUNCIONES PARA VALIDAR
 
-function validateTitle(){
+    $('#title').blur(function() {
+        let validator = $("#create-form").validate();
+        if (validator.element("#title") === false) {
+            $("#title").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#title").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
 
-    if($(".titulo").val() === ""){
+    $('#title').focus(function() {
+        $("#title").removeClass("is-invalid").removeClass("is-valid");
+        $("#title-error-label").remove();
+    });
 
-        $(".titulo").addClass("is-invalid").removeClass("is-valid");
-        $(".titulo-invalid").text("Título vacío.");
-        return 1;
-        
-    }else if(!$(".titulo").val().match(rgxTitleDesc) || $(".titulo").val().match(rgxWhitespaces)){
-        
-        $(".titulo").addClass("is-invalid").removeClass("is-valid");
-        $(".titulo-invalid").text("Título no válido.");
-        return 1;
+    $('#description').blur(function() {
+        let validator = $("#create-form").validate();
+        if (validator.element("#description") === false) {
+            $("#description").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#description").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
 
-    }else{
-        $(".titulo").addClass("is-valid").removeClass("is-invalid");
+    $('#description').focus(function() {
+        $("#description").removeClass("is-invalid").removeClass("is-valid");
+        $("#description-error-label").remove();
+    });
+
+    $("#create-form").submit(function(e){
+
+        if($('#create-form').valid() === false) {
+            $("#title").addClass("is-invalid").removeClass("is-valid");
+            $("#description").addClass("is-invalid").removeClass("is-valid");
+            e.preventDefault();
+            return;
+        }
+
+    });
+
+
+    // FORM BUSQUEDA
+    function validateSearching(){
+
+        if($("#search-input").val() === ""){
+            return 1;      
+        }else if(!$("#search-input").val().match(rgxAlphas) || $("#search-input").val().match(rgxWhitespaces)){
+            return 1;
+        }else
+            return 0;
+
     }
 
-    return 0;
-}
+    $("#SearchForm").submit(function(e){
 
-function validateDescription(){
+        let search = $("#search-input").val();
 
-    if($(".descripcion").val() === ""){
+        let result = 0;
+        result += validateSearching(search);
 
-        $(".descripcion").addClass("is-invalid").removeClass("is-valid");
-        $(".descripcion-invalid").text("Descripción vacía.");
-        return 1;
-        
-    }else if(!$(".descripcion").val().match(rgxTitleDesc) || $(".descripcion").val().match(rgxWhitespaces)){
-        
-        $(".descripcion").addClass("is-invalid").removeClass("is-valid");
-        $(".description-invalid").text("Descripción no válida.");
-        return 1;
+        if(result > 0){
+            e.preventDefault();
+            alert("Búsqueda no válida.");
+        }
 
-    }else{
-        $(".descripcion").addClass("is-valid").removeClass("is-invalid");
-    }
-    
-    return 0;
-}
+    });
 
+    $.validator.addMethod('whitespaces', function(value, element, parameter) {
+        return this.optional(element) || !/^\s*$/.test(value);
+    }, 'El correo electrónico no puede estar vacío');
 
-//VALIDACIONES
-
-$(".titulo").on('blur', function(){
-    validateTitle(this);
-});
-
-$(".titulo").on('focus', function(){
-    onFocus(this);
-});
-
-$(".descripcion").on('blur', function(){
-    validateDescription(this);
-});
-
-$(".descripcion").on('focus', function(){
-    onFocus(this);
-});
-
-$("#CreateForm").submit(function(e){
-
-    let title = $(".titulo").val();
-    let desc = $(".descripcion").val();
-
-    let result = 0;
-    result += validateTitle(title);
-    result += validateDescription(desc);
-
-    if(result > 0)
-        e.preventDefault();
-});
-
-
-function onFocus(input){
-    $(input).removeClass("is-valid").removeClass("is-invalid");
-}
-
-
-// FORM BUSQUEDA
-
-function validateSearching(){
-
-    if($("#search-input").val() === ""){
-        return 1;      
-    }else if(!$("#search-input").val().match(rgxAlphas) || $("#search-input").val().match(rgxWhitespaces)){
-        return 1;
-    }else
-        return 0;
-
-}
-
-$("#SearchForm").submit(function(e){
-
-    let search = $("#search-input").val();
-
-    let result = 0;
-    result += validateSearching(search);
-
-    if(result > 0){
-        e.preventDefault();
-        alert("Búsqueda no válida.");
-    }
+    $('#create-form').validate({
+        rules: {
+            title: {
+                required: true,
+                whitespaces: true
+            },
+            description: {
+                required: true,
+                whitespaces: true
+            }
+        },
+        messages: {
+            title: {
+                required: 'El título no puede estar vacío.',
+                whitespaces: 'El título no puede estar vacío'
+            },
+            description: {
+                required: 'La descripción no puede estar vacía.',
+                whitespaces: 'La descripción no puede estar vacía.'
+            }
+        },
+        errorElement: 'small',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
+        }
+    });
 
 });

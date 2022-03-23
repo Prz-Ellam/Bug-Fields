@@ -21,19 +21,6 @@ $("#date-of-birth").val(dateFormat);
 
 $(document).ready(function() {
 
-    //VALIDAR UNA VEZ QUE ESTE LISTO
-    validateName('#name');
-    validateLastName('#last-name');
-    validateUsername('#username');
-    validateEmail('#email');
-    validateDateOfBirth('#date-of-birth');
-    validateAge('#date-of-birth');
-
-    validatePassword('#password');
-    checkNewPassword($('#confirm-password').val());
-    validateConfirmPassword('#confirm-new-password');
-
-
     $("#photo-file").change(showPreviewImage_click);
 
     $("#name").focus(function() {
@@ -106,6 +93,55 @@ $(document).ready(function() {
     $('#confirm-new-password').blur(function() {
         validateConfirmPassword('#confirm-new-password');
     });
+
+
+    $('#create-form').validate({
+        rules: {
+            name: {
+                required: true
+                //whitespaces: true
+            },
+            lastName: {
+                required: true
+                //whitespaces: true
+            },
+            username: {
+                required: true
+            },
+            email: {
+                required: true
+            },
+            dateOfBirth: {
+                required: true
+            }
+        },
+        messages: {
+            name: {
+                required: 'El título no puede estar vacío.',
+                whitespaces: 'El título no puede estar vacío'
+            },
+            lastName: {
+                required: 'La descripción no puede estar vacía.',
+                whitespaces: 'La descripción no puede estar vacía.'
+            }
+        },
+        errorElement: 'small',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
 
 });
 
