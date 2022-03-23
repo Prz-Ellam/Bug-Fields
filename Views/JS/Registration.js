@@ -1,7 +1,193 @@
+$(document).ready(function() {
+
+    $('#firstName').blur(function() {
+        let validator = $("#register-form").validate();
+        if (validator.element("#firstName") === false) {
+            $("#firstName").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#firstName").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
+
+    $('#firstName').focus(function() {
+        $("#firstName").removeClass("is-invalid").removeClass("is-valid");
+        $("#firstName-error-label").remove();
+    });
+
+    $('#lastName').blur(function() {
+        let validator = $("#register-form").validate();
+        if (validator.element("#lastName") === false) {
+            $("#lastName").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#lastName").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
+
+    $('#lastName').focus(function() {
+        $("#lastName").removeClass("is-invalid").removeClass("is-valid");
+        $("#lastName-error-label").remove();
+    });
+
+    $('#dateOfBirth').blur(function() {
+        let validator = $("#register-form").validate();
+        if (validator.element("#dateOfBirth") === false) {
+            $("#dateOfBirth").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#dateOfBirth").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
+
+    $('#dateOfBirth').focus(function() {
+        $("#dateOfBirth").removeClass("is-invalid").removeClass("is-valid");
+        $("#dateOfBirth-error-label").remove();
+    });
+
+    $('#email').blur(function() {
+        let validator = $("#register-form").validate();
+        if (validator.element("#email") === false) {
+            $("#email").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#email").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
+
+    $('#email').focus(function() {
+        $("#email").removeClass("is-invalid").removeClass("is-valid");
+        $("#email-error-label").remove();
+    });
+
+    $('#username').blur(function() {
+        let validator = $("#register-form").validate();
+        if (validator.element("#username") === false) {
+            $("#username").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#username").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
+
+    $('#username').focus(function() {
+        $("#username").removeClass("is-invalid").removeClass("is-valid");
+        $("#username-error-label").remove();
+    });
+
+    $('#password').blur(function() {
+        let validator = $("#register-form").validate();
+        if (validator.element("#password") === false) {
+            $("#password").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#password").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
+
+    $('#password').focus(function() {
+        $("#password").removeClass("is-invalid").removeClass("is-valid");
+        $("#password-error-label").remove();
+    });
+
+    $('#confirmPassword').blur(function() {
+        let validator = $("#register-form").validate();
+        if (validator.element("#confirmPassword") === false) {
+            $("#confirmPassword").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#confirmPassword").addClass("is-valid").removeClass("is-invalid");
+        }
+    });
+
+    $('#confirmPassword').focus(function() {
+        $("#confirmPassword").removeClass("is-invalid").removeClass("is-valid");
+        $("#confirmPassword-error-label").remove();
+    });
+
+    $('#register-form').submit(function(e) {
+
+        if($('#register-form').valid() === false) {
+            $("#firstName").addClass("is-invalid").removeClass("is-valid");
+            $("#lastName").addClass("is-invalid").removeClass("is-valid");
+            $("#dateOfBirth").addClass("is-invalid").removeClass("is-valid");
+            $("#email").addClass("is-invalid").removeClass("is-valid");
+            $("#username").addClass("is-invalid").removeClass("is-valid");
+            $("#password").addClass("is-invalid").removeClass("is-valid");
+            $("#confirmPassword").addClass("is-invalid").removeClass("is-valid");
+            e.preventDefault();
+            return;
+        }
+
+    });
+
+    $('#register-form').validate({
+        rules: {
+            firstName:{
+                required: true
+            },
+            lastName: {
+                required: true
+            },
+            dateOfBirth: {
+                required: true
+            },
+            email: {
+                required: true
+            },
+            username: {
+                required: true,
+                //whitespaces: true
+            },
+            password: {
+                required: true,
+               // whitespaces: true
+            },
+            confirmPassword: {
+                required: true
+            }
+        },
+        messages: {
+            firstName:{
+                required: 'El nombre no puede estar vacío.'
+            },
+            lastName: {
+                required: 'El apellido no puede estar vacío.'
+            },
+            dateOfBirth: {
+                required: 'La fecha de nacimiento no puede estar vacía.'
+            },
+            email: {
+                required: 'El correo electrónico no puede estar vacío.'
+            },
+            username: {
+                required: 'El nombre de usuario no puede estar vacío.',
+                //whitespaces: true
+            },
+            password: {
+                required: 'La contraseña no puede estar vacía.',
+               // whitespaces: true
+            },
+            confirmPassword: {
+                required: 'Confirmar contraseña no puede estar vacío.'
+            }
+        },
+        errorElement: 'small',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
+        }
+    });
+
+
+
+});
+
+
+
 var date = new Date();
 var dateFormat = date.getFullYear() + '-' + 
 String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
-document.getElementById('date-of-birth').value = dateFormat;
+$('#dateOfBirth').val(dateFormat);
 //document.getElementById('date-of-birth').setAttribute('max', dateFormat);
 
 photo.onchange = function(e) {
@@ -153,135 +339,6 @@ function validateConfirmPassword(input) {
 
     setMessageSuccess(input);
     return 0;
-
-}
-
-document.getElementById('first-name').addEventListener('blur', function() {
-    validateName(this);
-});
-
-document.getElementById('first-name').addEventListener('focus', function() {
-    onFocus(this);
-});
-
-document.getElementById('last-name').addEventListener('blur', function() {
-    validateLastName(this);
-});
-
-document.getElementById('last-name').addEventListener('focus', function() {
-    onFocus(this);
-});
-
-document.getElementById('date-of-birth').addEventListener('blur', function() {
-    validateDateOfBirth(this); 
-});
-
-document.getElementById('date-of-birth').addEventListener('focus', function() {
-    onFocus(this);
-});
-
-document.getElementById('email').addEventListener('blur', function() {
-    validateEmail(this)
-});
-
-document.getElementById('email').addEventListener('focus', function() {
-    onFocus(this);
-});
-
-document.getElementById('username').addEventListener('blur', function() {
-    validateUsername(this);
-});
-
-document.getElementById('username').addEventListener('focus', function() {
-    onFocus(this);
-});
-
-document.getElementById('password').addEventListener('blur', function() {
-    validatePassword(this)
-});
-
-document.getElementById('password').addEventListener('focus', function() {
-    onFocus(this);
-});
-
-document.getElementById('confirm-password').addEventListener('blur', function() {
-    validateConfirmPassword(this);
-});
-
-document.getElementById('confirm-password').addEventListener('focus', function() {
-    onFocus(this);
-});
-
-document.getElementById('register-form').addEventListener('submit', (e) => {
-
-    // Obtain inputs
-    let photo = this['photo'];
-    let name = this['first-name'];
-    let lastName = this['last-name'];
-    let dateOfBirth = this['date-of-birth'];
-    let email = this['email'];
-    let username = this['username'];
-    let password = this['password'];
-    let confirmPassword = this['confirm-password'];
-
-    let result = 0;
-    if(photo.value === ''){
-        setMessageErrorOnPhoto();
-        result += 1;
-    }else{
-        setMessageSuccessOnPhoto();
-    }
-
-    result += validateName(name);
-    result += validateLastName(lastName);
-    result += validateDateOfBirth(dateOfBirth);
-    result += validateEmail(email);
-    result += validateUsername(username);
-    result += validatePassword(password);
-    result += validateConfirmPassword(confirmPassword);
-
-    if (result > 0) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-});
-
-function setMessageSuccess(input) {
-
-    let fieldWrapper = input.parentElement.parentElement;
-
-    let fieldError = fieldWrapper.children[2];
-    let inputWarning = fieldWrapper.children[1].children[1];
-    let inputSucess = fieldWrapper.children[1].children[2];
-
-    fieldError.style.display = 'none';
-    fieldError.innerHTML = '';
-
-    inputWarning.style.visibility = 'hidden';
-    inputSucess.style.visibility = 'visible';
-
-    input.classList.add('input-correct');
-    input.classList.remove('input-incorrect');
-
-}
-
-function setMessageError(input, errorMessage) {
-
-    let fieldWrapper = input.parentElement.parentElement;
-
-    let fieldError = fieldWrapper.children[2];
-    let inputWarning = fieldWrapper.children[1].children[1];
-    let inputSucess = fieldWrapper.children[1].children[2];
-    
-    fieldError.style.display = 'block';
-    fieldError.innerHTML =  errorMessage;
-
-    inputWarning.style.visibility = 'visible';
-    inputSucess.style.visibility = 'hidden';
-
-    input.classList.add('input-incorrect');
-    input.classList.remove('input-correct');
 
 }
 

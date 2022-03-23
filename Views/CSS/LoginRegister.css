@@ -9,17 +9,6 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
-/*.navbar {
-    position: fixed;
-    background-color: #449342;
-    height: 56px;
-    width: 100%;
-    margin-top: -80px;
-    z-index: 100;
-    padding-top: 7px;
-    padding-bottom: 7px;
-}*/
-
 .navbar{
     background-color: #449342;
 }
@@ -32,46 +21,7 @@ body {
     width: 40px;
 }
 
-/*#logo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    height: 42px;
-}*/
 
-.login-wrapper, .register-wrapper {
-    background-color: rgb(255, 255, 255);
-    box-shadow: 5px 5px 10px #888888;
-    margin: auto;
-    margin-top: 80px;
-    width: 36%;
-    padding: 10px;
-    border-radius: 10px;
-    transition: box-shadow 500ms linear;
-}
-
-.login-wrapper:hover, .register-wrapper:hover {
-    box-shadow: 5px 5px 15px #888888;
-    transition: box-shadow 500ms linear;
-}
-
-.form-title {
-    font-size: 24px;
-    font-weight: normal;
-    text-align: center;
-    padding: 8px;
-}
-
-.field-wrapper {
-    padding: 10px;
-}
-
-.field-label {
-    display: block;
-    cursor: pointer;
-    font-size: 12px;
-    padding-bottom: 5px;
-}
 
 .form-label::before {
     content: "* ";
@@ -115,21 +65,6 @@ body {
     border: 2px solid rgb(121, 177, 143);
 }
 
-.input-warning {
-    color: rgb(222, 79, 84);
-    position: absolute;
-    top: 8px;
-    right: 9px;
-    visibility: hidden;
-}
-
-.input-success {
-    color: rgb(121, 177, 143);
-    position: absolute;
-    top: 8px;
-    right: 9px;
-    visibility: hidden;
-}
 
 .field-error {
     color: rgb(222, 79, 84);
@@ -267,23 +202,10 @@ body {
     cursor: pointer;
 }
 
-/*.footer {
-    color: rgb(224, 224, 224);
-    text-align: center;
-    padding: 48px;
-    margin-top: 50px;
-    height: 224px;
-    background-color: rgb(48, 48, 48);
-}*/
-
 .page-footer{
     padding: 48px;
     margin-top: 50px;
     height: 224px;
-}
-
-#password {
-    padding-right: 40px;
 }
 
 .login, .registration {
@@ -312,15 +234,6 @@ body {
 }
 
 
-#date-of-birth {
-    -webkit-appearance: none;
-}
-#date-of-birth::-webkit-inner-spin-button,
-#date-of-birth::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-}
-
 .main{
-    margin-top: 108px;
+    margin-top: 100px;
 }

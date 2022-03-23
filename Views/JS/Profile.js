@@ -24,50 +24,83 @@ $(document).ready(function() {
     $("#photo-file").change(showPreviewImage_click);
 
     $("#name").focus(function() {
-        onFocus('#name');
+        $("#name").removeClass("is-invalid").removeClass("is-valid");
+        $("#name-error-label").remove();
     });
 
     $("#name").blur(function() {
-        validateName('#name');
+        let validator = $("#profile-form").validate();
+        if (validator.element("#name") === false) {
+            $("#name").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#name").addClass("is-valid").removeClass("is-invalid");
+        }
     });
 
-    $('#last-name').focus(function() {
-        onFocus('#last-name');
+    $('#lastName').focus(function() {
+        $("#lastName").removeClass("is-invalid").removeClass("is-valid");
+        $("#lastName-error-label").remove();
     });
 
-    $('#last-name').blur(function() {
-        validateLastName('#last-name');
+    $('#lastName').blur(function() {
+        let validator = $("#profile-form").validate();
+        if (validator.element("#lastName") === false) {
+            $("#lastName").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#lastName").addClass("is-valid").removeClass("is-invalid");
+        }
     });
 
     $('#username').focus(function() {
-        onFocus('#username');
+        $("#username").removeClass("is-invalid").removeClass("is-valid");
+        $("#username-error-label").remove();
     });
 
     $('#username').blur(function() {
-        validateUsername('#username');
+        let validator = $("#profile-form").validate();
+        if (validator.element("#username") === false) {
+            $("#username").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#username").addClass("is-valid").removeClass("is-invalid");
+        }
     })
 
     $('#email').focus(function() {
-        onFocus('#email');
+        $("#email").removeClass("is-invalid").removeClass("is-valid");
+        $("#email-error-label").remove();
     });
 
     $('#email').blur(function() {
-        validateEmail('#email');
+        let validator = $("#profile-form").validate();
+        if (validator.element("#email") === false) {
+            $("#email").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#email").addClass("is-valid").removeClass("is-invalid");
+        }
     });
 
-    $('#date-of-birth').focus(function() {
-        onFocus('#date-of-birth');
+    $('#dateOfBirth').focus(function() {
+        $("#dateOfBirth").removeClass("is-invalid").removeClass("is-valid");
+        $("#dateOfBirth-error-label").remove();
     });
 
-    $('#date-of-birth').blur(function() {
+    $('#dateOfBirth').blur(function() {
+        let validator = $("#profile-form").validate();
+        if (validator.element("#dateOfBirth") === false) {
+            $("#dateOfBirth").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#dateOfBirth").addClass("is-valid").removeClass("is-invalid");
+        }
+        /*
         validateDateOfBirth('#date-of-birth');
         validateAge('#date-of-birth');
+        */
     });
-
-    /*$('#profile-form').submit(function() {
-        validateProfileForm();
-    })*/
-
 
     $('#password').focus(function() {
         onFocus('#password');
@@ -95,7 +128,7 @@ $(document).ready(function() {
     });
 
 
-    $('#create-form').validate({
+    $('#profile-form').validate({
         rules: {
             name: {
                 required: true
@@ -117,12 +150,21 @@ $(document).ready(function() {
         },
         messages: {
             name: {
-                required: 'El título no puede estar vacío.',
-                whitespaces: 'El título no puede estar vacío'
+                required: 'El nombre no puede estar vacío.',
+                //whitespaces: 'El título no puede estar vacío'
             },
             lastName: {
-                required: 'La descripción no puede estar vacía.',
-                whitespaces: 'La descripción no puede estar vacía.'
+                required: 'El apellido no puede estar vacío.',
+                //whitespaces: 'La descripción no puede estar vacía.'
+            },
+            username: {
+                required: 'El nombre de usuario no puede estar vacío.'
+            },
+            email: {
+                required: 'El correo electrónico no puede estar vacío.'
+            },
+            dateOfBirth: {
+                required: 'La fecha de nacimiento no puede estar vacía.'
             }
         },
         errorElement: 'small',
@@ -132,7 +174,35 @@ $(document).ready(function() {
     });
 
 
+    
+    $("#profile-form").submit(function(e){
 
+        if($('#profile-form').valid() === false) {
+            $("#name").addClass("is-invalid").removeClass("is-valid");
+            $("#lastName").addClass("is-invalid").removeClass("is-valid");
+            $("#username").addClass("is-invalid").removeClass("is-valid");
+            $("#email").addClass("is-invalid").removeClass("is-valid");
+            $("#dateOfBirth").addClass("is-invalid").removeClass("is-valid");
+            e.preventDefault();
+            return;
+        }
+        /*
+        let result = 0;
+        result += validateName("#name");
+        result += validateLastName("#last-name");
+        result += validateUsername("#username");
+        result += validateEmail("#email");
+        result += validateDateOfBirth("#date-of-birth");
+
+        if($("#photo-file").val() === ''){
+            result += 1;
+        }
+
+        if(result > 0)
+            e.preventDefault();
+
+            */
+    });
 
 
 
@@ -267,22 +337,6 @@ function validateAge(input) {
 }
 
 
-$("#profile-form").submit(function(e){
-
-    let result = 0;
-    result += validateName("#name");
-    result += validateLastName("#last-name");
-    result += validateUsername("#username");
-    result += validateEmail("#email");
-    result += validateDateOfBirth("#date-of-birth");
-
-    if($("#photo-file").val() === ''){
-        result += 1;
-    }
-
-    if(result > 0)
-        e.preventDefault();
-});
 
 
 function validatePassword(input) {
