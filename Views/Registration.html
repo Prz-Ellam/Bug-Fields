@@ -50,22 +50,20 @@
         <div class="container main">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-7">
-                    <form class="card px-5 py-5" action="RegistrationController" method="post" id="register-form">
+                    <form class="card px-5 py-5" action="#" method="get" id="register-form" novalidate>
 
-                        <h1 class="text-center">Registrarte</h1>
-
-                        <div class="form-group m-3">
-                            <div class="input-wrapper">
-                                <img src="Assets/blank-profile-picture.svg" class="form-photo" id="picture-box">
-                                <div class="photo-container">
-                                    <label class="file-button" for="photo">Elegir un archivo</label>
-                                    <input type="file" class="form-input-file" id="photo" name="photo" accept="image/*">
-                                </div>
-                            </div>
-                            <label class="field-error" id="photo-error" style="display: none; text-align: center">Seleccione una imagen de perfil</label>
+                        <div class="mb-4">
+                            <h1 class="form-title text-center">Registrarte</h1>
                         </div>
 
-                        <!-- Un input esta conformado por el label, el input con su simbolo de warning y el error-->
+                        <div class="form-group mb-4 text-center">
+                            <div class="position-relative text-center">
+                                <label class="file-button h-100 w-25 rounded-circle position-absolute align-middle" for="photo">Elegir un archivo</label>
+                                <img src="Assets/blank-profile-picture.svg" class="img-fluid w-25 rounded-circle" id="picture-box">
+                            </div>
+                            <input type="file" class="" id="photo" name="photo" accept="image/*">
+                        </div>
+
                         <div class="form-group mb-4">
                             <label class="form-label" for="first-name">Nombre(s):</label>
                             <input type="text" class="form-control firstName shadow-none" id="firstName" name="firstName" autocomplete="off">
@@ -110,7 +108,7 @@
                         </div>
 
                         <div class="mb-3 mt-3">
-                            <input type="submit" value="Registrarte" class="btn-primary btn w-100 shadow-none" id="btn-submit">
+                            <input type="submit" value="Registrarte" class="btn-primary btn btn-dark w-100 shadow-none" id="btn-submit">
                         </div>
 
                         <p class="login">¿Ya tienes cuenta? <a href="Login.html">Inicia sesión ahora</a></p>
@@ -120,8 +118,7 @@
             </div>
         </div>
 
-
-            <!-- Footer -->
+        <!-- Footer -->
         <footer class="page-footer font-small bg-dark pt-4">
             <!-- Footer Links -->
             <div class="container-fluid text-center text-md-center">
@@ -151,14 +148,6 @@
             </div>
             <!-- Footer Links -->
         </footer>
-
-        
-        <!--footer class="footer">
-            <p>Bug Fields</p>
-            <p>Osvaldo Estrada Gutierrez (Mt. 1898206)</p>
-            <p>Eliam Rodríguez Pérez (Mt. 1898666)</p><br>
-            <a href="https://github.com/Prz-Ellam/Bug-Fields" target="_blank"><i class="fab fa-github github"></i></a>
-        </footer-->
 
         <!-- jQuery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -11,30 +11,28 @@ var rgxWhitespaces = /^\s*$/;
 let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 
-var date = new Date();
-var dateFormat = date.getFullYear() + '-' + 
-String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
-//document.getElementById('date-of-birth').value = dateFormat;
-$("#date-of-birth").val(dateFormat);
-//document.getElementById('date-of-birth').setAttribute('max', dateFormat);
-
-
 $(document).ready(function() {
 
     $("#photo-file").change(showPreviewImage_click);
+    
+    var date = new Date();
+    var dateFormat = date.getFullYear() + '-' + 
+    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+    String(date.getDate()).padStart(2, '0');
+    $('#dateOfBirth').val(dateFormat);
 
-    $("#name").focus(function() {
-        $("#name").removeClass("is-invalid").removeClass("is-valid");
-        $("#name-error-label").remove();
+    $("#firstName").focus(function() {
+        $("#firstName").removeClass("is-invalid").removeClass("is-valid");
+        $("#firstName-error-label").remove();
     });
 
-    $("#name").blur(function() {
+    $("#firstName").blur(function() {
         let validator = $("#profile-form").validate();
-        if (validator.element("#name") === false) {
-            $("#name").addClass("is-invalid").removeClass("is-valid");
+        if (validator.element("#firstName") === false) {
+            $("#firstName").addClass("is-invalid").removeClass("is-valid");
         }
         else {
-            $("#name").addClass("is-valid").removeClass("is-invalid");
+            $("#firstName").addClass("is-valid").removeClass("is-invalid");
         }
     });
 
@@ -128,43 +126,82 @@ $(document).ready(function() {
     });
 
 
+
+    $.validator.addMethod('whitespaces', function(value, element, parameter) {
+        return this.optional(element) || !/^\s*$/.test(value);
+    }, 'El correo electrónico no puede estar vacío');
+
+    $.validator.addMethod('alphas', function(value, element, parameter) {
+        return this.optional(element) || /^[a-zA-Z \u00C0-\u00FF]+$/.test(value);
+    }, 'invalido');
+
+    $.validator.addMethod('username', function(value, element, parameter) {
+        return this.optional(element) || /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/.test(value);
+    }, 'invalido');
+
+    $.validator.addMethod('daterange', function(value, element, parameter) {
+        return this.optional(element) ||
+        !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
+    }, 'fecha invalida');
+
+    $.validator.addMethod('confirmPassword', function(value, element, parameter) {
+        return this.optional(element) || $('#password').val() == value;
+    }, 'invalido');
+
     $('#profile-form').validate({
         rules: {
-            name: {
-                required: true
-                //whitespaces: true
+            firstName:{
+                required: true,
+                whitespaces: true,
+                alphas: true
             },
             lastName: {
-                required: true
-                //whitespaces: true
+                required: true,
+                whitespaces: true,
+                alphas: true
             },
             username: {
-                required: true
+                required: true,
+                whitespaces: true,
+                username: true
             },
             email: {
-                required: true
+                required: true,
+                whitespaces: true,
+                email: true
             },
             dateOfBirth: {
-                required: true
+                required: true,
+                whitespaces: true,
+                date: true,
+                daterange: ['1900-01-01', dateFormat]
             }
         },
         messages: {
-            name: {
+            firstName:{
                 required: 'El nombre no puede estar vacío.',
-                //whitespaces: 'El título no puede estar vacío'
+                whitespaces: 'El nombre no puede estar vacío.',
+                alphas: 'El nombre no es válido.'
             },
             lastName: {
                 required: 'El apellido no puede estar vacío.',
-                //whitespaces: 'La descripción no puede estar vacía.'
+                whitespaces: 'El apellido no puede estar vacío.',
+                alphas: 'El apellido no es válido.'
             },
             username: {
-                required: 'El nombre de usuario no puede estar vacío.'
+                required: 'El nombre de usuario no puede estar vacío.',
+                whitespaces: 'El nombre de usuario no puede estar vacío.',
+                username: 'El nombre de usuario no es válido'
             },
             email: {
-                required: 'El correo electrónico no puede estar vacío.'
+                required: 'El correo electrónico no puede estar vacío.',
+                whitespaces: 'El correo electrónico no puede estar vacío.',
+                email: 'El correo electrónico no es válido.'
             },
             dateOfBirth: {
-                required: 'La fecha de nacimiento no puede estar vacía.'
+                required: 'La fecha de nacimiento no puede estar vacía.',
+                whitespaces: 'La fecha de nacimiento no puede estar vacía.',
+                daterange: 'La fecha de nacimiento no es válida'
             }
         },
         errorElement: 'small',
@@ -235,92 +272,6 @@ function showPreviewImage_click(e) {
 
 
 //VALIDACIONES
-
-function validateName(input){
-
-    if ($(input).val() === '') {
-        setMessageError(input, 'Nombre(s) no puede estar vacío.');
-        return 1;
-    }
-
-    if (!$(input).val().match(rgxAlphas) || $(input).val().match(rgxWhitespaces)) {
-        setMessageError(input, 'Nombre(s) no válido.');
-        return 1;
-    }
-
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function validateLastName(input){
-
-    if ($(input).val() === '') {
-        setMessageError(input, 'Apellidos no puede estar vacío.');
-        return 1;
-    }
-
-    if (!$(input).val().match(rgxAlphas) || $(input).val().match(rgxWhitespaces)) {
-        setMessageError(input, 'Apellidos no válido.');
-        return 1;
-    }
-
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function validateUsername(input) {
-
-    if ($(input).val() === '') {
-        setMessageError(input, 'Nombre de usuario no puede estar vacío.');
-        return 1;
-    }
-
-    if (!$(input).val().match(rgxUsername) || $(input).val().match(rgxWhitespaces)) {
-        setMessageError(input, 'Nombre de usuario no válido.');
-        return 1;
-    }
-
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function validateEmail(input) {
-
-    if ($(input).val() === '') {
-        setMessageError(input, 'Correo electrónico no puede estar vacío.');
-        return 1;
-    }
-
-    if (!$(input).val().match(rgxEmail) || $(input).val().match(rgxWhitespaces)) {
-        setMessageError(input, 'Correo electrónico no válido.');
-        return 1;
-    }
-
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function validateDateOfBirth(input) {
-
-    if ($(input).val() === '') {
-        setMessageError(input, 'Fecha de nacimiento no puede estar vacío.');
-        return 1;
-    }
-
-    if (Date.parse($(input).val()) > Date.parse(dateFormat) || Date.parse($(input).val()) < Date.parse('1900-01-01')) {
-        setMessageError(input, 'Fecha de nacimiento no válida.');
-        return 1;
-    }
-
-    setMessageSuccess(input);
-    return 0;
-
-}
-
 function validateAge(input) {
 
     let diff = Date.now() - Date.parse($(input).val());
@@ -335,8 +286,6 @@ function validateAge(input) {
 
     $("#age").val(outputAge);
 }
-
-
 
 
 function validatePassword(input) {
@@ -455,55 +404,6 @@ $("#profile-password-form").submit(function(e){
         e.preventDefault();
 });
 
-
-
-function setMessageSuccess(input) {
-
-    let fieldError = $(input + '-error');
-    let inputWarning = $(input + '-warning');
-    let inputSuccess = $(input + '-success');
-
-    fieldError.css('visibility', 'hidden');
-    fieldError.html('');
-
-    inputWarning.css('visibility', 'hidden');
-    inputSuccess.css('visibility', 'visible');
-
-    $(input).addClass('input-valid');
-    $(input).removeClass('input-invalid');
-
-}
-
-function setMessageError(input, errorMessage) {
-
-    let fieldError = $(input + '-error');
-    let inputWarning = $(input + '-warning');
-    let inputSuccess = $(input + '-success');
-
-    fieldError.css('visibility', 'visible');
-    fieldError.html(errorMessage);
-
-    inputWarning.css('visibility', 'visible');
-    inputSuccess.css('visibility', 'hidden');
-
-    $(input).addClass('input-invalid');
-    $(input).removeClass('input-valid');
-
-}
-
-function onFocus(input) {
-
-    let fieldError = $(input + '-error');
-    let inputWarning = $(input + '-warning');
-    let inputSuccess = $(input + '-success');
-
-    fieldError.css('visibility', 'hidden');
-    fieldError.html('');
-
-    inputWarning.css('visibility', 'hidden');
-    inputSuccess.css('visibility', 'hidden');
-
-}
 
 
 // FORM BUSQUEDA

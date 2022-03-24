@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
     <title>Bug Fields</title>
-    <link rel="shortcut icon" href="../Login con Bootstrap/Assets/blank-profile-picture.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="CSS/abcPub.css">
+    <link rel="shortcut icon" href="Login con Bootstrap/Assets/blank-profile-picture.svg" type="image/x-icon">
+
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="CSS/abcPost.css">
+
     <!--TagsInput-->
     <!--link
       rel="stylesheet"
@@ -40,7 +45,7 @@
 
         <div class="d-inline col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 text-center text-sm-center text-md-left text-lg-left text-xl-left">
             <a href="index.html">
-                <img src="../Assets/bugFields.png" alt="logo" class="nav-logo">
+                <img src="Assets/bugFields.png" alt="logo" class="nav-logo">
             </a>
         </div>
 
@@ -54,7 +59,7 @@
         <div class="d-inline col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-right">
             <label class="text-white pr-2">Iniciar sesión</label>
             <a href="Profile.html">
-                <img src="../Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle">
+                <img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle">
             </a>
         </div>
 
@@ -72,13 +77,13 @@
                         </div>
 
                         <div class="form-group mb-4">
-                            <label class="form-label titulo-label"> Título: </label>
-                            <input class="form-control titulo" name="titulo" autocomplete="off" type="text" disabled value="Título">
+                            <label class="form-label title-label"> Título: </label>
+                            <input class="form-control title shadow-none" name="title" autocomplete="off" type="text" disabled value="Título">
                         </div>
 
                         <div class="form-group mb-4">
-                            <label class="form-label descripcion-label"> Descripción: </label>
-                            <textarea class="form-control descripcion" name="descripcion" rows="6" disabled></textarea>
+                            <label class="form-label description-label"> Descripción: </label>
+                            <textarea class="form-control description shadow-none" name="description" rows="6" disabled></textarea>
                         </div>
 
                         <div class="form-group mb-4">
@@ -87,7 +92,7 @@
                         </div>
 
                         <div class="mb-3 mt-3">
-                            <button type="button" class="btn btn-danger w-100 btn-submit" data-toggle="modal" data-target="#exampleModal">
+                            <button type="button" class="btn btn-danger w-100 btn-submit shadow-none" data-toggle="modal" data-target="#exampleModal">
                                 Eliminar publicación
                             </button>
                         </div>
@@ -162,10 +167,21 @@
     
     </footer>
 
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+    <!-- Validate -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="../js/deletePub.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        
+    <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+    <!-- JavaScript -->
+    <script src="JS/deletePost.js"></script>
+    
     <script src="https://kit.fontawesome.com/48ce36e499.js" crossorigin="anonymous"></script>
     <!--TagsInput-->
     <!--script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>

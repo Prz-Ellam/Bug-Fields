@@ -72,3 +72,25 @@ body {
 .main {
     margin-top: 100px;
 }
+
+.file-button {
+    background-color: #096dd9;
+    color: white;
+    font-weight: bold;
+    opacity: 0;
+
+    transition: background-color 1000ms linear;
+}
+
+.file-button:hover {
+    background-color: #0050b3;
+    opacity: 0.5;
+    transition: background-color 1000ms linear;
+    cursor: pointer;
+}
+
+
+#photo {
+    width: 1px;
+    height: 1px;
+}

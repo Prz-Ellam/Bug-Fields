@@ -84,11 +84,16 @@ $(document).ready(function() {
         return this.optional(element) || !/^\s*$/.test(value);
     }, 'El correo electrónico no puede estar vacío');
 
+    $.validator.addMethod('alphas', function(value, element, parameter) {
+        return this.optional(element) || /^[a-zA-Z \u00C0-\u00FF]+$/.test(value);
+    }, 'invalido');
+
     $('#modify-form').validate({
         rules: {
             title: {
                 required: true,
-                whitespaces: true
+                whitespaces: true,
+                alphas: true
             },
             description: {
                 required: true,
@@ -98,7 +103,8 @@ $(document).ready(function() {
         messages: {
             title: {
                 required: 'El título no puede estar vacío.',
-                whitespaces: 'El título no puede estar vacío'
+                whitespaces: 'El título no puede estar vacío',
+                alphas: 'El título no es válido.'
             },
             description: {
                 required: 'La descripción no puede estar vacía.',

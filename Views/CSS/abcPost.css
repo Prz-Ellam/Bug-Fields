@@ -29,10 +29,15 @@ body{
     margin-top: 108px;
 }
 
+label {
+    cursor: pointer;
+}
+
 .form-label::before {
     content: "* ";
     color:rgb(222, 79, 84);
 }
+
 
 /* TagsInput
 .bootstrap-tagsinput .tag {

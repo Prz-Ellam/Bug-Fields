@@ -1,5 +1,12 @@
 $(document).ready(function() {
 
+    var date = new Date();
+    var dateFormat = date.getFullYear() + '-' + 
+    String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+    $('#dateOfBirth').val(dateFormat);
+
+    //$('#dateOfBirth').attr('min', '1900-01-01').attr('max', dateFormat);
+
     $('#firstName').blur(function() {
         let validator = $("#register-form").validate();
         if (validator.element("#firstName") === false) {
@@ -121,55 +128,105 @@ $(document).ready(function() {
 
     });
 
+    $.validator.addMethod('whitespaces', function(value, element, parameter) {
+        return this.optional(element) || !/^\s*$/.test(value);
+    }, 'El correo electrónico no puede estar vacío');
+
+    $.validator.addMethod('alphas', function(value, element, parameter) {
+        return this.optional(element) || /^[a-zA-Z \u00C0-\u00FF]+$/.test(value);
+    }, 'invalido');
+
+    $.validator.addMethod('username', function(value, element, parameter) {
+        return this.optional(element) || /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/.test(value);
+    }, 'invalido');
+
+    $.validator.addMethod('daterange', function(value, element, parameter) {
+        return this.optional(element) ||
+        !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
+    }, 'fecha invalida');
+
+    $.validator.addMethod('confirmPassword', function(value, element, parameter) {
+        return this.optional(element) || $('#password').val() == value;
+    }, 'invalido');
+
     $('#register-form').validate({
         rules: {
-            firstName:{
+            photo: {
                 required: true
+            },
+            firstName:{
+                required: true,
+                whitespaces: true,
+                alphas: true
             },
             lastName: {
-                required: true
+                required: true,
+                whitespaces: true,
+                alphas: true
             },
             dateOfBirth: {
-                required: true
+                required: true,
+                whitespaces: true,
+                date: true,
+                daterange: ['1900-01-01', dateFormat]
             },
             email: {
-                required: true
+                required: true,
+                whitespaces: true,
+                email: true
             },
             username: {
                 required: true,
-                //whitespaces: true
+                whitespaces: true,
+                username: true
             },
             password: {
                 required: true,
-               // whitespaces: true
+                whitespaces: true
             },
             confirmPassword: {
-                required: true
+                required: true,
+                whitespaces: true,
+                confirmPassword: true
             }
         },
         messages: {
+            photo: {
+                required: 'La foto de perfil no puede estar vacía.'
+            },
             firstName:{
-                required: 'El nombre no puede estar vacío.'
+                required: 'El nombre no puede estar vacío.',
+                whitespaces: 'El nombre no puede estar vacío.',
+                alphas: 'El nombre no es válido.'
             },
             lastName: {
-                required: 'El apellido no puede estar vacío.'
+                required: 'El apellido no puede estar vacío.',
+                whitespaces: 'El apellido no puede estar vacío.',
+                alphas: 'El apellido no es válido.'
             },
             dateOfBirth: {
-                required: 'La fecha de nacimiento no puede estar vacía.'
+                required: 'La fecha de nacimiento no puede estar vacía.',
+                whitespaces: 'La fecha de nacimiento no puede estar vacía.',
+                daterange: 'La fecha de nacimiento no es válida'
             },
             email: {
-                required: 'El correo electrónico no puede estar vacío.'
+                required: 'El correo electrónico no puede estar vacío.',
+                whitespaces: 'El correo electrónico no puede estar vacío.',
+                email: 'El correo electrónico no es válido.'
             },
             username: {
                 required: 'El nombre de usuario no puede estar vacío.',
-                //whitespaces: true
+                whitespaces: 'El nombre de usuario no puede estar vacío.',
+                username: 'El nombre de usuario no es válido'
             },
             password: {
                 required: 'La contraseña no puede estar vacía.',
-               // whitespaces: true
+                whitespaces: 'La contraseña no puede estar vacía.'
             },
             confirmPassword: {
-                required: 'Confirmar contraseña no puede estar vacío.'
+                required: 'Confirmar contraseña no puede estar vacío.',
+                whitespaces: 'Confirmar contraseña no puede estar vacío.',
+                confirmPassword: 'Confirmar contraseña no coincide con contraseña.'
             }
         },
         errorElement: 'small',
@@ -183,13 +240,6 @@ $(document).ready(function() {
 });
 
 
-
-var date = new Date();
-var dateFormat = date.getFullYear() + '-' + 
-String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
-$('#dateOfBirth').val(dateFormat);
-//document.getElementById('date-of-birth').setAttribute('max', dateFormat);
-
 photo.onchange = function(e) {
 
     let fReader = new FileReader();
@@ -200,52 +250,6 @@ photo.onchange = function(e) {
         img.style.opacity = '1';
         photo.style.opacity = '0';
     }
-
-}
-
-// Solo letras del alfabeto
-var rgxAlphas = /^[a-zA-Z \u00C0-\u00FF]+$/;
-
-// Solo letras del alfabeto y numeros
-var rgxUsername = /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/;
-
-// Solo hay espacios en blanco
-var rgxWhitespaces = /^\s*$/;
-
-// Validar formato de email
-let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-
-function validateName(input) {
-
-    if (input.value === '') {
-        setMessageError(input, 'Nombre(s) no puede estar vacío.');
-        return 1;
-    }
-
-    if (!input.value.match(rgxAlphas) || input.value.match(rgxWhitespaces)) {
-        setMessageError(input, 'Nombre(s) no válido.');
-        return 1;
-    }
-
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function validateLastName(input) {
-
-    if (input.value === '') {
-        setMessageError(input, 'Apellidos no puede estar vacío.');
-        return 1;
-    }
-
-    if (!input.value.match(rgxAlphas) || input.value.match(rgxWhitespaces)) {
-        setMessageError(input, 'Apellidos no válido.');
-        return 1;
-    }
-    
-    setMessageSuccess(input);
-    return 0;
 
 }
 
@@ -261,39 +265,6 @@ function validateDateOfBirth(input) {
         return 1;
     }
 
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function validateEmail(input) {
-
-    if (input.value === '') {
-        setMessageError(input, 'Correo electrónico no puede estar vacío.');
-        return 1;
-    }
-
-    else if (!input.value.match(rgxEmail) || input.value.match(rgxWhitespaces)) {
-        setMessageError(input, 'Correo electrónico no válido.');
-        return 1;
-    }
-
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function validateUsername(input) {
-
-    if (input.value === '') {
-        setMessageError(input, 'Nombre de usuario no puede estar vacío.');
-        return 1;
-    }
-    if (!input.value.match(rgxUsername) || input.value.match(rgxWhitespaces)) {
-        setMessageError(input, 'Nombre de usuario no válido.');
-        return 1;
-    }
-    
     setMessageSuccess(input);
     return 0;
 
@@ -323,38 +294,6 @@ function validatePassword(input) {
     
     setMessageSuccess(input);
     return 0;
-
-}
-
-function validateConfirmPassword(input) {
-
-    if (input.value === '') {
-        setMessageError(input, 'Confirmar contraseña no puede estar vacío.');
-        return 1;
-    }
-    if (document.getElementById('password').value != input.value) {
-        setMessageError(input, 'Confirmar contraseña no coincide con contraseña.');
-        return 1;
-    }
-
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function onFocus(input) {
-
-    let fieldWrapper = input.parentElement.parentElement;
-
-    let fieldError = fieldWrapper.children[2];
-    let inputWarning = fieldWrapper.children[1].children[1];
-    let inputSucess = fieldWrapper.children[1].children[2];
-
-    fieldError.style.display = 'none';
-    fieldError.innerHTML = '';
-
-    inputWarning.style.visibility = 'hidden';
-    inputSucess.style.visibility = 'hidden';
 
 }
 
