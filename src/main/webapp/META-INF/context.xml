@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/Bug-Fields" antiResourceLocking="false" privileged="true">
+    <Resource name="jdbc/bug_fields"
+    auth="Container"
+    type="javax.sql.DataSource"
+    username="root"
+    password="root"
+    driverClassName="com.mysql.cj.jdbc.Driver"
+    url="jdbc:mysql://localhost:3306/bug_fields?serverTimezone=America/Monterrey"/>
+</Context>

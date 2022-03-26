@@ -1,0 +1,34 @@
+body{
+    background-color: #EFEFEF;
+}
+
+.navbar{
+    background-color: #449342;
+}
+
+.nav-logo {
+    width: 170px;
+}
+
+.login-logo {
+    width: 40px;
+}
+
+.github {
+    color: rgb(224, 224, 224);
+    font-size: 48px;
+}
+
+.page-footer{
+    padding: 48px;
+    margin-top: 50px;
+    height: 224px;
+}
+
+.main{
+    margin-top: 100px;
+}
+
+label {
+    cursor: pointer;
+}

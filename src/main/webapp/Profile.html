@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bug Fields</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,500&display=swap" rel="stylesheet">
+   
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- CSS -->
+    <link href="CSS/Profile.css" rel="stylesheet">
+    
+</head>
+<body>
+
+    <nav class="navbar fixed-top">
+
+        <div class="d-inline col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 text-center text-sm-center text-md-left text-lg-left text-xl-left">
+            <a href="index.html">
+                <img src="Assets/bugFields.png" alt="logo" class="nav-logo">
+            </a>
+        </div>
+
+        <div class="d-inline col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-center">
+            <form action="#" method="get" id="SearchForm">
+                <input class="form-control d-inline w-75 shadow-none" type="text" placeholder="Buscar" id="search-input">
+                <button class="btn btn-dark shadow-none" type="submit">Buscar</button>
+            </form>
+        </div>
+
+        <div class="d-inline col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-right">
+            <label class="text-white pr-2">Iniciar sesión</label>
+            <a href="Profile.html">
+                <img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle">
+            </a>
+        </div>
+
+    </nav>
+
+
+    <div class="container main">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7">
+                <form class="card px-5 py-5" id="profile-form" method="post">
+
+                    <div class="mb-4">
+                        <h1 class="text-center">Editar perfil</h1>
+                    </div>
+
+                    <div class="form-group mb-4 text-center">
+                        <div class="position-relative text-center">
+                            <label class="file-button h-100 w-25 rounded-circle position-absolute align-middle" for="photo">Elegir un archivo</label>
+                            <img src="Assets/blank-profile-picture.svg" class="img-fluid w-25 rounded-circle" id="picture-box">
+                        </div>
+                        <input type="file" class="" id="photo" name="photo" accept="image/*">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="firstName" class="form-label c-pointer">Nombre(s)</label>
+                        <input type="text" class="form-control name shadow-none" name="firstName" id="firstName" autocomplete="off">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="lastName" class="form-label c-pointer">Apellidos</label>
+                        <input type="text" class="form-control last-name shadow-none" name="lastName" id="lastName" autocomplete="off">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="username" class="form-label c-pointer">Nombre de usuario</label>
+                        <input type="text" class="form-control username shadow-none" name="username" id="username" autocomplete="off">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="email" class="form-label c-pointer">Correo electrónico</label>
+                        <input type="email" class="form-control email shadow-none" name="email" id="email">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="dateOfBirth" class="form-label c-pointer">Fecha de nacimiento</label>
+                        <input type="date" class="form-control date-of-birth shadow-none" name="dateOfBirth" id="dateOfBirth">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">Edad</label>
+                        <input type="text" class="form-control shadow-none" name="age" id="age" readonly>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <input type="submit" value="Editar datos" class="btn btn-primary btn-dark w-100">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container main">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-7">
+                <form class="card px-5 py-5" action="#" method="post" id="profile-password-form">
+
+                    <h2 class="text-center">Editar contraseña</h2>
+
+                    <div class="form-group m-3">
+                        <label for="password" class="form-label c-pointer">Contraseña antigua</label>
+                        <input type="password" class="form-control password shadow-none" name="password" id="password">
+                        <small class="form-text text-danger d-none" id="password-error">Contraseña antigua no puede estar vacío</small>
+                    </div>
+
+                    <div class="form-group m-3">
+                        <label for="confirm-password" class="form-label c-pointer">Contraseña nueva</label>
+                        <input type="password" class="form-control confirm-password shadow-none" name="confirm-password" id="confirm-password">
+                        <small class="form-text text-danger d-none" id="confirm-password-error">Contraseña nueva no puede estar vacío</small>
+
+                        <ul class="password-requirements">
+                            <li class="field-password-requirements" id="field-password-length">Debe contener mínimo 8 caracteres</li>
+                            <li class="field-password-requirements" id="field-password-upper">Debe contener una mayúscula</li>
+                            <li class="field-password-requirements" id="field-password-lower">Debe contener una minúscula</li>
+                            <li class="field-password-requirements" id="field-password-number">Debe contener un número</li>
+                            <li class="field-password-requirements" id="field-password-symbol">Debe contener un signo de puntuación</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group m-3">
+                        <label for="confirm-new-password" class="form-label c-pointer">Confirmar contraseña nueva</label>
+                        <input type="password" class="form-control confirm-new-password shadow-none" name="confirm-new-password" id="confirm-new-password">
+                        <small class="form-text text-danger d-none" id="confirm-new-password-error">Confirmar contraseña no puede estar vacío</small>
+                    </div>
+
+                    <div class="form-group m-3 d-grid">
+                        <input type="submit" value="Cambiar contraseña" class="btn btn-primary btn-dark w-100">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="page-footer font-small bg-dark pt-4">
+        <!-- Footer Links -->
+        <div class="container-fluid text-center text-md-center">
+            <!-- Grid row -->
+            <div class="row">        
+                <hr class="clearfix w-100 d-md-none pb-3">    
+                <!-- Grid column -->
+                <div class="col-md-12 mb-md-0 mb-3">
+        
+                    <!-- Links -->
+                    <h5 class="text-uppercase text-light mt-2">Bug Fields</h5>
+            
+                    <ul class="list-unstyled">
+                        <li>
+                            <p class="text-light">Osvaldo Estrada Gutierrez (Mt. 1898206)<br>
+                            Eliam Rodríguez Pérez (Mt. 1898666)</p>
+                        </li>
+                        <li>
+                            <a href="https://github.com/Prz-Ellam/Bug-Fields" target="_blank"><i class="fab fa-github github"></i></a>
+                        </li>
+                    </ul>
+        
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Footer Links -->
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+    <!-- Validate -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        
+    <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+    <!-- JavaScript -->
+    <script src="JS/Profile.js" type="text/javascript"></script>
+    
+    <script src="https://kit.fontawesome.com/48ce36e499.js" crossorigin="anonymous"></script>
+    
+</body>
+</html>
