@@ -77,13 +77,15 @@ public class UserDTO {
         this.password = password;
     }
     
-    public UserDTO(String name, String lastName, String dateOfBirth, String email, String username, String password) {
+    public UserDTO(String name, String lastName, String dateOfBirth, String email, String username, 
+            String password, String photo) {
         this.name = name;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.photo = photo;
     }
     
     public int getId() {

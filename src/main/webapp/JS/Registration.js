@@ -154,6 +154,8 @@ $(document).ready(function() {
     });
 
     $('#register-form').submit(function(e) {
+        
+        e.preventDefault();
 
         if($('#register-form').valid() === false) {
             
@@ -209,9 +211,25 @@ $(document).ready(function() {
                 $("#confirmPassword").addClass("is-valid").removeClass("is-invalid");
             }
                 
-            e.preventDefault();
             return;
         }
+        
+        $.ajax({
+            data: $(this).serialize(),
+            type: "POST",
+            dataType: "json",
+            url: "RegistrationController"
+        }).done(function(data) {
+            if (data.signin) {
+                window.location.href = "index.html";
+            }
+            else {
+                alert('No se pudo registrar');
+            }
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
+
 
     });
 
@@ -238,6 +256,23 @@ $(document).ready(function() {
     
     $.validator.addMethod('password', function(value, element, parameter) {
         return this.optional(element) || $('#password').val() == value;
+    }, 'invalido');
+    
+    $.validator.addMethod('duplicateUsername', function(value, element, parameter) {
+        
+        let result;
+        $.ajax({
+            data: {"username":value},
+            type: "POST",
+            dataType: "json",
+            url: "VerifyUsernameExists"
+        }).done(function(data) {
+            result = data.exists;
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
+        
+        return this.optional(element) || result;
     }, 'invalido');
     
     $.validator.addMethod('passwordRequirements', function(value, element, parameter) {

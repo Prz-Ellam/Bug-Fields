@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -60,8 +61,9 @@ public class RegistrationController extends HttpServlet {
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String photo = "Ejemeplo";
         
-        UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password);
+        UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password, photo);
         
         UserDAO dao = new UserDAO();
         int rowsAffected = dao.create(user);

@@ -162,6 +162,10 @@ public class UserDAO implements GenericDAO<UserDTO> {
         return 0;
     }
     
+    public boolean usernameExists(String username) {
+        return false;
+    }
+    
     public ArrayList<UserDTO> read() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
