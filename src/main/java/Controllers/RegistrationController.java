@@ -15,11 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 import DAO.UserDAO;
 import DTO.UserDTO;
 import Utils.ImageUtils;
+import com.google.gson.Gson;
 import java.io.File;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +37,7 @@ import javax.validation.ValidatorFactory;
  * @author eliam
  */
 @WebServlet(name = "RegistrationController", urlPatterns = {"/RegistrationController"})
-@MultipartConfig(maxFileSize = 1000*1000 * 5,maxRequestSize = 1000 * 1000 * 25, fileSizeThreshold = 1000 * 1000)
+//@MultipartConfig(maxFileSize = 1000*1000 * 5,maxRequestSize = 1000 * 1000 * 25, fileSizeThreshold = 1000 * 1000)
 public class RegistrationController extends HttpServlet {
 
     /**
@@ -52,45 +54,34 @@ public class RegistrationController extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8");
         
-        UserDTO user = new UserDTO();
-        user.setPhoto(ImageUtils.uploadImage(request.getPart("photo"), 
-                request.getServletContext().getRealPath("")));
-        user.setName(request.getParameter("firstName"));
-        user.setLastName(request.getParameter("lastName"));
-        try {
-            user.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dateOfBirth")));
-        } catch (ParseException ex) {
-            Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        user.setEmail(request.getParameter("email"));
-        user.setUsername(request.getParameter("username"));
-        user.setPassword(request.getParameter("password"));
-        String confirmPassword = request.getParameter("confirmPassword");
+        String name = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String dateOfBirth = request.getParameter("dateOfBirth");
+        String email = request.getParameter("email");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         
-        UserDTO a = new UserDTO();
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        
-        Set<ConstraintViolation<UserDTO>> violations = validator.validate(user);
-        
+        UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password);
         
         UserDAO dao = new UserDAO();
-        int result = dao.create(user);
+        int rowsAffected = dao.create(user);
         
-
-        for (ConstraintViolation violation : violations) {
-            System.out.println(violation.getMessage());
+        HashMap result = new HashMap();
+        if (rowsAffected == 0) {
+            result.put("signin", false);
         }
+        else {
+            result.put("signin", true);
+        }
+       
+        Gson gson = new Gson();
+        String json = gson.toJson(result);
         
-        
-        
-        //String file = request.getParameter("profilePicture");
-        //UserDAO dao = new UserDAO();
-        
-        
-        
-        
-        response.sendRedirect("index.html");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println(json);
+        out.flush();
     }
 
     /**

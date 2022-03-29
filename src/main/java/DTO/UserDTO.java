@@ -25,7 +25,7 @@ public class UserDTO {
     @NotBlank(message = "El apellido no puede estar vacio")
     private String lastName;
     
-    private Date dateOfBirth;
+    private String dateOfBirth;
     
     @NotNull(message = "El correo electronico no puede estar vacio")
     @NotEmpty(message = "El correo electronico no puede estar vacio")
@@ -57,7 +57,7 @@ public class UserDTO {
         
     }
 
-    public UserDTO(int id, String name, String lastName, Date dateOfBirth, String email, String photo, 
+    public UserDTO(int id, String name, String lastName, String dateOfBirth, String email, String photo, 
         String username, String password, Date creationDate, boolean active, int age) {
         this.id = id;
         this.name = name;
@@ -73,6 +73,15 @@ public class UserDTO {
     }
     
     public UserDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+    
+    public UserDTO(String name, String lastName, String dateOfBirth, String email, String username, String password) {
+        this.name = name;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
         this.username = username;
         this.password = password;
     }
@@ -101,11 +110,11 @@ public class UserDTO {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

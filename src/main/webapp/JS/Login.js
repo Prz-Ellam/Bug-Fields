@@ -1,3 +1,15 @@
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: "VerifySession"
+}).done(function(data) {
+    if (data.session) {
+        window.location.href = "index.html";
+    }
+}).fail(function(jqXHR, state) {
+    console.log("Ups...algo salio mal: " + state);
+});
+
 $(document).ready(function() {
 
     //VALIDACIONES
@@ -44,11 +56,7 @@ $(document).ready(function() {
 
     $.validator.addMethod('whitespaces', function(value, element, parameter) {
         return this.optional(element) || !/^\s*$/.test(value);
-    }, 'El correo electrónico no puede estar vacío');
-
-    $.validator.addMethod('alphanumeric', function(value, element, parameter) {
-        return this.optional(element) || /^[a-zA-Z0-9 \u00C0-\u00FF]+$/.test(value);
-    })
+    }, 'No puede estar vacío');
 
     $('#login-form').validate({
         rules: {
@@ -67,7 +75,8 @@ $(document).ready(function() {
                 whitespaces: 'El correo electrónico no puede estar vacío'
             },
             password: {
-                required: 'La contraseña no puede estar vacía.'
+                required: 'La contraseña no puede estar vacía.',
+                whitespaces: 'La contraseña no puede estar vacía.'
             }
         },
         errorElement: 'small',

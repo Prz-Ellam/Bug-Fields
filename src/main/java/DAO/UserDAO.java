@@ -42,11 +42,11 @@ public class UserDAO implements GenericDAO<UserDTO> {
                 user.setId(result.getInt(1));
                 user.setName(result.getString(2));
                 user.setLastName(result.getString(3));
-                try {
-                    user.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd").parse(result.getString(4)));
+                /*try {
+                    //user.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd").parse(result.getString(4)));
                 } catch (ParseException ex) {
                     Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
                 user.setEmail(result.getString(5));
                 user.setPhoto(result.getString(6));
                 user.setUsername(result.getString(7));

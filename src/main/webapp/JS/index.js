@@ -1,3 +1,18 @@
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: "VerifySession"
+}).done(function(data) {
+    if (data.session) {
+        $('.session').append('<a href="Profile.html" class="dropdown-toggle" id="dropdownMenuLink"> <img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle"></a>');
+    }
+    else {
+        alert('No hay sesion');
+    }
+}).fail(function(jqXHR, state) {
+    console.log("Ups...algo salio mal: " + state);
+});
+
 $(document).ready(function() {
 
     // Solo letras del alfabeto

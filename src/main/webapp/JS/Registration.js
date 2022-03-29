@@ -115,13 +115,58 @@ $(document).ready(function() {
     $('#register-form').submit(function(e) {
 
         if($('#register-form').valid() === false) {
-            $("#firstName").addClass("is-invalid").removeClass("is-valid");
+            
+            let validator = $("#register-form").validate();
+            
+            if (validator.element("#firstName") === false) {
+                $("#firstName").addClass("is-invalid").removeClass("is-valid");
+            }
+            else {
+                $("#firstName").addClass("is-valid").removeClass("is-invalid");
+            }
+            
+            if (validator.element("#lastName") === false) {
             $("#lastName").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#lastName").addClass("is-valid").removeClass("is-invalid");
+        }
+        
+        if (validator.element("#dateOfBirth") === false) {
             $("#dateOfBirth").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#dateOfBirth").addClass("is-valid").removeClass("is-invalid");
+        }
+        
+        if (validator.element("#email") === false) {
             $("#email").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#email").addClass("is-valid").removeClass("is-invalid");
+        }
+        
+        if (validator.element("#username") === false) {
             $("#username").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#username").addClass("is-valid").removeClass("is-invalid");
+        }
+        
+        if (validator.element("#password") === false) {
             $("#password").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#password").addClass("is-valid").removeClass("is-invalid");
+        }
+        
+        if (validator.element("#confirmPassword") === false) {
             $("#confirmPassword").addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $("#confirmPassword").addClass("is-valid").removeClass("is-invalid");
+        }
+            
             e.preventDefault();
             return;
         }
@@ -139,15 +184,32 @@ $(document).ready(function() {
     $.validator.addMethod('username', function(value, element, parameter) {
         return this.optional(element) || /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/.test(value);
     }, 'invalido');
+    
+    $.validator.addMethod('emailForm', function(value, element, parameter) {
+        return this.optional(element) || /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
+    }, 'invalido');
 
     $.validator.addMethod('daterange', function(value, element, parameter) {
         return this.optional(element) ||
         !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
     }, 'fecha invalida');
-
-    $.validator.addMethod('confirmPassword', function(value, element, parameter) {
+    
+    $.validator.addMethod('password', function(value, element, parameter) {
         return this.optional(element) || $('#password').val() == value;
     }, 'invalido');
+    
+    $.validator.addMethod('passwordRequirements', function(value, element, parameter) {
+        let upper = this.optional(element) || /([A-Z])/.test(value);
+        let lower = this.optional(element) || /([a-z])/.test(value);
+        let number = this.optional(element) || /([0-9])/.test(value);
+        let symbol = this.optional(element) || /[.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"…]/.test(value);
+        let length = this.optional(element) || value.length > 8;
+       
+        return upper && lower && number && symbol && length;
+    }, 'invalido');
+    
+
+
 
     $('#register-form').validate({
         rules: {
@@ -173,7 +235,7 @@ $(document).ready(function() {
             email: {
                 required: true,
                 whitespaces: true,
-                email: true
+                emailForm: true
             },
             username: {
                 required: true,
@@ -182,7 +244,8 @@ $(document).ready(function() {
             },
             password: {
                 required: true,
-                whitespaces: true
+                whitespaces: true,
+                passwordRequirements: true
             },
             confirmPassword: {
                 required: true,
@@ -250,104 +313,6 @@ photo.onchange = function(e) {
         img.style.opacity = '1';
         photo.style.opacity = '0';
     }
-
-}
-
-function validateDateOfBirth(input) {
-
-    if (input.value === '') {
-        setMessageError(input, 'Fecha de nacimiento no válida.');
-        return 1;
-    }
-
-    if (Date.parse(input.value) > Date.parse(dateFormat) || Date.parse(input.value) < Date.parse('1900-01-01')) {
-        setMessageError(input, 'Fecha de nacimiento no válida.');
-        return 1;
-    }
-
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function validatePassword(input) {
-
-    if (input.value === '') {
-        setMessageError(input, 'Contraseña no puede estar vacía.');
-        let upper = document.getElementById('field-password-upper');
-        let lower = document.getElementById('field-password-lower');
-        let number = document.getElementById('field-password-number');
-        let symbol = document.getElementById('field-password-symbol');
-        let length = document.getElementById('field-password-length');
-        upper.style.color = 'rgb(222, 79, 84)';
-        lower.style.color = 'rgb(222, 79, 84)';
-        number.style.color = 'rgb(222, 79, 84)';
-        symbol.style.color = 'rgb(222, 79, 84)';
-        length.style.color = 'rgb(222, 79, 84)';
-        return 1;
-    }
-
-    if (!checkPassword(input.value)) {
-        setMessageError(input, 'Contraseña no válida.');
-        return 1;
-    }
-    
-    setMessageSuccess(input);
-    return 0;
-
-}
-
-function checkPassword(password) {
-
-    let result = true;
-
-    let upper = document.getElementById('field-password-upper');
-    let lower = document.getElementById('field-password-lower');
-    let number = document.getElementById('field-password-number');
-    let symbol = document.getElementById('field-password-symbol');
-    let length = document.getElementById('field-password-length');
-
-    if (!password.match(/([A-Z])/)) {
-        upper.style.color = 'rgb(222, 79, 84)';
-        result = false;
-    }
-    else {
-        upper.style.color = 'rgb(121, 177, 143)';
-    }
-
-    if (!password.match(/([a-z])/)) {
-        lower.style.color = 'rgb(222, 79, 84)';
-        result = false;
-    }
-    else {
-        lower.style.color = 'rgb(121, 177, 143)';
-    }
-
-    if (!password.match(/([0-9])/)) {
-        number.style.color = 'rgb(222, 79, 84)';
-        result = false;
-    }
-    else {
-        number.style.color = 'rgb(121, 177, 143)';
-    }
-
-    if (!password.match(/[.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"…]/)) {
-        symbol.style.color = 'rgb(222, 79, 84)';
-        result = false;
-    }
-    else {
-        symbol.style.color = 'rgb(121, 177, 143)';
-    }
-
-    if (password.length < 8) {
-        length.style.color = 'rgb(222, 79, 84)';
-        result = false;
-    }
-    else {
-        length.style.color = 'rgb(121, 177, 143)';
-    }
-
-    return result;
 
 }
 

@@ -10,21 +10,26 @@ var rgxWhitespaces = /^\s*$/;
 // Validar formato de email
 let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-$(document).ready(function() {
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: "InitProfileController"
+}).done(function(data) {
+    if (data.session) {
+        $("#firstName").val(data.name);
+        $("#lastName").val(data.lastName);
+        $("#email").val(data.email);
+        $("#username").val(data.username);
+        $("#age").val(data.age);
+    }
+    else {
+        window.location.href = 'index.html';
+    }
+}).fail(function(jqXHR, state) {
+    console.log("Ups...algo salio mal: " + state);
+});
 
-    $.ajax({
-        url: "InitProfileController",
-        type: "post",
-        data: {"":""},
-        
-        success: function(data) {
-            $("#firstName").val(data['name']);
-            $("#lastName").val(data['lastName']);
-            $("#email").val(data['email']);
-            $("#username").val(data['username']);
-            $("#age").val(data['age']);
-        }
-    });
+$(document).ready(function() {
 
     $("#photo-file").change(showPreviewImage_click);
     
