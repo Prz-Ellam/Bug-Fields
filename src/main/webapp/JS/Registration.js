@@ -97,6 +97,47 @@ $(document).ready(function() {
         $("#password-error-label").remove();
     });
 
+    $('#password').on('input', function() {
+
+        let password = $(this).val();
+
+        if (/([A-Z])/.test(password)) {
+            $('#field-password-upper').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-upper').removeClass('text-success').addClass('text-danger');
+        }
+
+        if (/([a-z])/.test(password)) {
+            $('#field-password-lower').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-lower').removeClass('text-success').addClass('text-danger');
+        }
+
+        if (/([0-9])/.test(password)) {
+            $('#field-password-number').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-number').removeClass('text-success').addClass('text-danger');
+        }
+
+        if (/[.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"…]/.test(password)) {
+            $('#field-password-symbol').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-symbol').removeClass('text-success').addClass('text-danger');
+        }
+
+        if (password.length > 7) {
+            $('#field-password-length').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-length').removeClass('text-success').addClass('text-danger');
+        }
+
+    });
+
     $('#confirmPassword').blur(function() {
         let validator = $("#register-form").validate();
         if (validator.element("#confirmPassword") === false) {
@@ -127,46 +168,47 @@ $(document).ready(function() {
             
             if (validator.element("#lastName") === false) {
             $("#lastName").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#lastName").addClass("is-valid").removeClass("is-invalid");
-        }
-        
-        if (validator.element("#dateOfBirth") === false) {
-            $("#dateOfBirth").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#dateOfBirth").addClass("is-valid").removeClass("is-invalid");
-        }
-        
-        if (validator.element("#email") === false) {
-            $("#email").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#email").addClass("is-valid").removeClass("is-invalid");
-        }
-        
-        if (validator.element("#username") === false) {
-            $("#username").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#username").addClass("is-valid").removeClass("is-invalid");
-        }
-        
-        if (validator.element("#password") === false) {
-            $("#password").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#password").addClass("is-valid").removeClass("is-invalid");
-        }
-        
-        if (validator.element("#confirmPassword") === false) {
-            $("#confirmPassword").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#confirmPassword").addClass("is-valid").removeClass("is-invalid");
-        }
+            }
+            else {
+                $("#lastName").addClass("is-valid").removeClass("is-invalid");
+            }
             
+            if (validator.element("#dateOfBirth") === false) {
+                $("#dateOfBirth").addClass("is-invalid").removeClass("is-valid");
+            }
+            else {
+                $("#dateOfBirth").addClass("is-valid").removeClass("is-invalid");
+            }
+            
+            if (validator.element("#email") === false) {
+                $("#email").addClass("is-invalid").removeClass("is-valid");
+            }
+            else {
+                $("#email").addClass("is-valid").removeClass("is-invalid");
+            }
+            
+            if (validator.element("#username") === false) {
+                $("#username").addClass("is-invalid").removeClass("is-valid");
+            }
+            else {
+                $("#username").addClass("is-valid").removeClass("is-invalid");
+            }
+            
+            if (validator.element("#password") === false) {
+                $("#password").addClass("is-invalid").removeClass("is-valid");
+                $('.field-password-requirements').addClass('text-danger').removeClass('text-success');
+            }
+            else {
+                $("#password").addClass("is-valid").removeClass("is-invalid");
+            }
+            
+            if (validator.element("#confirmPassword") === false) {
+                $("#confirmPassword").addClass("is-invalid").removeClass("is-valid");
+            }
+            else {
+                $("#confirmPassword").addClass("is-valid").removeClass("is-invalid");
+            }
+                
             e.preventDefault();
             return;
         }
@@ -203,7 +245,7 @@ $(document).ready(function() {
         let lower = this.optional(element) || /([a-z])/.test(value);
         let number = this.optional(element) || /([0-9])/.test(value);
         let symbol = this.optional(element) || /[.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"…]/.test(value);
-        let length = this.optional(element) || value.length > 8;
+        let length = this.optional(element) || value.length > 7;
        
         return upper && lower && number && symbol && length;
     }, 'invalido');
@@ -250,7 +292,7 @@ $(document).ready(function() {
             confirmPassword: {
                 required: true,
                 whitespaces: true,
-                confirmPassword: true
+                password: true
             }
         },
         messages: {
@@ -284,12 +326,13 @@ $(document).ready(function() {
             },
             password: {
                 required: 'La contraseña no puede estar vacía.',
-                whitespaces: 'La contraseña no puede estar vacía.'
+                whitespaces: 'La contraseña no puede estar vacía.',
+                passwordRequirements: 'La contraseña no es válida.'
             },
             confirmPassword: {
                 required: 'Confirmar contraseña no puede estar vacío.',
                 whitespaces: 'Confirmar contraseña no puede estar vacío.',
-                confirmPassword: 'Confirmar contraseña no coincide con contraseña.'
+                password: 'Confirmar contraseña no coincide con contraseña.'
             }
         },
         errorElement: 'small',
@@ -315,18 +358,6 @@ photo.onchange = function(e) {
     }
 
 }
-
-function setMessageErrorOnPhoto(){
-    let photoMessage =  document.getElementById('photo-error');
-    photoMessage.style.display = 'block';
-    photoMessage.style.color = 'rgb(222, 78, 84)';
-}
-
-function setMessageSuccessOnPhoto(){
-    let photoMessage =  document.getElementById('photo-error');
-    photoMessage.style.display = 'none';
-}
-
 
 // FORM BUSQUEDA NAVBAR
 
