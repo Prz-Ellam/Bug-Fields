@@ -1,11 +1,21 @@
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: "VerifySession"
+}).done(function(data) {
+    if (data.session) {
+        window.location.href = "index.html";
+    }
+}).fail(function(jqXHR, state) {
+    console.log("Ups...algo salio mal: " + state);
+});
+
 $(document).ready(function() {
 
     var date = new Date();
     var dateFormat = date.getFullYear() + '-' + 
     String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
     $('#dateOfBirth').val(dateFormat);
-
-    //$('#dateOfBirth').attr('min', '1900-01-01').attr('max', dateFormat);
 
     $('#firstName').blur(function() {
         let validator = $("#register-form").validate();

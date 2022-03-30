@@ -13,6 +13,33 @@ let rgxEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 $.ajax({
     type: "GET",
     dataType: "json",
+    url: "VerifySession"
+}).done(function(data) {
+    if (!data.session) {
+        window.location.href = "index.html";
+    }
+    else {
+        $('.session').append('<div class="dropdown show d-inline col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-right">' +
+                '<a class="btn btn-secondary shadow-none dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                '<img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle">' +
+                '</a>' +
+                '<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">' +
+                '<button class="dropdown-item" id="profile">Perfil</button>' +
+               '<button class="dropdown-item" id="closeSession">Cerrar Sesión</button>' +
+                '</div>' +
+            '</div>');
+       
+    }
+}).fail(function(jqXHR, state) {
+    console.log("Ups...algo salio mal: " + state);
+});
+
+
+/*
+
+$.ajax({
+    type: "GET",
+    dataType: "json",
     url: "InitProfileController"
 }).done(function(data) {
     if (data.session) {
@@ -28,7 +55,7 @@ $.ajax({
 }).fail(function(jqXHR, state) {
     console.log("Ups...algo salio mal: " + state);
 });
-
+*/
 $(document).ready(function() {
 
     $("#photo-file").change(showPreviewImage_click);
@@ -263,6 +290,28 @@ $(document).ready(function() {
 
 
 
+   $(document).on('click', '#closeSession', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "CloseSession"
+        }).done(function(data) {
+            if (data.result) {
+                window.location.href = "index.html";
+            }
+            else {
+                alert('No se pudo cerrar la sesión');
+            }
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
+    });
+    
+    $(document).on('click', '#profile', function(e) {
+        e.preventDefault();
+        window.location.href = "Profile.html";
+    });
 
 
 
@@ -452,3 +501,4 @@ $("#SearchForm").submit(function(e){
     }
 
 });
+

@@ -15,7 +15,7 @@ $.ajax({
                 '<img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle">' +
                 '</a>' +
                 '<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">' +
-                '<button class="dropdown-item">Perfil</button>' +
+                '<button class="dropdown-item" id="profile">Perfil</button>' +
                '<button class="dropdown-item" id="closeSession">Cerrar Sesión</button>' +
                 '</div>' +
             '</div>');
@@ -37,7 +37,7 @@ $(document).ready(function() {
     // Botones para redirigir
 
     $("#btn-createPub").click(function(){
-        location.href = "createPub.html";
+        location.href = "createPost.html";
     });
 
     $("#btn-advSearch").click(function(){
@@ -72,7 +72,8 @@ $(document).ready(function() {
 
     });
     
-    $('#closeSession').click(function() {
+    $(document).on('click', '#closeSession', function(e) {
+        e.preventDefault();
         $.ajax({
             type: "GET",
             dataType: "json",
@@ -87,6 +88,12 @@ $(document).ready(function() {
         }).fail(function(jqXHR, state) {
             console.log("Ups...algo salio mal: " + state);
         });
-    })
+    });
+    
+    $(document).on('click', '#profile', function(e) {
+        e.preventDefault();
+        window.location.href = "Profile.html";
+    });
+
 
 });
