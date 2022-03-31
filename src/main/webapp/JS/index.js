@@ -5,8 +5,7 @@ $.ajax({
     url: "VerifySession"
 }).done(function(data) {
     if (!data.session) {
-        $('.session').append('<label class="text-white pr-2">Iniciar sesión</label>' +
-                '<a href="Login.html">' +
+        $('.session').append('<a href="Login.html"><label class="text-white pr-2" style="cursor:pointer">Iniciar sesión</label>' +
                 '<img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle">' +
                 '</a>');
     }
