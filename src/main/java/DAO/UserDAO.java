@@ -10,8 +10,10 @@ import DTO.UserDTO;
 import Interfaces.GenericDAO;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,17 +44,11 @@ public class UserDAO implements GenericDAO<UserDTO> {
                 user.setId(result.getInt(1));
                 user.setName(result.getString(2));
                 user.setLastName(result.getString(3));
-                /*try {
-                    //user.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd").parse(result.getString(4)));
-                } catch (ParseException ex) {
-                    Logger.getLogger(RegistrationController.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
+                user.setDateOfBirth(result.getString(4));
                 user.setEmail(result.getString(5));
                 user.setPhoto(result.getString(6));
                 user.setUsername(result.getString(7));
                 user.setPassword(result.getString(8));
-                //user.setCreationDate(creationDate);
-                user.setActive(result.getBoolean(10));
                 user.setAge(result.getInt(11));
                 return user;
             }
@@ -95,14 +91,11 @@ public class UserDAO implements GenericDAO<UserDTO> {
                 user.setId(result.getInt(1));
                 user.setName(result.getString(2));
                 user.setLastName(result.getString(3));
-                //String a = result.getString(4);
-                //user.setDateOfBirth(result.getString(4));
+                user.setDateOfBirth(result.getString(4));
                 user.setEmail(result.getString(5));
                 user.setPhoto(result.getString(6));
                 user.setUsername(result.getString(7));
                 user.setPassword(result.getString(8));
-                //user.setCreationDate(creationDate);
-                user.setActive(result.getBoolean(10));
                 return user;
             }
             
@@ -162,8 +155,49 @@ public class UserDAO implements GenericDAO<UserDTO> {
         return 0;
     }
     
-    public boolean usernameExists(String username) {
-        return false;
+    public int usernameExists(String username, int id) {
+        
+        Connection connection = null;
+        
+        try {
+            
+            connection = DBConnection.getConnection();
+            
+            Statement statement = connection.createStatement();
+            String query = "SELECT COUNT(*) FROM users WHERE username = ? AND user_id <> ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setInt(2, id);
+            ResultSet rs  = ps.executeQuery();
+            
+            // chequeo que el result set no sea vacío, moviendo el cursor a la
+            // primer fila. (El cursor inicia antes de la primer fila)
+            int n = 0;
+            if (rs.next()) {
+                //Si hay resultados obtengo el valor.
+                n = rs.getInt(1);
+            }
+            
+            connection.close();
+            
+            return n;
+            
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return 0;
     }
     
     public ArrayList<UserDTO> read() {

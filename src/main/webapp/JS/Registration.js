@@ -1,4 +1,10 @@
+var date = new Date();
+var dateFormat = date.getFullYear() + '-' + 
+String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+$('#dateOfBirth').val(dateFormat);
+
 $.ajax({
+    async: false,
     type: "GET",
     dataType: "json",
     url: "VerifySession"
@@ -12,19 +18,20 @@ $.ajax({
 
 $(document).ready(function() {
 
-    var date = new Date();
-    var dateFormat = date.getFullYear() + '-' + 
-    String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
-    $('#dateOfBirth').val(dateFormat);
+    function validateInput(state, name) {
+        if (state === false) {
+            $('#' + name).addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $('#' + name).addClass("is-valid").removeClass("is-invalid");
+        }
+    }
+    
+
 
     $('#firstName').blur(function() {
         let validator = $("#register-form").validate();
-        if (validator.element("#firstName") === false) {
-            $("#firstName").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#firstName").addClass("is-valid").removeClass("is-invalid");
-        }
+        validateInput(validator.element("#firstName"), this.name);
     });
 
     $('#firstName').focus(function() {
@@ -34,12 +41,7 @@ $(document).ready(function() {
 
     $('#lastName').blur(function() {
         let validator = $("#register-form").validate();
-        if (validator.element("#lastName") === false) {
-            $("#lastName").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#lastName").addClass("is-valid").removeClass("is-invalid");
-        }
+        validateInput(validator.element("#lastName"), this.name);
     });
 
     $('#lastName').focus(function() {
@@ -49,12 +51,7 @@ $(document).ready(function() {
 
     $('#dateOfBirth').blur(function() {
         let validator = $("#register-form").validate();
-        if (validator.element("#dateOfBirth") === false) {
-            $("#dateOfBirth").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#dateOfBirth").addClass("is-valid").removeClass("is-invalid");
-        }
+        validateInput(validator.element("#dateOfBirth"), this.name); 
     });
 
     $('#dateOfBirth').focus(function() {
@@ -64,12 +61,7 @@ $(document).ready(function() {
 
     $('#email').blur(function() {
         let validator = $("#register-form").validate();
-        if (validator.element("#email") === false) {
-            $("#email").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#email").addClass("is-valid").removeClass("is-invalid");
-        }
+        validateInput(validator.element("#email"), this.name);
     });
 
     $('#email').focus(function() {
@@ -79,12 +71,7 @@ $(document).ready(function() {
 
     $('#username').blur(function() {
         let validator = $("#register-form").validate();
-        if (validator.element("#username") === false) {
-            $("#username").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#username").addClass("is-valid").removeClass("is-invalid");
-        }
+        validateInput(validator.element("#username"), this.name);
     });
 
     $('#username').focus(function() {
@@ -94,12 +81,7 @@ $(document).ready(function() {
 
     $('#password').blur(function() {
         let validator = $("#register-form").validate();
-        if (validator.element("#password") === false) {
-            $("#password").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#password").addClass("is-valid").removeClass("is-invalid");
-        }
+        validateInput(validator.element("#password"), this.name);
     });
 
     $('#password').focus(function() {
@@ -150,12 +132,7 @@ $(document).ready(function() {
 
     $('#confirmPassword').blur(function() {
         let validator = $("#register-form").validate();
-        if (validator.element("#confirmPassword") === false) {
-            $("#confirmPassword").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#confirmPassword").addClass("is-valid").removeClass("is-invalid");
-        }
+        validateInput(validator.element("#confirmPassword"), this.name);
     });
 
     $('#confirmPassword').focus(function() {
@@ -168,59 +145,15 @@ $(document).ready(function() {
         e.preventDefault();
 
         if($('#register-form').valid() === false) {
-            
             let validator = $("#register-form").validate();
-            
-            if (validator.element("#firstName") === false) {
-                $("#firstName").addClass("is-invalid").removeClass("is-valid");
-            }
-            else {
-                $("#firstName").addClass("is-valid").removeClass("is-invalid");
-            }
-            
-            if (validator.element("#lastName") === false) {
-            $("#lastName").addClass("is-invalid").removeClass("is-valid");
-            }
-            else {
-                $("#lastName").addClass("is-valid").removeClass("is-invalid");
-            }
-            
-            if (validator.element("#dateOfBirth") === false) {
-                $("#dateOfBirth").addClass("is-invalid").removeClass("is-valid");
-            }
-            else {
-                $("#dateOfBirth").addClass("is-valid").removeClass("is-invalid");
-            }
-            
-            if (validator.element("#email") === false) {
-                $("#email").addClass("is-invalid").removeClass("is-valid");
-            }
-            else {
-                $("#email").addClass("is-valid").removeClass("is-invalid");
-            }
-            
-            if (validator.element("#username") === false) {
-                $("#username").addClass("is-invalid").removeClass("is-valid");
-            }
-            else {
-                $("#username").addClass("is-valid").removeClass("is-invalid");
-            }
-            
-            if (validator.element("#password") === false) {
-                $("#password").addClass("is-invalid").removeClass("is-valid");
-                $('.field-password-requirements').addClass('text-danger').removeClass('text-success');
-            }
-            else {
-                $("#password").addClass("is-valid").removeClass("is-invalid");
-            }
-            
-            if (validator.element("#confirmPassword") === false) {
-                $("#confirmPassword").addClass("is-invalid").removeClass("is-valid");
-            }
-            else {
-                $("#confirmPassword").addClass("is-valid").removeClass("is-invalid");
-            }
-                
+            validateInput(validator.element("#firstName"), 'firstName');
+            validateInput(validator.element("#lastName"), 'lastName');
+            validateInput(validator.element("#dateOfBirth"), 'dateOfBirth');
+            validateInput(validator.element("#email"), 'email');
+            validateInput(validator.element("#username"), 'username');
+            validateInput(validator.element("#password"), 'password');
+            $('.field-password-requirements').addClass('text-danger').removeClass('text-success');
+            validateInput(validator.element("#confirmPassword"), 'confirmPassword');
             return;
         }
         
@@ -239,9 +172,10 @@ $(document).ready(function() {
         }).fail(function(jqXHR, state) {
             console.log("Ups...algo salio mal: " + state);
         });
-
-
+        
     });
+    
+    
 
     $.validator.addMethod('whitespaces', function(value, element, parameter) {
         return this.optional(element) || !/^\s*$/.test(value);
@@ -272,12 +206,13 @@ $(document).ready(function() {
         
         let result;
         $.ajax({
+            async: false,
             data: {"username":value},
             type: "POST",
             dataType: "json",
             url: "VerifyUsernameExists"
         }).done(function(data) {
-            result = data.exists;
+            result = !data.exists;
         }).fail(function(jqXHR, state) {
             console.log("Ups...algo salio mal: " + state);
         });
@@ -295,9 +230,6 @@ $(document).ready(function() {
         return upper && lower && number && symbol && length;
     }, 'invalido');
     
-
-
-
     $('#register-form').validate({
         rules: {
             photo: {
@@ -327,7 +259,8 @@ $(document).ready(function() {
             username: {
                 required: true,
                 whitespaces: true,
-                username: true
+                username: true,
+                duplicateUsername: true
             },
             password: {
                 required: true,
@@ -357,17 +290,19 @@ $(document).ready(function() {
             dateOfBirth: {
                 required: 'La fecha de nacimiento no puede estar vacía.',
                 whitespaces: 'La fecha de nacimiento no puede estar vacía.',
+                date: 'La fecha de nacimiento no es válida',
                 daterange: 'La fecha de nacimiento no es válida'
             },
             email: {
                 required: 'El correo electrónico no puede estar vacío.',
                 whitespaces: 'El correo electrónico no puede estar vacío.',
-                email: 'El correo electrónico no es válido.'
+                emailForm: 'El correo electrónico no es válido.'
             },
             username: {
                 required: 'El nombre de usuario no puede estar vacío.',
                 whitespaces: 'El nombre de usuario no puede estar vacío.',
-                username: 'El nombre de usuario no es válido'
+                username: 'El nombre de usuario no es válido',
+                duplicateUsername: 'El nombre de usuario ya esta siendo usado.'
             },
             password: {
                 required: 'La contraseña no puede estar vacía.',

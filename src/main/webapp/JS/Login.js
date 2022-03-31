@@ -1,4 +1,5 @@
 $.ajax({
+    async: false,
     type: "GET",
     dataType: "json",
     url: "VerifySession"
@@ -12,15 +13,19 @@ $.ajax({
 
 $(document).ready(function() {
 
+    function validateInput(state, name) {
+        if (state === false) {
+            $('#' + name).addClass("is-invalid").removeClass("is-valid");
+        }
+        else {
+            $('#' + name).addClass("is-valid").removeClass("is-invalid");
+        }
+    }
+
     //VALIDACIONES
     $('#username').blur(function() {
         let validator = $("#login-form").validate();
-        if (validator.element("#username") === false) {
-            $("#username").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#username").addClass("is-valid").removeClass("is-invalid");
-        }
+        validateInput(validator.element("#username"), this.name);
     });
 
     $('#username').focus(function() {
@@ -30,12 +35,7 @@ $(document).ready(function() {
 
     $('#password').blur(function() {
         let validator = $("#login-form").validate();
-        if (validator.element("#password") === false) {
-            $("#password").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#password").addClass("is-valid").removeClass("is-invalid");
-        }
+        validateInput(validator.element("#password"), this.name);
     });
 
     $('#password').focus(function() {
@@ -44,15 +44,38 @@ $(document).ready(function() {
     });
 
     $("#login-form").submit(function(e) {
+        
+        $('.login-fail').addClass('d-none');
+        e.preventDefault();
 
         if($('#login-form').valid() === false) {
-            $("#username").addClass("is-invalid").removeClass("is-valid");
-            $("#password").addClass("is-invalid").removeClass("is-valid");
-            e.preventDefault();
+            let validator = $("#login-form").validate();
+            validateInput(validator.element("#username"), 'username');
+            validateInput(validator.element("#password"), 'password');
             return;
         }
+        
+        $.ajax({
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            url: "LoginController"
+        }).done(function(data) {
+            if (data.result) {
+                window.location.href = "index.html";
+            }
+            else {
+                $("#username").addClass("is-invalid").removeClass("is-valid");
+                $("#password").addClass("is-invalid").removeClass("is-valid");
+                $('.login-fail').removeClass('d-none');
+            }
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
 
     });
+
+
 
     $.validator.addMethod('whitespaces', function(value, element, parameter) {
         return this.optional(element) || !/^\s*$/.test(value);
@@ -84,8 +107,6 @@ $(document).ready(function() {
             error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
         }
     });
-
-
 
 
 

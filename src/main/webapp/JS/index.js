@@ -1,4 +1,5 @@
 $.ajax({
+    async: false,
     type: "GET",
     dataType: "json",
     url: "VerifySession"
@@ -42,6 +43,14 @@ $(document).ready(function() {
 
     $("#btn-advSearch").click(function(){
         location.href = "AdvancedSearch.html";
+    });
+    
+    $(".update").click(function(){
+        location.href = "modifyPost.html";
+    });
+    
+    $(".delete").click(function(){
+        location.href = "deletePost.html";
     });
 
 

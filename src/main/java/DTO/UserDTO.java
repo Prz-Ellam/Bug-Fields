@@ -14,43 +14,13 @@ import javax.validation.constraints.*;
 public class UserDTO {
     
     private int id;
-    
-    @NotNull(message = "El nombre no puede estar vacio")
-    @NotEmpty(message = "El nombre no puede estar vacio")
-    @NotBlank(message = "El nombre no puede estar vacio")
-    private String name;
-    
-    @NotNull(message = "El apellido no puede estar vacio")
-    @NotEmpty(message = "El apellido no puede estar vacio")
-    @NotBlank(message = "El apellido no puede estar vacio")
+    private String name; 
     private String lastName;
-    
     private String dateOfBirth;
-    
-    @NotNull(message = "El correo electronico no puede estar vacio")
-    @NotEmpty(message = "El correo electronico no puede estar vacio")
-    @NotBlank(message = "El correo electronico no puede estar vacio")
-    @Email(message = "El correo electronico no es valido")
     private String email;
-    
-    @NotNull(message = "La foto de perfil no puede estar vacia")
-    @NotEmpty(message = "La foto de perfil no puede estar vacia")
-    @NotBlank(message = "La foto de perfil no puede estar vacia")
     private String photo;
-    
-    @NotNull(message = "El nombre de usuario no puede estar vacio")
-    @NotEmpty(message = "El nombre de usuario no puede estar vacio")
-    @NotBlank(message = "El nombre de usuario no puede estar vacio")
     private String username;
-    
-    @NotNull(message = "La contraseña no puede estar vacia")
-    @NotEmpty(message = "La contraseña no puede estar vacia")
-    @NotBlank(message = "La contraseña no puede estar vacia")
     private String password;
-    
-    private Date creationDate;
-    private boolean active;
-    
     private int age;
     
     public UserDTO() {
@@ -58,7 +28,7 @@ public class UserDTO {
     }
 
     public UserDTO(int id, String name, String lastName, String dateOfBirth, String email, String photo, 
-        String username, String password, Date creationDate, boolean active, int age) {
+        String username, String password, int age) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -67,8 +37,6 @@ public class UserDTO {
         this.photo = photo;
         this.username = username;
         this.password = password;
-        this.creationDate = creationDate;
-        this.active = active;
         this.age = age;
     }
     
@@ -150,22 +118,6 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-    
-    public boolean getActive() {
-        return active;
-    }
-    
-    public void setActive(boolean active) {
-        this.active = active;
     }
     
     public int getAge() {

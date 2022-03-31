@@ -6,8 +6,10 @@ package Controllers;
 
 import DAO.UserDAO;
 import DTO.UserDTO;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,6 +38,8 @@ public class LoginController extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8");
         
+        HashMap result = new HashMap();
+        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
@@ -43,14 +47,21 @@ public class LoginController extends HttpServlet {
         UserDTO user = dao.login(username, password);
         
         if (user == null) {
-            response.sendRedirect("Login.html");
-            return;
+            result.put("result", false);
+        }
+        else {
+            result.put("result", true);
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user.getId());
         }
         
-        HttpSession session = request.getSession();
-        session.setAttribute("user", user.getId());
+        Gson gson = new Gson();
+        String json = gson.toJson(result);
+            
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
         
-        response.sendRedirect("index.html");
     }
 
     /**
