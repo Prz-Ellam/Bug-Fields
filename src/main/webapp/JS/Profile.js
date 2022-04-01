@@ -268,9 +268,8 @@ $(document).ready(function() {
         validateInput(validator.element("#newPassword"), this.name); 
     });
     
-    $('#newPassword').on('input', function() {
-
-        let password = $(this).val();
+    function validatePasswordRequirements() {
+        let password = $("#newPassword").val();
 
         if (/([A-Z])/.test(password)) {
             $('#field-password-upper').addClass('text-success').removeClass('text-danger');
@@ -306,6 +305,11 @@ $(document).ready(function() {
         else {
             $('#field-password-length').removeClass('text-success').addClass('text-danger');
         }
+    }
+    
+    $('#newPassword').on('input', function() {
+
+        validatePasswordRequirements();
 
     });
 
@@ -368,6 +372,7 @@ $("#profile-password-form").submit(function(e){
         let validator = $("#profile-password-form").validate();
         validateInput(validator.element("#password"), 'password');
         validateInput(validator.element("#newPassword"), 'newPassword');
+        validatePasswordRequirements();
         validateInput(validator.element("#confirmNewPassword"), 'confirmNewPassword');
         return;
     }

@@ -88,10 +88,9 @@ $(document).ready(function() {
         $("#password").removeClass("is-invalid").removeClass("is-valid");
         $("#password-error-label").remove();
     });
-
-    $('#password').on('input', function() {
-
-        let password = $(this).val();
+    
+    function validatePasswordRequirements() {
+        let password = $("#password").val();
 
         if (/([A-Z])/.test(password)) {
             $('#field-password-upper').addClass('text-success').removeClass('text-danger');
@@ -127,6 +126,11 @@ $(document).ready(function() {
         else {
             $('#field-password-length').removeClass('text-success').addClass('text-danger');
         }
+    }
+
+    $('#password').on('input', function() {
+
+        validatePasswordRequirements();
 
     });
 
@@ -152,7 +156,7 @@ $(document).ready(function() {
             validateInput(validator.element("#email"), 'email');
             validateInput(validator.element("#username"), 'username');
             validateInput(validator.element("#password"), 'password');
-            $('.field-password-requirements').addClass('text-danger').removeClass('text-success');
+            validatePasswordRequirements();
             validateInput(validator.element("#confirmPassword"), 'confirmPassword');
             return;
         }
