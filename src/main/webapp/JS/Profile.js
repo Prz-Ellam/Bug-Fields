@@ -127,7 +127,7 @@ $(document).ready(function() {
         !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
     }, 'fecha invalida');
     
-    $.validator.addMethod('password', function(value, element, parameter) {
+    $.validator.addMethod('passwordX', function(value, element, parameter) {
         return this.optional(element) || $('#newPassword').val() == value;
     }, 'invalido');
     
@@ -248,7 +248,7 @@ $(document).ready(function() {
     
     
     
-       $('#password').focus(function() {
+    $('#password').focus(function() {
         $("#password").removeClass("is-invalid").removeClass("is-valid");
         $("#password-error-label").remove();
     });
@@ -335,7 +335,7 @@ $('#profile-password-form').validate({
             confirmNewPassword: {
                 required: true,
                 whitespaces: true,
-                password: true
+                passwordX: true
             }
         },
         messages: {
@@ -351,7 +351,7 @@ $('#profile-password-form').validate({
             confirmNewPassword: {
                 required: 'Confirmar nueva contraseña no puede estar vacío.',
                 whitespaces: 'Confirmar nueva contraseña no puede estar vacío.',
-                password: 'Confirmar nueva contraseña no coincide con contraseña.'
+                passwordX: 'Confirmar nueva contraseña no coincide con contraseña.'
             }
         },
         errorElement: 'small',
@@ -398,6 +398,20 @@ $("#profile-password-form").submit(function(e){
         e.preventDefault();
         window.location.href = "Profile.html";
     });
+    
+    photo.onchange = function(e) {
+
+    let fReader = new FileReader();
+    fReader.readAsDataURL(photo.files[0]);
+    fReader.onloadend = function(e) {
+        let img = document.getElementById('picture-box');
+        img.setAttribute('src', e.target.result);
+        img.style.opacity = '1';
+        photo.style.opacity = '0';
+    }
+
+}
+
 
 
 

@@ -198,7 +198,7 @@ $(document).ready(function() {
         !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
     }, 'fecha invalida');
     
-    $.validator.addMethod('password', function(value, element, parameter) {
+    $.validator.addMethod('passwordX', function(value, element, parameter) {
         return this.optional(element) || $('#password').val() == value;
     }, 'invalido');
     
@@ -270,7 +270,7 @@ $(document).ready(function() {
             confirmPassword: {
                 required: true,
                 whitespaces: true,
-                password: true
+                passwordX: true
             }
         },
         messages: {
@@ -312,7 +312,7 @@ $(document).ready(function() {
             confirmPassword: {
                 required: 'Confirmar contraseña no puede estar vacío.',
                 whitespaces: 'Confirmar contraseña no puede estar vacío.',
-                password: 'Confirmar contraseña no coincide con contraseña.'
+                passwordX: 'Confirmar contraseña no coincide con contraseña.'
             }
         },
         errorElement: 'small',
