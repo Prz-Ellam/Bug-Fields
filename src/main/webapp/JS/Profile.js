@@ -101,7 +101,19 @@ $(document).ready(function() {
         validateInput(validator.element("#dateOfBirth"), this.name); 
     });
     
-    
+    $('#dateOfBirth').on('input', function() { 
+        
+        let diff = Date.now() - Date.parse($(this).val());
+    let age = new Date(diff);
+
+    let outputAge = age.getUTCFullYear() - 1970;
+
+    if(outputAge < 0)
+        outputAge = 0;
+
+    $("#age").val(outputAge);
+        
+    });
 
  
 
