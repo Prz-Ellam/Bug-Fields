@@ -1,27 +1,7 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     background-color:#EFEFEF;
     font-family: "Roboto", sans-serif;
 }
-
-.navbar{
-    background-color: #449342;
-}
-
-.nav-logo {
-    width: 170px;
-}
-
-.login-logo {
-    width: 40px;
-}
-
-
 
 
 .form-label::before {
@@ -116,11 +96,6 @@ body {
 .field-password-requirements {
     font-size: 12px;
     color: black;
-}
-
-
-.main{
-    margin-top: 100px;
 }
 
 #photo {

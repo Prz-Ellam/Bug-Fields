@@ -4,18 +4,54 @@
  */
 package DAO;
 
+import Connections.DBConnection;
+import DTO.PostDTO;
+import DTO.UserDTO;
 import Interfaces.GenericDAO;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
  *
  * @author eliam
  */
-public class PostDAO implements GenericDAO {
+public class PostDAO implements GenericDAO<PostDTO> {
 
     @Override
-    public int create(Object dto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int create(PostDTO post) {
+        
+        Connection connection = null;
+        
+        try {
+            
+            connection = DBConnection.getConnection();
+
+            CallableStatement statement = connection.prepareCall("CALL sp_AddPost(?,?,?)");
+            statement.setString(1, post.getTitle());
+            statement.setString(2, post.getDescription());
+            statement.setObject(3, post.getUserID());
+        
+            return statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return 0;
+          
     }
 
     @Override
@@ -28,10 +64,10 @@ public class PostDAO implements GenericDAO {
     }
 
     @Override
-    public int update(Object dto) {
+    public int update(PostDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public int delete(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

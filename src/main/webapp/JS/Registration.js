@@ -1,3 +1,5 @@
+import RegistrationView from "./Views/RegistrationView.js";
+
 var date = new Date();
 var dateFormat = date.getFullYear() + '-' + 
 String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
@@ -9,9 +11,11 @@ $.ajax({
     dataType: "json",
     url: "VerifySession"
 }).done(function(data) {
-    if (data.session) {
+
+    if (data.result) {
         window.location.href = "index.html";
     }
+
 }).fail(function(jqXHR, state) {
     console.log("Ups...algo salio mal: " + state);
 });
@@ -168,7 +172,16 @@ $(document).ready(function() {
             url: "RegistrationController"
         }).done(function(data) {
             if (data.signin) {
-                window.location.href = "index.html";
+
+                Swal.fire(
+                    'Good job!',
+                    'You clicked the button!',
+                    'success'
+                  );
+
+
+
+                //window.location.href = "index.html";
             }
             else {
                 alert('No se pudo registrar');

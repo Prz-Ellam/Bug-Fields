@@ -70,21 +70,21 @@ DELIMITER ;
 
 
 
-/*
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_AddPost;
 
 CREATE PROCEDURE sp_AddPost(
 	_title 					VARCHAR(50),
-	_description 			VARCHAR(500),
+	_description 			VARCHAR(255),
 	_user_id 				INT)
 BEGIN
 
 	INSERT INTO posts(title, description, user_id)
     VALUES(_title, _description, _user_id);
 
-END $$
+END$$
 
 DELIMITER ;
 

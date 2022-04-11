@@ -38,10 +38,10 @@ public class VerifySession extends HttpServlet {
         
         HttpSession session = request.getSession();
         if (session.getAttribute("user") == null) {
-            result.put("session", false);
+            result.put("status", false);
         }
         else {
-            result.put("session", true);
+            result.put("status", true);
         }
         
         Gson gson = new Gson();
@@ -52,6 +52,7 @@ public class VerifySession extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println(json);
         out.flush();
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
