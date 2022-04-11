@@ -12,7 +12,7 @@ $.ajax({
     url: "VerifySession"
 }).done(function(data) {
 
-    if (data.result) {
+    if (data.status) {
         window.location.href = "index.html";
     }
 
@@ -23,11 +23,12 @@ $.ajax({
 $(document).ready(function() {
 
     let formID = "#signup-form";
-    var validator = new SignupValidator(formID, dateFormat);
+    let inputClass = ".signup-input";
+    var validator = new SignupValidator(formID, inputClass, dateFormat);
 
     $(".signup-input").blur(function() {
 
-        validator.validateInput(this, validator.getInputStatus(this));
+        validator.validateInput(this);
         
     });
 
@@ -37,28 +38,75 @@ $(document).ready(function() {
 
     });
 
+    function validatePasswordRequirements() {
+        let password = $("#password").val();
+
+        if (/([A-Z])/.test(password)) {
+            $('#field-password-upper').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-upper').removeClass('text-success').addClass('text-danger');
+        }
+
+        if (/([a-z])/.test(password)) {
+            $('#field-password-lower').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-lower').removeClass('text-success').addClass('text-danger');
+        }
+
+        if (/([0-9])/.test(password)) {
+            $('#field-password-number').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-number').removeClass('text-success').addClass('text-danger');
+        }
+
+        if (/[.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"…]/.test(password)) {
+            $('#field-password-symbol').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-symbol').removeClass('text-success').addClass('text-danger');
+        }
+
+        if (password.length > 7) {
+            $('#field-password-length').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+            $('#field-password-length').removeClass('text-success').addClass('text-danger');
+        }
+    }
+
+    $('#password').on('input', function() {
+
+        validatePasswordRequirements();
+
+    });
+
     $(formID).submit(function(e) {
         
         e.preventDefault();
 
-        if($('#register-form').valid() === false) {
-            let validator = $(formID).validate();
-            validateInput(validator.element("#firstName"), 'firstName');
-            validateInput(validator.element("#lastName"), 'lastName');
-            validateInput(validator.element("#dateOfBirth"), 'dateOfBirth');
-            validateInput(validator.element("#email"), 'email');
-            validateInput(validator.element("#username"), 'username');
-            validateInput(validator.element("#password"), 'password');
+        if($(formID).valid() === false) {
+            validator.validateInput($("#firstName"));
+            validator.validateInput($("#lastName"));
+            validator.validateInput($("#dateOfBirth"));
+            validator.validateInput($("#email"));
+            validator.validateInput($("#username"));
+            validator.validateInput($("#password"));
             validatePasswordRequirements();
-            validateInput(validator.element("#confirmPassword"), 'confirmPassword');
+            validator.validateInput($("#confirmPassword"));
             return;
         }
         
         $.ajax({
-            data: $(this).serialize(),
+            data: new FormData(this),
             type: "POST",
             dataType: "json",
-            url: "RegistrationController"
+            url: "RegistrationController",
+            cache: false,
+            contentType: false,
+            processData: false
         }).done(function(data) {
             if (data.signin) {
 
@@ -66,10 +114,7 @@ $(document).ready(function() {
                     'Good job!',
                     'You clicked the button!',
                     'success'
-                  );
-
-
-
+                );
                 //window.location.href = "index.html";
             }
             else {

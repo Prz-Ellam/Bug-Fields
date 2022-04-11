@@ -38,7 +38,7 @@ import javax.validation.ValidatorFactory;
  * @author eliam
  */
 @WebServlet(name = "RegistrationController", urlPatterns = {"/RegistrationController"})
-//@MultipartConfig(maxFileSize = 1000*1000 * 5,maxRequestSize = 1000 * 1000 * 25, fileSizeThreshold = 1000 * 1000)
+//@MultipartConfig(maxFileSize = 1000*1000 * 5, maxRequestSize = 1000 * 1000 * 25, fileSizeThreshold = 1000 * 1000)
 public class RegistrationController extends HttpServlet {
 
     /**
@@ -61,7 +61,7 @@ public class RegistrationController extends HttpServlet {
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String photo = "Ejemeplo";
+        Part photo = request.getPart("photo");
         
         UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password, photo);
         

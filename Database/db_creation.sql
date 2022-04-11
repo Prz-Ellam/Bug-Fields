@@ -72,4 +72,5 @@ DROP TABLE categories;
 DROP TABLE posts_categories;
 
 SELECT*FROM users;
+SELECT*FROM posts;
 */

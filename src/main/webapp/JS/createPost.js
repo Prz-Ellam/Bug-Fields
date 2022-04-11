@@ -26,7 +26,7 @@ $(document).ready(function() {
     //FUNCIONES PARA VALIDAR
     $(".post-input").blur(function() {
 
-        validator.validateInput(this, validator.getInputStatus(this));
+        validator.validateInput(this);
         
     });
 

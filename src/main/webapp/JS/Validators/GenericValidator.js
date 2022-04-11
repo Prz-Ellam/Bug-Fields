@@ -6,9 +6,9 @@ export default class GenericValidator {
         
     }
 
-    validateInput(input, state) {
-        
-        if (state) {
+    validateInput(input) {
+
+        if (this.getInputStatus(input)) {
             $(input).addClass("is-valid").removeClass("is-invalid");
         }
         else {

@@ -14,6 +14,10 @@ public class PostDTO {
     private String description;
     private int userID;
     
+    public PostDTO() {
+        
+    }
+    
     public PostDTO(String title, String description, int userID) {
         this.title = title;
         this.description = description;

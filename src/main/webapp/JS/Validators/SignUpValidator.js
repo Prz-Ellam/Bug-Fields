@@ -65,7 +65,7 @@ export default class SignUpValidator extends GenericValidator {
                 photo: {
                     required: true
                 },
-                firstName:{
+                "first-name": {
                     required: true,
                     whitespaces: true,
                     alphas: true
@@ -107,7 +107,7 @@ export default class SignUpValidator extends GenericValidator {
                 photo: {
                     required: 'La foto de perfil no puede estar vacía.'
                 },
-                firstName:{
+                "first-name": {
                     required: 'El nombre no puede estar vacío.',
                     whitespaces: 'El nombre no puede estar vacío.',
                     alphas: 'El nombre no es válido.'
