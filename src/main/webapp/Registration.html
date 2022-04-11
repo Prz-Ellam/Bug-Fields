@@ -59,7 +59,7 @@
         <div class="container main">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-7">
-                    <form class="card px-5 py-5" action="RegistrationController" method="post" id="register-form" novalidate enctype="multipart/form-data">
+                    <form class="card px-5 py-5" action="RegistrationController" method="post" id="signup-form" novalidate enctype="multipart/form-data">
 
                         <div class="mb-4">
                             <h1 class="form-title text-center">Registrarte</h1>
@@ -77,32 +77,32 @@
 
                         <div class="form-group mb-4">
                             <label class="form-label" for="firstName">Nombre(s):</label>
-                            <input type="text" class="form-control firstName shadow-none" id="firstName" name="firstName" autocomplete="off">
+                            <input type="text" class="form-control firstName shadow-none signup-input" id="firstName" name="firstName" autocomplete="off">
                         </div>
 
                         <div class="form-group mb-4">
                             <label class="form-label" for="lastName">Apellidos:</label>
-                            <input type="text" class="form-control lastName shadow-none" id="lastName" name="lastName" autocomplete="off">
+                            <input type="text" class="form-control lastName shadow-none signup-input" id="lastName" name="lastName" autocomplete="off">
                         </div>
 
                         <div class="form-group mb-4">
                             <label class="form-label" for="dateOfBirth">Fecha de nacimiento:</label>
-                            <input type="date" class="form-control dateOfBirth shadow-none" name="dateOfBirth" id="dateOfBirth">
+                            <input type="date" class="form-control dateOfBirth shadow-none signup-input" name="dateOfBirth" id="dateOfBirth">
                         </div>
 
                         <div class="form-group mb-4">
                             <label class="form-label" for="email">Correo electrónico:</label>
-                            <input type="text"class="form-control email shadow-none" name="email" id="email" placeholder="example@email.com">
+                            <input type="text"class="form-control email shadow-none signup-input" name="email" id="email" placeholder="example@email.com">
                         </div>
 
                         <div class="form-group mb-4">
                             <label class="form-label" for="username">Nombre de usuario:</label>
-                            <input type="text" class="form-control username shadow-none" name="username" id="username" name="username" autocomplete="off">
+                            <input type="text" class="form-control username shadow-none signup-input" name="username" id="username" name="username" autocomplete="off">
                         </div>
 
                         <div class="form-group mb-4">
                             <label class="form-label" for="password">Contraseña:</label>
-                            <input type="password" class="form-control password shadow-none" name="password" id="password" placeholder="Debe contener mínimo 8 caracteres">
+                            <input type="password" class="form-control password shadow-none signup-input" name="password" id="password" placeholder="Debe contener mínimo 8 caracteres">
                             
                             <ul class="password-requirements">
                                 <li class="field-password-requirements" id="field-password-length">Debe contener mínimo 8 caracteres</li>
@@ -115,7 +115,7 @@
 
                         <div class="form-group mb-4">
                             <label class="form-label" for="confirm-password">Confirmar contraseña:</label>
-                            <input type="password" class="form-control confirmPassword shadow-none" name="confirmPassword" id="confirmPassword">
+                            <input type="password" class="form-control confirmPassword shadow-none signup-input" name="confirmPassword" id="confirmPassword">
                         </div>
 
                         <div class="mb-3 mt-3">

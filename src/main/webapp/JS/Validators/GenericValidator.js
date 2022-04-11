@@ -1,6 +1,12 @@
-export default class GenericView {
+export default class GenericValidator {
 
-    static validateInput(input, state) {
+    constructor(formID) {
+
+        this.formID = formID;
+        
+    }
+
+    validateInput(input, state) {
         
         if (state) {
             $(input).addClass("is-valid").removeClass("is-invalid");
@@ -11,10 +17,17 @@ export default class GenericView {
 
     }
 
-    static focusInput(input) {
+    focusInput(input) {
 
         $(input).removeClass("is-invalid").removeClass("is-valid");
         $(`#${input.name}-error-label`).remove();
+
+    }
+
+    getInputStatus(input) {
+
+        let validator = $(this.formID).validate();
+        return validator.element(input);
 
     }
 

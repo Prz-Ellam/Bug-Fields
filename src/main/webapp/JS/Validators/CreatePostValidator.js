@@ -1,6 +1,11 @@
-export default class CreatePostValidator {
+import GenericValidator from "./GenericValidator.js";
+
+export default class CreatePostValidator extends GenericValidator {
 
     constructor(formID) {
+
+        super(formID);
+        this.formID = formID;
 
         $.validator.addMethod('whitespaces', function(value, element, parameter) {
             return this.optional(element) || !/^\s*$/.test(value);

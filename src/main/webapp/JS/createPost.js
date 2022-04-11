@@ -1,5 +1,4 @@
 import CreatePostValidator from "./Validators/CreatePostValidator.js";
-import GenericValidator from "./Validators/GenericValidator.js";
 
 $.ajax({
     async: false,
@@ -7,30 +6,33 @@ $.ajax({
     dataType: "json",
     url: "VerifySession"
 }).done(function(data) {
+
     if (!data.status) {
         window.location.href = "index.html";
     }
+
 }).fail(function(jqXHR, state) {
+
     console.log("Ups...algo salio mal: " + state);
+
 });
 
 
 $(document).ready(function() {
 
-    var formID = "#create-form";
-    var createPostValidator = new CreatePostValidator(formID);
+    var formID = "#signup-form";
+    var validator = new CreatePostValidator(formID);
 
     //FUNCIONES PARA VALIDAR
     $(".post-input").blur(function() {
 
-        let validator = $(formID).validate();
-        GenericValidator.validateInput(this, validator.element(this));
-
+        validator.validateInput(this, validator.getInputStatus(this));
+        
     });
 
     $(".post-input").focus(function() {
 
-        GenericValidator.focusInput(this);
+        validator.focusInput(this);
 
     });
 
