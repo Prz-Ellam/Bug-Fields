@@ -22,7 +22,7 @@ public class DBConnection {
     private Context ambient = null;
     static private DataSource infoConnection = null;
     
-    private DBConnection() {
+    protected DBConnection() {
         try {
             context = new InitialContext();
             ambient = (Context)context.lookup("java:comp/env");

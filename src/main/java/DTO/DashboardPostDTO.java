@@ -4,40 +4,38 @@
  */
 package DTO;
 
+import com.google.gson.Gson;
+
 /**
  *
  * @author eliam
  */
-public class PostDTO {
-    
+public class DashboardPostDTO {
+
     private int postId;
     private String title;
     private String description;
-    private int userId;
+    private String username;
+    private String creationDate;
     
-    public PostDTO() {
+    public DashboardPostDTO() {
         
     }
     
-    public PostDTO(int postId, String title, String description, int userId) {
+    public DashboardPostDTO(int postId, String title, String description, String username, String creationDate) {
         this.postId = postId;
         this.title = title;
         this.description = description;
-        this.userId = userId;
+        this.username = username;
+        this.creationDate = creationDate;
     }
     
-    public PostDTO(String title, String description, int userId) {
-        this.title = title;
-        this.description = description;
-        this.userId = userId;
-    }
-    
-    public int getPostID() {
+        public int getPostId() {
         return postId;
     }
-    
-    public void setPostID(int postID) {
-        this.postId = postID;
+
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     public String getTitle() {
@@ -55,13 +53,21 @@ public class PostDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    public int getUserID() {
-        return userId;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserID(int userID) {
-        this.userId = userID;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
     
 }

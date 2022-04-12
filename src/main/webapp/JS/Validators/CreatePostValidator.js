@@ -45,5 +45,4 @@ export default class CreatePostValidator extends GenericValidator {
         });
 
     }
-
 }

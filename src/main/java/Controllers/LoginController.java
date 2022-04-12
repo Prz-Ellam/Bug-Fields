@@ -52,7 +52,7 @@ public class LoginController extends HttpServlet {
         else {
             result.put("result", true);
             HttpSession session = request.getSession();
-            session.setAttribute("user", user.getId());
+            session.setAttribute("user", user.getUserId());
         }
         
         Gson gson = new Gson();

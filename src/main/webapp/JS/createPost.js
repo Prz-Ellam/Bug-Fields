@@ -20,7 +20,7 @@ $.ajax({
 
 $(document).ready(function() {
 
-    var formID = "#signup-form";
+    var formID = "#create-post-form";
     var validator = new CreatePostValidator(formID);
 
     //FUNCIONES PARA VALIDAR

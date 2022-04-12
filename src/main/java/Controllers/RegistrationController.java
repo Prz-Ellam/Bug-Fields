@@ -66,10 +66,10 @@ public class RegistrationController extends HttpServlet {
         UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password, "");
         
         UserDAO dao = new UserDAO();
-        int rowsAffected = dao.create(user);
+        boolean rowsAffected = dao.create(user);
         
         HashMap result = new HashMap();
-        if (rowsAffected == 0) {
+        if (rowsAffected) {
             result.put("signin", false);
         }
         else {

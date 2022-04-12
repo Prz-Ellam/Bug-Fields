@@ -31,3 +31,21 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetPosts;
+
+CREATE PROCEDURE sp_GetPosts()
+BEGIN
+
+	SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    FROM posts AS p
+    JOIN users AS u
+    ON p.user_id = u.user_id
+    WHERE u.active <> FALSE AND p.active <> FALSE;
+
+END$$
+
+DELIMITER ;

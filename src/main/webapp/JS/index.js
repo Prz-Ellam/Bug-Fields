@@ -41,6 +41,56 @@ $.ajax({
     console.log("Ups...algo salio mal: " + state);
 });
 
+$.ajax({
+    async: false,
+    type: "GET",
+    dataType: "json",
+    url: "GetPosts"
+}).done(function(data) {
+
+    for (let i = 0; i < data.posts.length; i++) {
+
+        let post = data.posts[i];
+
+        const html = `
+        <section>
+            <div class="container mt-5">
+                <article class="card bg-light m-4 p-4 rounded-3">
+                    
+                    <a href="modifyPost.html?id=${post.postId}" class="card-title" id="${post.postId}">${post.title}</a>
+                    <h6 class="card-subtitle text-muted">${post.username}</h5>
+                    <p class="card-body">Descripción Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis reprehenderit hic commodi eius! Porro tenetur optio, ex nobis quod excepturi debitis dignissimos deleniti quidem? Sit dolor velit quas id perferendis?</p>
+
+                    <div class="btn-group card-link">
+                        <button type="button" class="btn btn-outline-primary p-0">Categoría 1</button>
+                        <button type="button" class="btn btn-outline-primary p-0">Categoría 2</button>
+                        <button type="button" class="btn btn-outline-primary p-0">Categoría 3</button>
+                    </div>
+
+                    <div class="card-text text-right">
+                        <p><small class="text-muted">${post.creationDate}</small></p>
+                    </div>
+
+                    <div class="card-footer m-0 p-2 text-right">
+                        <button class="update btn btn-secondary">Modificar</button>
+                        <button class="delete btn btn-danger">Eliminar</button>
+                    </div>
+
+                </article>
+            </div>
+        </section>
+        `
+
+        $("main").append(html);
+
+    }
+    
+    console.log(data);
+
+}).fail(function(jqXHR, state) {
+    console.log("Ups...algo salio mal: " + state);
+});
+
 $(document).ready(function() {
 
 

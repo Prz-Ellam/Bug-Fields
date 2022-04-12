@@ -12,12 +12,12 @@ import java.util.ArrayList;
  */
 public interface GenericDAO<T> {
     
-    public int create(T dto);
+    public boolean create(T dto);
     
     public ArrayList<T> read();
     
-    public int update(T dto);
+    public boolean update(T dto);
     
-    public int delete(int id);
+    public boolean delete(int id);
     
 }

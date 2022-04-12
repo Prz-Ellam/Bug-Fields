@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  */
 public class UserDTO {
     
-    private int id;
+    private int userId;
     private String name; 
     private String lastName;
     private String dateOfBirth;
@@ -27,9 +27,9 @@ public class UserDTO {
         
     }
 
-    public UserDTO(int id, String name, String lastName, String dateOfBirth, String email, String photo, 
+    public UserDTO(int userId, String name, String lastName, String dateOfBirth, String email, String photo, 
         String username, String password, int age) {
-        this.id = id;
+        this.userId = userId;
         this.name = name;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -56,12 +56,12 @@ public class UserDTO {
         this.photo = photo;
     }
     
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {

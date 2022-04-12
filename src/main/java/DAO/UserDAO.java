@@ -5,9 +5,12 @@
 package DAO;
 
 import Connections.DBConnection;
+import Connections.MainConnection;
+import Connections.SqlParameters;
 import Controllers.RegistrationController;
 import DTO.UserDTO;
 import Interfaces.GenericDAO;
+import com.google.gson.Gson;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,12 +22,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.Types;
+import java.util.HashMap;
 
 /**
  *
  * @author eliam
  */
 public class UserDAO implements GenericDAO<UserDTO> {
+    
+    MainConnection connection = MainConnection.getInstance();
     
     public UserDTO getUser(int id) {
         
@@ -41,7 +48,7 @@ public class UserDAO implements GenericDAO<UserDTO> {
             
             while(result.next()){
                 UserDTO user = new UserDTO();
-                user.setId(result.getInt(1));
+                user.setUserId(result.getInt(1));
                 user.setName(result.getString(2));
                 user.setLastName(result.getString(3));
                 user.setDateOfBirth(result.getString(4));
@@ -88,7 +95,7 @@ public class UserDAO implements GenericDAO<UserDTO> {
             
             while(result.next()){
                 UserDTO user = new UserDTO();
-                user.setId(result.getInt(1));
+                user.setUserId(result.getInt(1));
                 user.setName(result.getString(2));
                 user.setLastName(result.getString(3));
                 user.setDateOfBirth(result.getString(4));
@@ -119,8 +126,8 @@ public class UserDAO implements GenericDAO<UserDTO> {
     }
     
     @Override
-    public int create(UserDTO user) {
-        
+    public boolean create(UserDTO user) {
+
         Connection connection = null;
         
         try {
@@ -136,7 +143,14 @@ public class UserDAO implements GenericDAO<UserDTO> {
             statement.setString(6, user.getUsername());
             statement.setString(7, user.getPassword());
         
-            return statement.executeUpdate();
+            int rowCount = statement.executeUpdate();
+            
+            if (rowCount > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -152,11 +166,12 @@ public class UserDAO implements GenericDAO<UserDTO> {
             }
         }
         
-        return 0;
+        return false;
+
     }
     
     public int usernameExists(String username, int id) {
-        
+
         Connection connection = null;
         
         try {
@@ -198,6 +213,7 @@ public class UserDAO implements GenericDAO<UserDTO> {
         }
         
         return 0;
+
     }
     
     public ArrayList<UserDTO> read() {
@@ -205,12 +221,12 @@ public class UserDAO implements GenericDAO<UserDTO> {
     }
 
     @Override
-    public int update(UserDTO user) {
+    public boolean update(UserDTO user) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public int delete(int id) {
+    public boolean delete(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
