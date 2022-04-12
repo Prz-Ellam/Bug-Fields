@@ -4,28 +4,65 @@ $.ajax({
     dataType: "json",
     url: "VerifySession"
 }).done(function(data) {
-    if (!data.session) {
-        $('.session').append('<a href="Login.html"><label class="text-white pr-2" style="cursor:pointer">Iniciar sesión</label>' +
-                '<img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle">' +
-                '</a>');
+    
+    if (data.status) {
+
+        const html = `
+        <li class="nav-item dropdown">
+            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle">
+                <span class="text-white mr-2">Perfil</span>
+                <img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo img-fluid rounded-circle">
+            </a>
+            <div class="dropdown-menu">
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item" id="close-session">Salir</a>
+            </div>
+        </li>`;
+
+        $(".navbar-nav").append(html);
+
     }
     else {
-        $('.session').append('<div class="dropdown show d-inline col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-right">' +
-                '<a class="btn btn-secondary shadow-none dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                '<img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle">' +
-                '</a>' +
-                '<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">' +
-                '<button class="dropdown-item" id="profile">Perfil</button>' +
-               '<button class="dropdown-item" id="closeSession">Cerrar Sesión</button>' +
-                '</div>' +
-            '</div>');
-       
+
+        const html = `
+        <li class="nav-item">
+            <a href="Login.html" class="nav-link">
+                <span class="text-white mr-2">Iniciar sesión</span>
+                <img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo img-fluid rounded-circle">
+            </a>
+        </li>`;
+
+        $(".navbar-nav").append(html);
+     
     }
+      
 }).fail(function(jqXHR, state) {
     console.log("Ups...algo salio mal: " + state);
 });
 
 $(document).ready(function() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     // Solo letras del alfabeto
     var rgxAlphas = /^[a-zA-Z0-9 \u00C0-\u00FF]+$/;
@@ -80,7 +117,7 @@ $(document).ready(function() {
 
     });
     
-    $(document).on('click', '#closeSession', function(e) {
+    $(document).on('click', '#close-session', function(e) {
         e.preventDefault();
         $.ajax({
             type: "GET",
@@ -97,11 +134,5 @@ $(document).ready(function() {
             console.log("Ups...algo salio mal: " + state);
         });
     });
-    
-    $(document).on('click', '#profile', function(e) {
-        e.preventDefault();
-        window.location.href = "Profile.html";
-    });
-
 
 });

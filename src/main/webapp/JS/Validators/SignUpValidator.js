@@ -70,12 +70,12 @@ export default class SignUpValidator extends GenericValidator {
                     whitespaces: true,
                     alphas: true
                 },
-                lastName: {
+                "last-name": {
                     required: true,
                     whitespaces: true,
                     alphas: true
                 },
-                dateOfBirth: {
+                "date-of-birth": {
                     required: true,
                     whitespaces: true,
                     date: true,
@@ -97,7 +97,7 @@ export default class SignUpValidator extends GenericValidator {
                     whitespaces: true,
                     passwordRequirements: true
                 },
-                confirmPassword: {
+                "confirm-password": {
                     required: true,
                     whitespaces: true,
                     passwordX: true
@@ -112,12 +112,12 @@ export default class SignUpValidator extends GenericValidator {
                     whitespaces: 'El nombre no puede estar vacío.',
                     alphas: 'El nombre no es válido.'
                 },
-                lastName: {
+                "last-name": {
                     required: 'El apellido no puede estar vacío.',
                     whitespaces: 'El apellido no puede estar vacío.',
                     alphas: 'El apellido no es válido.'
                 },
-                dateOfBirth: {
+                "date-of-birth": {
                     required: 'La fecha de nacimiento no puede estar vacía.',
                     whitespaces: 'La fecha de nacimiento no puede estar vacía.',
                     date: 'La fecha de nacimiento no es válida',
@@ -139,7 +139,7 @@ export default class SignUpValidator extends GenericValidator {
                     whitespaces: 'La contraseña no puede estar vacía.',
                     passwordRequirements: 'La contraseña no es válida.'
                 },
-                confirmPassword: {
+                "confirm-password": {
                     required: 'Confirmar contraseña no puede estar vacío.',
                     whitespaces: 'Confirmar contraseña no puede estar vacío.',
                     passwordX: 'Confirmar contraseña no coincide con contraseña.'

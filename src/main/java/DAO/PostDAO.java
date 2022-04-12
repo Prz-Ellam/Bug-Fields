@@ -73,4 +73,49 @@ public class PostDAO implements GenericDAO<PostDTO> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    public PostDTO getPostByID(int id) {
+        
+        
+        Connection connection = null;
+        
+        try {
+            
+            connection = DBConnection.getConnection();
+
+            CallableStatement statement = connection.prepareCall("CALL sp_GetPostByID(?)");
+            statement.setInt(1, id);
+            
+            ResultSet result = statement.executeQuery();
+            
+            while(result.next()){
+                
+                PostDTO post = new PostDTO();
+                post.setPostID(result.getInt(1));
+                post.setTitle(result.getString(2));
+                post.setDescription(result.getString(3));
+                post.setUserID(result.getInt(4));
+                
+                return post;
+                
+            }
+            
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return null;
+        
+    }
+    
 }

@@ -63,7 +63,7 @@ public class RegistrationController extends HttpServlet {
         String password = request.getParameter("password");
         Part photo = request.getPart("photo");
         
-        UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password, photo);
+        UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password, "");
         
         UserDAO dao = new UserDAO();
         int rowsAffected = dao.create(user);

@@ -10,6 +10,7 @@ package DTO;
  */
 public class PostDTO {
     
+    private int postID;
     private String title;
     private String description;
     private int userID;
@@ -18,10 +19,25 @@ public class PostDTO {
         
     }
     
+    public PostDTO(int postID, String title, String description, int userID) {
+        this.postID = postID;
+        this.title = title;
+        this.description = description;
+        this.userID = userID;
+    }
+    
     public PostDTO(String title, String description, int userID) {
         this.title = title;
         this.description = description;
         this.userID = userID;
+    }
+    
+    public int getPostID() {
+        return postID;
+    }
+    
+    public void setPostID(int postID) {
+        this.postID = postID;
     }
 
     public String getTitle() {
@@ -44,7 +60,7 @@ public class PostDTO {
         return userID;
     }
 
-    public void setUserID(int id) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
     

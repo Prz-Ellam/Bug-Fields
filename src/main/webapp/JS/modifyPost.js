@@ -1,3 +1,27 @@
+$.ajax({
+    data: { "id" : new URLSearchParams(window.location.search).get("id") },
+    async: false,
+    type: "GET",
+    dataType: "json",
+    url: "GetPostData"
+}).done(function(data) {
+
+    if (data.status) {
+
+        $("#title").val(data.post.title);
+        $("#description").val(data.post.description);
+
+    }
+    else {
+
+        window.location.href = "index.html";
+        
+    }
+
+}).fail(function(jqXHR, state) {
+    console.log("Ups...algo salio mal: " + state);
+});
+
 $(document).ready(function() {
 
     // Titulo y descripción
