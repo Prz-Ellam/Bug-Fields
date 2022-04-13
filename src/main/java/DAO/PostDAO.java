@@ -115,14 +115,90 @@ public class PostDAO implements GenericDAO<PostDTO> {
     }
 
     @Override
-    public boolean update(PostDTO dto) {
+    public boolean update(PostDTO post) {
+        
+        Connection connection = null;
+        
+        try {
+            connection = DBConnection.getConnection();
+            
+            CallableStatement statement = connection.prepareCall("CALL sp_UpdatePost(?,?,?,?)");
+            statement.setInt(1, post.getPostID());
+            statement.setString(2, post.getTitle());
+            statement.setString(3, post.getDescription());
+            statement.setInt(4, post.getUserID());
+            
+            int rowCount = statement.executeUpdate();
+            
+            if (rowCount > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+            
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
         
         return false;
     }
     
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return false;
+        
+    }
+    
+    public boolean delete(int postId, int userId) {
+        
+        Connection connection = null;
+        
+        try {
+            
+            connection = DBConnection.getConnection();
+            CallableStatement statement = connection.prepareCall("CALL sp_DeletePost(?,?)");
+            statement.setInt(1, postId);
+            statement.setInt(2, userId);
+            
+            int rowCount = statement.executeUpdate();
+            
+            if (rowCount > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+            
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return false;
+        
     }
     
     public PostDTO getUserPostByID(int postId, int userId) {

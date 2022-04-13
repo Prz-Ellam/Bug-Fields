@@ -32,6 +32,11 @@ public class PostDTO {
         this.userId = userId;
     }
     
+    public PostDTO(int postId, int userId) {
+        this.postId = postId;
+        this.userId = userId;
+    }
+    
     public int getPostID() {
         return postId;
     }

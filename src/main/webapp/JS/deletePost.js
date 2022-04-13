@@ -100,7 +100,7 @@ $(document).ready(function(){
     $(".btn-delete-pub").on('click', function() {
         
         $.ajax({
-            data: $(this).serialize(),
+            data: "post-id=" + new URLSearchParams(window.location.search).get("id"),
             method: "POST",
             dataType: "json",
             url: "DeletePostController"

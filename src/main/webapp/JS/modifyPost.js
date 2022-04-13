@@ -109,7 +109,7 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            data: $(this).serialize(),
+            data: "post-id=" + new URLSearchParams(window.location.search).get("id") + "&" + $(this).serialize(),
             method: "POST",
             dataType: "json",
             url: "UpdatePostController"

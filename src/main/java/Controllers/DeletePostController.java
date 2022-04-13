@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package Controllers;
 
+import DAO.PostDAO;
+import DTO.PostDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -21,6 +20,32 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "DeletePostController", urlPatterns = {"/DeletePostController"})
 public class DeletePostController extends HttpServlet {
 
+    private HashMap getRequestData(HttpServletRequest request) throws ServletException, IOException  {
+        
+        HashMap result = new HashMap();
+        
+        int postId = Integer.parseInt(request.getParameter("post-id").toString());
+        
+        HttpSession session = request.getSession();
+        Object userObj = session.getAttribute("user");
+        
+        if (userObj == null) {
+            result.put("status", false);
+            return result;
+        }
+        
+        int userId = Integer.parseInt(userObj.toString());
+        
+        PostDAO postDao = new PostDAO();
+        PostDTO post = new PostDTO(postId, userId);
+        
+        boolean daoResult = postDao.delete(postId, userId);
+        result.put("status", daoResult);
+        
+        return result;
+        
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,9 +60,7 @@ public class DeletePostController extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8");
         
-        HashMap result = new HashMap();
-        
-        result.put("Hola", true);
+        HashMap result = getRequestData(request);
         
         Gson gson = new Gson();
         String json = gson.toJson(result);
@@ -47,7 +70,6 @@ public class DeletePostController extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println(json);
         out.flush();
-        
         
     }
 

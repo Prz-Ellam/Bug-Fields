@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -19,6 +20,37 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdatePostController", urlPatterns = {"/UpdatePostController"})
 public class UpdatePostController extends HttpServlet {
 
+    private HashMap getRequestData(HttpServletRequest request) throws ServletException, IOException  {
+        
+        request.setCharacterEncoding("UTF-8");
+        
+        HashMap result = new HashMap();
+        
+        int postId = Integer.parseInt(request.getParameter("post-id").toString());
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        
+        HttpSession session = request.getSession();
+        Object userObj = session.getAttribute("user");
+        
+        if (userObj == null) {
+            result.put("status", false);
+            return result;
+        }
+        
+        int userId = Integer.parseInt(userObj.toString());
+        
+        PostDAO postDao = new PostDAO();
+        PostDTO post = new PostDTO(postId, title, description, userId);
+        
+        boolean daoResult = postDao.update(post);
+        result.put("status", daoResult);
+        
+        return result;
+        
+    }
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,25 +62,9 @@ public class UpdatePostController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        request.setCharacterEncoding("UTF-8");
-        
-        int postId;
-        String title = request.getParameter("title");
-        String description = request.getParameter("description");
-        
-        /*
-        
-        PostDAO postDao = new PostDAO();
-        PostDTO post = new PostDTO();
-        postDao.update(post);
-        
-        */
-        
-        HashMap result = new HashMap();
-        result.put("title", title);
-        result.put("description", description);
-        
+            
+        HashMap result = getRequestData(request);
+       
         Gson gson = new Gson();
         String json = gson.toJson(result);
             
@@ -57,7 +73,6 @@ public class UpdatePostController extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println(json);
         out.flush();
-        
         
     }
 

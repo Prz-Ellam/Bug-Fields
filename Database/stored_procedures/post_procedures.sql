@@ -36,6 +36,52 @@ DELIMITER ;
 
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_UpdatePost;
+
+CREATE PROCEDURE sp_UpdatePost(
+	_post_id				INT,
+	_title 					VARCHAR(50),
+	_description 			VARCHAR(255),
+	_user_id 				INT)
+BEGIN
+
+	UPDATE posts
+    SET
+    title = IFNULL(_title, title),
+    description = IFNULL(_description, description)
+    WHERE post_id = _post_id AND user_id = _user_id;
+
+END$$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_DeletePost;
+
+CREATE PROCEDURE sp_DeletePost(
+	_post_id				INT,
+    _user_id				INT
+)
+BEGIN
+
+	UPDATE posts
+    SET
+    active = FALSE
+    WHERE post_id = _post_id AND user_id = _user_id;
+
+END$$
+
+DELIMITER ;
+
+
+
+
+
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_GetPosts;
 
 CREATE PROCEDURE sp_GetPosts()
