@@ -112,11 +112,13 @@ $(document).ready(function() {
         }).done(function(data) {
             if (data.signin) {
 
-                Swal.fire(
-                    'Good job!',
-                    '¡Bienvenido a Bug Fields!',
-                    'success'
-                ).then(function () {
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Bienvenido a Bug Fields!",
+                    confirmButtonText: "Comencemos",
+                    confirmButtonColor: "#449342",
+                    background: "#EFEFEF"
+                }).then(function () {
                     window.location.href = "index.html";
                 });
 

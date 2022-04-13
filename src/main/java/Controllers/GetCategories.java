@@ -1,24 +1,28 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package Controllers;
 
-import DAO.PostDAO;
-import DTO.PostDTO;
+import DAO.CategoryDAO;
+import DTO.CategoryDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author eliam
  */
-@WebServlet(name = "GetPostData", urlPatterns = {"/GetPostData"})
-public class GetPostData extends HttpServlet {
+@WebServlet(name = "GetCategories", urlPatterns = {"/GetCategories"})
+public class GetCategories extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,38 +36,22 @@ public class GetPostData extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        request.setCharacterEncoding("UTF-8");
-        
         HashMap result = new HashMap();
         
-        Object idObj = request.getParameter("id");
+        CategoryDAO categoryDao = new CategoryDAO();
+        ArrayList<CategoryDTO> categories = categoryDao.read();
         
-        HttpSession session = request.getSession();
-        Object userObj = session.getAttribute("user");
-        
-        if ((idObj == null || idObj == "") && (userObj == null || userObj == "")) {
+        if (categories == null) {
             result.put("status", false);
         }
-        else{
-            
-            int id = Integer.parseInt(idObj.toString());
-            int userId = Integer.parseInt(userObj.toString());
-            
-            PostDAO dao = new PostDAO();
-            PostDTO post = dao.getUserPostByID(id, userId);
-            
-            if (post == null) {
-                result.put("status", false);
-            }
-            else {
-                result.put("status", true);
-                result.put("post", post);
-            }
+        else {
+            result.put("categories", categories);
+            result.put("status", true);
         }
         
         Gson gson = new Gson();
         String json = gson.toJson(result);
-        
+            
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();

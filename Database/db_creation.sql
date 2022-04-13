@@ -58,7 +58,6 @@ ALTER TABLE posts_categories
 
 -- Drop foreign keys
 /*
-DROP DATABASE bug_fields;
 ALTER TABLE posts
 	DROP CONSTRAINT posts_fk_users;
     
@@ -73,4 +72,27 @@ DROP TABLE posts_categories;
 
 SELECT*FROM users;
 SELECT*FROM posts;
+SELECT*FROM categories;
 */
+
+
+
+
+
+INSERT INTO categories(name)
+VALUES('Desarrollo Web'), ('Desarrollo Móvil'), ('Bases de datos'), ('Videojuegos'), ('Big Data'),
+('DevOps'), ('Estructura de Datos'), ('Ciberseguridad'), ('Machine learning');
+
+
+
+
+
+
+
+
+
+
+
+
+
+

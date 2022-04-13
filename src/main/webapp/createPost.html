@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
     <!-- CSS -->
-    <link href="CSS/Navbar.css">
+    <link href="CSS/Navbar.css"  rel="stylesheet">
     <link rel="stylesheet" href="CSS/abcPost.css">
     <!--TagsInput-->
     <!--link
@@ -50,14 +50,8 @@
                 </div>
             </form>
         
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="Login.html" class="nav-link">
-                        <span class="text-white mr-2">Iniciar sesión</span>
-                        <img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo img-fluid rounded-circle">
-                    </a>
-                </li>
-            </ul>
+            <ul class="navbar-nav"></ul>
+            
         </div>
 
     </nav>
@@ -185,16 +179,7 @@
     <script src="https://unpkg.com/@yaireo/tagify@3.1.0/dist/tagify.polyfills.min.js"></script>
     <script>
             // The DOM element you wish to replace with Tagify
-            var input = document.querySelector('input[name=tags]');
             
-            // initialize Tagify on the above input node reference
-            new Tagify(input,{
-                whitelist        : ['jQuery', 'tags', 'plugin', 'Javascript'],      
-                dropdown : {
-                enabled: 1, // suggest tags after a single character input
-                classname : 'extra-properties', // custom class for the suggestions dropdown
-                },
-            });
     </script>
 </body>
 </html>

@@ -1,4 +1,6 @@
 body {
+    background-color:#EFEFEF;
+    font-family: "Roboto", sans-serif;
     padding-top: 100px;
 }
 
@@ -16,6 +18,7 @@ input[type="search"] {
 }
 
 .login-logo {
-    width: 40px;
-    overflow: hidden;
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
 }

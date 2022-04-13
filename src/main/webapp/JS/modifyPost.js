@@ -1,5 +1,37 @@
 $.ajax({
-    data: { "id" : new URLSearchParams(window.location.search).get("id") },
+    async: false,
+    type: "GET",
+    dataType: "json",
+    url: "VerifySession"
+}).done(function(data) {
+
+    if (!data.status) {
+        window.location.href = "index.html";
+    }
+
+    const html = `
+        <li class="nav-item dropdown">
+            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle">
+                <span class="text-white mr-2">${data.user.username}</span>
+                <img src=${data.user.photo} alt="logo" class="login-logo img-fluid rounded-circle">
+            </a>
+            <div class="dropdown-menu">
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item" id="close-session">Salir</a>
+            </div>
+        </li>`;
+
+    $(".navbar-nav").append(html);
+
+}).fail(function(jqXHR, state) {
+
+    console.log("Ups...algo salio mal: " + state);
+
+});
+
+$.ajax({
+    data: { "id" : new URLSearchParams(window.location.search).get("id"), },
     async: false,
     type: "GET",
     dataType: "json",
@@ -68,12 +100,26 @@ $(document).ready(function() {
 
     $("#modify-form").submit(function(e){
 
+        e.preventDefault();
+
         if($('#modify-form').valid() === false) {
             $("#title").addClass("is-invalid").removeClass("is-valid");
             $("#description").addClass("is-invalid").removeClass("is-valid");
-            e.preventDefault();
             return;
         }
+
+        $.ajax({
+            data: $(this).serialize(),
+            method: "POST",
+            dataType: "json",
+            url: "UpdatePostController"
+        }).done(function(data) {
+            if (data.status){
+                console.log("Good");
+            }
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
 
     });
 
@@ -139,6 +185,24 @@ $(document).ready(function() {
         errorPlacement: function(error, element) {
             error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
         }
+    });
+
+    $(document).on('click', '#close-session', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "CloseSession"
+        }).done(function(data) {
+            if (data.result) {
+                window.location.href = "index.html";
+            }
+            else {
+                alert('No se pudo cerrar la sesión');
+            }
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
     });
 
 });

@@ -178,9 +178,6 @@ $(document).ready(function() {
     
     $('#profile-form').validate({
         rules: {
-            photo: {
-                required: true
-            },
             firstName:{
                 required: true,
                 whitespaces: true,
@@ -210,9 +207,6 @@ $(document).ready(function() {
             }
         },
         messages: {
-            photo: {
-                required: 'La foto de perfil no puede estar vacía.'
-            },
             firstName:{
                 required: 'El nombre no puede estar vacío.',
                 whitespaces: 'El nombre no puede estar vacío.',

@@ -1,14 +1,15 @@
 DELIMITER $$
-DROP PROCEDURE IF EXISTS sp_GetPostByID;
+DROP PROCEDURE IF EXISTS sp_GetUserPostByID;
 
-CREATE PROCEDURE sp_GetPostByID(
-	_post_id 				INT
+CREATE PROCEDURE sp_GetUserPostByID(
+	_post_id 				INT,
+	_user_id				INT
 )
 BEGIN
 
 	SELECT post_id, title, description, user_id
     FROM posts
-    WHERE post_id = _post_id;
+    WHERE post_id = _post_id AND user_id = _user_id;
 
 END$$
 
@@ -50,3 +51,30 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetPostsByDate(
+	_start					DATE,
+    _end					DATE
+)
+BEGIN
+
+ELECT P.title, P.description, P.creation_date, U.username
+		FROM posts AS P
+		JOIN users AS U
+		ON P.user_id = U.user_id
+		WHERE P.active = TRUE AND P.creation_date BETWEEN 20220313 AND 20220316
+		ORDER BY P.creation_date;
+
+
+END$$
+
+DELIMITER ;
+
+
+
+

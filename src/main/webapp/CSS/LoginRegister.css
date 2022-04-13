@@ -3,20 +3,9 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
-
 .form-label::before {
     content: "* ";
     color:rgb(222, 79, 84);
-}
-
-.input {
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    width: 100%;
-    outline: none;
-    border-radius: 5px;
-    padding: 4px;
 }
 
 .input:focus {

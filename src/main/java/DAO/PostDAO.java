@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Connections.DBConnection;
@@ -48,6 +44,7 @@ public class PostDAO implements GenericDAO<PostDTO> {
             else {
                 return false;
             }
+            
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -128,7 +125,7 @@ public class PostDAO implements GenericDAO<PostDTO> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    public PostDTO getPostByID(int id) {
+    public PostDTO getUserPostByID(int postId, int userId) {
 
         Connection connection = null;
         
@@ -136,8 +133,9 @@ public class PostDAO implements GenericDAO<PostDTO> {
             
             connection = DBConnection.getConnection();
 
-            CallableStatement statement = connection.prepareCall("CALL sp_GetPostByID(?)");
-            statement.setInt(1, id);
+            CallableStatement statement = connection.prepareCall("CALL sp_GetUserPostByID(?,?)");
+            statement.setInt(1, postId);
+            statement.setInt(2, userId);
             
             ResultSet result = statement.executeQuery();
             

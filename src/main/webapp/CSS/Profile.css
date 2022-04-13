@@ -3,23 +3,6 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
-/*#navbar {
-    background-color: #449342;
-    height: 64px;
-}*/
-
-.navbar{
-    background-color: #449342;
-}
-
-.nav-logo {
-    width: 170px;
-}
-
-.login-logo {
-    width: 40px;
-}
-
 .github {
     color: rgb(224, 224, 224);
     font-size: 48px;

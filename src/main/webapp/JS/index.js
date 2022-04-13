@@ -27,10 +27,7 @@ $.ajax({
 
         const html = `
         <li class="nav-item">
-            <a href="Login.html" class="nav-link">
-                <span class="text-white mr-2">Iniciar sesión</span>
-                <img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo img-fluid rounded-circle">
-            </a>
+            <a href="Login.html" class="nav-link text-white">Iniciar sesión</a>
         </li>`;
 
         $(".navbar-nav").append(html);
@@ -85,8 +82,6 @@ $.ajax({
 
     }
     
-    console.log(data);
-
 }).fail(function(jqXHR, state) {
     console.log("Ups...algo salio mal: " + state);
 });
