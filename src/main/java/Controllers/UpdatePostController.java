@@ -22,8 +22,6 @@ public class UpdatePostController extends HttpServlet {
 
     private HashMap getRequestData(HttpServletRequest request) throws ServletException, IOException  {
         
-        request.setCharacterEncoding("UTF-8");
-        
         HashMap result = new HashMap();
         
         int postId = Integer.parseInt(request.getParameter("post-id").toString());
@@ -62,6 +60,8 @@ public class UpdatePostController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        request.setCharacterEncoding("UTF-8");
             
         HashMap result = getRequestData(request);
        

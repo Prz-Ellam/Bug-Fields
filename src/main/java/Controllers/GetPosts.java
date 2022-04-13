@@ -38,14 +38,33 @@ public class GetPosts extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8");
         
+        Object pageObj = request.getParameter("page");
+        int page;
+        
+        if (pageObj == null || pageObj == "") {
+            page = 1;
+        }
+        else {
+            page = Integer.parseInt(request.getParameter("page").toString());
+        }
+        
+        int offset = (page - 1) * 10;
+        
+        if (offset < 0) {
+            offset = 0;
+        }
+        
         PostDAO postDao = new PostDAO();
         
-        ArrayList<DashboardPostDTO> posts = postDao.read();
+        ArrayList<DashboardPostDTO> posts = postDao.read(offset);
+        
+        int pagesCount = postDao.getActivePostsCount();
         
         HashMap result = new HashMap();
         
 
         result.put("posts",posts);
+        result.put("pagesCount", pagesCount);
         
         Gson gson = new Gson();
         String json = gson.toJson(result);

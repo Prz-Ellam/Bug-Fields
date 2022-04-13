@@ -79,12 +79,14 @@ DELIMITER ;
 
 
 
-
+CALL sp_GetPosts();
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_GetPosts;
 
-CREATE PROCEDURE sp_GetPosts()
+CREATE PROCEDURE sp_GetPosts(
+	_offset					INT
+)
 BEGIN
 
 	SELECT p.post_id, p.title, p.description, u.username, p.creation_date
@@ -92,11 +94,17 @@ BEGIN
     JOIN users AS u
     ON p.user_id = u.user_id
     WHERE u.active <> FALSE AND p.active <> FALSE
-    ORDER BY creation_date DESC;
+    ORDER BY creation_date DESC
+    LIMIT 10
+    OFFSET _offset;
 
 END$$
 
 DELIMITER ;
+
+
+SELECT COUNT(*) FROM posts WHERE active <> FALSE;
+SELECT CEILING( (SELECT COUNT(*) FROM posts WHERE active <> FALSE) / 10);
 
 
 
@@ -109,7 +117,7 @@ DROP PROCEDURE IF EXISTS sp_GetPostsByDate(
 )
 BEGIN
 
-ELECT P.title, P.description, P.creation_date, U.username
+SELECT P.title, P.description, P.creation_date, U.username
 		FROM posts AS P
 		JOIN users AS U
 		ON P.user_id = U.user_id
@@ -123,4 +131,69 @@ DELIMITER ;
 
 
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_ReadLikePosts;
+
+CREATE PROCEDURE sp_ReadLikePosts(
+	_filter					VARCHAR(100)
+)
+BEGIN
+
+    SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    FROM posts AS p
+    JOIN users AS u
+    ON p.user_id = u.user_id
+    WHERE p.title LIKE CONCAT("%", _filter, "%") 
+    OR p.description LIKE CONCAT("%", _filter, "%")
+    AND p.active = TRUE;
+
+END$$
+
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetPostsByDate;
+	
+CREATE PROCEDURE sp_GetPostsByDate(
+	_start					DATE,
+	_end					DATE
+)
+BEGIN
+
+	IF _start IS NOT NULL AND _end IS NOT NULL THEN
+    
+    SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    FROM posts AS p
+    JOIN users AS u
+    ON p.user_id = u.user_id;
+    
+    ELSEIF _start IS NOT NULL THEN
+    
+    SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    FROM posts AS p
+    JOIN users AS u
+    ON p.user_id = u.user_id;
+    
+    ELSEIF _end IS NOT NULL THEN
+    
+    SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    FROM posts AS p
+    JOIN users AS u
+    ON p.user_id = u.user_id;
+    
+    ELSE THEN
+    
+    SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    FROM posts AS p
+    JOIN users AS u
+    ON p.user_id = u.user_id;
+    
+    END IF
+
+END$$
+
+DELIMITER ;
 

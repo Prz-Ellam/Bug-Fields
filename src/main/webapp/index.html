@@ -30,9 +30,9 @@
 
     <div class="collapse navbar-collapse justify-content-between" id="navbar-content">
 
-        <form class="form-inline mx-auto w-50">
+        <form class="form-inline mx-auto w-50" id="search-box" method="GET" action="AdvancedSearch.html">
             <div class="input-group w-100">
-                <input class="form-control shadow-none" type="search" placeholder="Buscar publicaciones" aria-label="Search">
+                <input class="form-control shadow-none" type="search" name="search-query" id="searching" placeholder="Buscar publicaciones" aria-label="Search">
                 <div class="input-group-append">
                     <button type="submit" class="btn bg-white shadow-none"><i class="fas fa-search text-secondary"></i></button>
                 </div>
@@ -107,19 +107,19 @@
     </main>
 
 
-    <nav aria-label="Page navigation example">
+    <div aria-label="Page navigation example">
         <ul class="pagination justify-content-center mt-5">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Previous</a>
+          <!--li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Anterior</a>
           </li>
-          <!--li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
           <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li-->
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
           <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
+            <a class="page-link" href="#">Siguiente</a>
+          </li-->
         </ul>
-    </nav>
+    </div>
 
 
     <!-- Footer -->

@@ -39,6 +39,7 @@ $.ajax({
 });
 
 $.ajax({
+    data: { "page" : new URLSearchParams(window.location.search).get("page") },
     async: false,
     type: "GET",
     dataType: "json",
@@ -81,6 +82,45 @@ $.ajax({
         $("main").append(html);
 
     }
+
+
+    let page = new URLSearchParams(window.location.search).get("page");
+    if (page === null) {
+        page = 0;
+    }
+
+    previousPage = page - 1;
+    nextPage = parseInt(page) + 1;
+
+    if (previousPage > 0) {
+    
+    $("ul.pagination").append(`<li class="page-item">
+    <a class="page-link" href="?page=${page-1}" tabindex="-1">Anterior</a>
+    </li>`);
+
+    }
+    else {
+        $("ul.pagination").append(`<li class="page-item disabled">
+        <a class="page-link" tabindex="-1">Anterior</a>
+        </li>`);
+    }
+
+    if (nextPage > data.pagesCount) {
+
+        $("ul.pagination").append(`<li class="page-item disabled">
+        <a class="page-link">Siguiente</a>
+      </li>`);
+
+    }
+    else {
+
+        $("ul.pagination").append(`<li class="page-item">
+        <a class="page-link" href="?page=${parseInt(page)+1}">Siguiente</a>
+      </li>`);
+
+    }
+
+
     
 }).fail(function(jqXHR, state) {
     console.log("Ups...algo salio mal: " + state);
@@ -136,30 +176,24 @@ $(document).ready(function() {
 
 
     // FORM BUSQUEDA
+    $("#search-box").submit(function(e) {
 
-    function validateSearching(){
-
-        if($("#search-input").val() === ""){
-            return 1;      
-        }else if(!$("#search-input").val().match(rgxAlphas) || $("#search-input").val().match(rgxWhitespaces)){
-            return 1;
-        }else
-            return 0;
-
-    }
-
-    $("#SearchForm").submit(function(e){
-
-        let search = $("#search-input").val();
-
-        let result = 0;
-        result += validateSearching(search);
-
-        if(result > 0){
-            e.preventDefault();
-            alert("Búsqueda no válida.");
+        if ($("#searching").val() === "") {
+             e.preventDefault();
+            return;
         }
-
+/*
+        $.ajax({
+            data: $(this).serialize(),
+            type: "POST",
+            dataType: "json",
+            url: "SearchBoxController"
+        }).done(function(data) {
+            alert(data.posts);
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
+*/
     });
     
     $(document).on('click', '#close-session', function(e) {

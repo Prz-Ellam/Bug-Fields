@@ -9,6 +9,7 @@ import DTO.UserDTO;
 import Interfaces.GenericDAO;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -63,9 +64,14 @@ public class PostDAO implements GenericDAO<PostDTO> {
         return false;
           
     }
-
+    
     @Override
     public ArrayList read() {
+        return null;
+    }
+    
+
+    public ArrayList read(int offset) {
         
         Connection connection = null;
         
@@ -73,7 +79,8 @@ public class PostDAO implements GenericDAO<PostDTO> {
             
             connection = DBConnection.getConnection();
 
-            CallableStatement statement = connection.prepareCall("CALL sp_GetPosts()");
+            CallableStatement statement = connection.prepareCall("CALL sp_GetPosts(?)");
+            statement.setInt(1, offset);
             
             ResultSet result = statement.executeQuery();
             
@@ -108,6 +115,44 @@ public class PostDAO implements GenericDAO<PostDTO> {
         }
         
         return null;
+    }
+    
+    public int getActivePostsCount() {
+        
+        Connection connection = null;
+        
+        try {
+            
+            connection = DBConnection.getConnection();
+
+            PreparedStatement statement = connection.prepareCall("SELECT CEILING( (SELECT COUNT(*) FROM posts WHERE active <> FALSE) / 10) AS Total;");
+            
+            ResultSet result = statement.executeQuery();
+            
+            while(result.next()){
+                
+                return result.getInt(1);
+            }
+            
+            return 0;
+            
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return 0;
+        
     }
     
     public ArrayList readByDate(char type) {
@@ -226,6 +271,50 @@ public class PostDAO implements GenericDAO<PostDTO> {
                 return post;
                 
             }
+            
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return null;
+        
+    }
+    
+    public ArrayList<DashboardPostDTO> readLikePosts(String filter) {
+        
+        Connection connection = null;
+        
+        try {
+            
+            connection = DBConnection.getConnection();
+            CallableStatement statement = connection.prepareCall("CALL sp_ReadLikePosts(?)");
+            statement.setString(1, filter);
+            
+            ResultSet result = statement.executeQuery();
+            
+            ArrayList<DashboardPostDTO> posts = new ArrayList<DashboardPostDTO>();
+            while (result.next()) {
+                DashboardPostDTO post = new DashboardPostDTO();
+                post.setPostId(result.getInt(1));
+                post.setTitle(result.getString(2));
+                post.setDescription(result.getString(3));
+                post.setUsername(result.getString(4));
+                post.setCreationDate(result.getString(5)); 
+                posts.add(post);       
+            }
+            
+            return posts;
             
         }
         catch (SQLException ex) {
