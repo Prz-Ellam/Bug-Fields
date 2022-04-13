@@ -73,7 +73,31 @@ DELIMITER ;
 
 
 
+DELIMITER $$
+USE `bug_fields`$$
+CREATE PROCEDURE `sp_UpdateUser` (
+	_user_id				INT,
+	_name 					VARCHAR(50), 
+	_last_name 				VARCHAR(50), 
+	_date_of_birth 			DATE, 
+	_email 					VARCHAR(50), 
+    _photo                  VARCHAR(100),
+	_username				VARCHAR(20))
+BEGIN
 
+    UPDATE users
+    SET
+    name = IFNULL(_name, name),
+    last_name = IFNULL(_last_name, last_name),
+    date_of_birth = IFNULL(_date_of_birth, date_of_birth),
+    email = IFNULL(_email, email),
+    photo = IFNULL(_photo, photo),
+    username = IFNULL(_username, username)
+    WHERE user_id = _user_id;
+
+END$$
+
+DELIMITER ;
 
 
 

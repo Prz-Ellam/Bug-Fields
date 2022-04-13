@@ -39,7 +39,6 @@ public class InitProfileController extends HttpServlet {
         HashMap result = new HashMap();
         
         HttpSession session = request.getSession();
-        
         Object userSession = session.getAttribute("user");
         
         if (userSession == null) {

@@ -228,13 +228,14 @@ public class UserDAO implements GenericDAO<UserDTO> {
         try{
             connection = DBConnection.getConnection();
             
-            CallableStatement statement = connection.prepareCall("CALL sp_UpdateUser(?,?,?,?,?,?)");
-            statement.setString(1, user.getPhoto());
+            CallableStatement statement = connection.prepareCall("CALL sp_UpdateUser(?,?,?,?,?,?,?)");
+            statement.setInt(1, user.getUserId());
             statement.setString(2, user.getName());
             statement.setString(3, user.getLastName());
-            statement.setString(4, user.getUsername());
+            statement.setString(4, user.getDateOfBirth());
             statement.setString(5, user.getEmail());
-            statement.setString(6, user.getDateOfBirth());
+            statement.setString(6, user.getPhoto());
+            statement.setString(7, user.getUsername());
             
             int rowCount = statement.executeUpdate();
             

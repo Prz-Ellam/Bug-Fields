@@ -29,9 +29,9 @@ $.ajax({
 
         $(".navbar-nav").append(html);
     
-        $("#firstName").val(data.profile.name);
-        $("#lastName").val(data.profile.lastName);
-        $("#dateOfBirth").val(data.profile.dateOfBirth);
+        $("#first-name").val(data.profile.name);
+        $("#last-name").val(data.profile.lastName);
+        $("#date-of-birth").val(data.profile.dateOfBirth);
         $("#email").val(data.profile.email);
         $("#username").val(data.profile.username);
         $("#age").val(data.profile.age);
@@ -253,13 +253,29 @@ $(document).ready(function() {
 
         if($('#profile-form').valid() === false) {
             let validator = $("#profile-form").validate();
-            validateInput(validator.element("#firstName"), 'firstName');
-            validateInput(validator.element("#lastName"), 'lastName');
-            validateInput(validator.element("#dateOfBirth"), 'dateOfBirth');
+            validateInput(validator.element("#first-name"), 'firstName');
+            validateInput(validator.element("#last-name"), 'lastName');
+            validateInput(validator.element("#date-of-birth"), 'dateOfBirth');
             validateInput(validator.element("#email"), 'email');
             validateInput(validator.element("#username"), 'username');
             return;
         }
+
+        $.ajax({
+            data: new FormData(this),
+            type: "POST",
+            dataType: "json",
+            url: "ProfileController",
+            cache: false,
+            contentType: false,
+            processData: false
+        }).done(function(data) {
+
+            console.log(data);
+
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
 
     });
     

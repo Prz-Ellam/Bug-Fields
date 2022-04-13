@@ -56,6 +56,17 @@ public class UserDTO {
         this.photo = photo;
     }
     
+    public UserDTO(int userId, String name, String lastName, String dateOfBirth, String email, String username,
+            String photo) {
+        this.userId = userId;
+        this.name = name;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.username = username;
+        this.photo = photo;
+    }
+    
     public int getUserId() {
         return userId;
     }
