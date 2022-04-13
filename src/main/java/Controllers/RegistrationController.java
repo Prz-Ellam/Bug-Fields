@@ -38,7 +38,7 @@ import javax.validation.ValidatorFactory;
  * @author eliam
  */
 @WebServlet(name = "RegistrationController", urlPatterns = {"/RegistrationController"})
-//@MultipartConfig(maxFileSize = 1000*1000 * 5, maxRequestSize = 1000 * 1000 * 25, fileSizeThreshold = 1000 * 1000)
+@MultipartConfig(maxFileSize = 1000*1000 * 5, maxRequestSize = 1000 * 1000 * 25, fileSizeThreshold = 1000 * 1000)
 public class RegistrationController extends HttpServlet {
 
     /**
@@ -55,25 +55,35 @@ public class RegistrationController extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8");
         
-        String name = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String dateOfBirth = request.getParameter("dateOfBirth");
+        String name = request.getParameter("first-name");
+        String lastName = request.getParameter("last-name");
+        String dateOfBirth = request.getParameter("date-of-birth");
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirm-password");
         Part photo = request.getPart("photo");
         
-        UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password, "");
+        String filePath = this.getServletContext().getRealPath("/Images/");
+        File fDir = new File(filePath);
+        if (!fDir.exists()) {
+            fDir.mkdir();
+        }
+        
+        String photoName = String.valueOf(System.currentTimeMillis() + "." + photo.getContentType().split("/")[1]);
+        photo.write(filePath + photoName);
+        
+        UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password, photoName);
         
         UserDAO dao = new UserDAO();
         boolean rowsAffected = dao.create(user);
         
         HashMap result = new HashMap();
         if (rowsAffected) {
-            result.put("signin", false);
+            result.put("signin", true);
         }
         else {
-            result.put("signin", true);
+            result.put("signin", false);
         }
        
         Gson gson = new Gson();

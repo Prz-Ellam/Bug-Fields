@@ -14,23 +14,28 @@ $.ajax({
         window.location.href = "index.html";
     }
     else {
-        $('.session').append('<div class="dropdown show d-inline col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-right">' +
-                '<a class="btn btn-secondary shadow-none dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                '<img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo rounded-circle">' +
-                '</a>' +
-                '<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">' +
-                '<button class="dropdown-item" id="profile">Perfil</button>' +
-               '<button class="dropdown-item" id="closeSession">Cerrar Sesión</button>' +
-                '</div>' +
-            '</div>');
+        const html = `
+        <li class="nav-item dropdown">
+            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle">
+                <span class="text-white mr-2">Perfil</span>
+                <img src=${data.profile.photo} alt="logo" class="login-logo img-fluid rounded-circle">
+            </a>
+            <div class="dropdown-menu">
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item" id="close-session">Salir</a>
+            </div>
+        </li>`;
+
+        $(".navbar-nav").append(html);
     
-        let obj = JSON.parse(data.profile);
-        $("#firstName").val(obj.name);
-        $("#lastName").val(obj.lastName);
-        $("#dateOfBirth").val(obj.dateOfBirth);
-        $("#email").val(obj.email);
-        $("#username").val(obj.username);
-        $("#age").val(obj.age);
+        $("#firstName").val(data.profile.name);
+        $("#lastName").val(data.profile.lastName);
+        $("#dateOfBirth").val(data.profile.dateOfBirth);
+        $("#email").val(data.profile.email);
+        $("#username").val(data.profile.username);
+        $("#age").val(data.profile.age);
+        $("#picture-box").attr("src", data.profile.photo);
     }
 }).fail(function(jqXHR, state) {
     console.log("Ups...algo salio mal: " + state);

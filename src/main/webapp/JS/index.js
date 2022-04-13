@@ -10,8 +10,8 @@ $.ajax({
         const html = `
         <li class="nav-item dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle">
-                <span class="text-white mr-2">Perfil</span>
-                <img src="Assets/blank-profile-picture.svg" alt="logo" class="login-logo img-fluid rounded-circle">
+                <span class="text-white mr-2">${data.user.username}</span>
+                <img src=${data.user.photo} alt="logo" class="login-logo img-fluid rounded-circle">
             </a>
             <div class="dropdown-menu">
                 <a href="Profile.html" class="dropdown-item">Perfil</a>

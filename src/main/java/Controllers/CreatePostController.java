@@ -35,14 +35,14 @@ public class CreatePostController extends HttpServlet {
         HttpSession session = request.getSession();
         
         Object userObj = session.getAttribute("user");
-        //if (userObj == null) {
-        //    result.put("status", false);
-        //}
-        //else {
+        if (userObj == null) {
+            result.put("status", false);
+        }
+        else {
             
-            //int id = Integer.parseInt(userObj.toString());
+            int id = Integer.parseInt(userObj.toString());
             
-            PostDTO post = new PostDTO(title, description, 1);
+            PostDTO post = new PostDTO(title, description, id);
             
             PostDAO postDAO = new PostDAO();
             boolean rowCount = postDAO.create(post);
@@ -54,7 +54,7 @@ public class CreatePostController extends HttpServlet {
                 result.put("status", false);
             }
             
-        //}
+        }
         
         Gson gson = new Gson();
         String json = gson.toJson(result);

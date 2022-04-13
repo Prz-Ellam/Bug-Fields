@@ -55,7 +55,7 @@ public class UserDAO implements GenericDAO<UserDTO> {
                 user.setEmail(result.getString(5));
                 user.setPhoto(result.getString(6));
                 user.setUsername(result.getString(7));
-                user.setPassword(result.getString(8));
+                //user.setPassword(result.getString(8));
                 user.setAge(result.getInt(11));
                 return user;
             }
@@ -222,7 +222,44 @@ public class UserDAO implements GenericDAO<UserDTO> {
 
     @Override
     public boolean update(UserDTO user) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        Connection connection = null;
+        
+        try{
+            connection = DBConnection.getConnection();
+            
+            CallableStatement statement = connection.prepareCall("CALL sp_UpdateUser(?,?,?,?,?,?)");
+            statement.setString(1, user.getPhoto());
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getLastName());
+            statement.setString(4, user.getUsername());
+            statement.setString(5, user.getEmail());
+            statement.setString(6, user.getDateOfBirth());
+            
+            int rowCount = statement.executeUpdate();
+            
+            if (rowCount > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return false;
     }
 
     @Override

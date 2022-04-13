@@ -49,10 +49,8 @@ public class InitProfileController extends HttpServlet {
             int userID = Integer.parseInt(session.getAttribute("user").toString());
             UserDAO dao = new UserDAO();
             UserDTO user = dao.getUser(userID);
-            Gson gson = new Gson();
-            String json = gson.toJson(user);
             result.put("session", true);
-            result.put("profile", json);
+            result.put("profile", user);
         }
             
         Gson gson = new Gson();

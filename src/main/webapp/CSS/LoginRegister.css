@@ -9,15 +9,6 @@ body {
     color:rgb(222, 79, 84);
 }
 
-.input-wrapper {
-    position: relative;
-    width: auto;
-    display: flex;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-}
-
 .input {
     font-family: "Roboto", sans-serif;
     font-size: 14px;
@@ -55,7 +46,21 @@ body {
 	z-index: -1;
 }
 
+.file-button p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .file-button {
+    width: 148px;
+    height: 148px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
     background-color: #096dd9;
     color: white;
     font-weight: bold;
@@ -101,4 +106,18 @@ body {
 #photo {
     width: 1px;
     height: 1px;
+}
+
+#picture-box {
+    width: 148px;
+    height: 148px;
+    object-fit: cover;
+}
+
+.form-control.is-valid {
+    background-image: url("../Assets/check-circle-solid.svg");
+}
+
+.form-control.is-invalid {
+    background-image: url("../Assets/exclamation-circle-solid.svg");
 }

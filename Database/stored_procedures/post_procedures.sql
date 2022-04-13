@@ -44,7 +44,8 @@ BEGIN
     FROM posts AS p
     JOIN users AS u
     ON p.user_id = u.user_id
-    WHERE u.active <> FALSE AND p.active <> FALSE;
+    WHERE u.active <> FALSE AND p.active <> FALSE
+    ORDER BY creation_date DESC;
 
 END$$
 

@@ -18,24 +18,31 @@
 </head>
 <body>
 
-    <nav class="navbar fixed-top">
+    <nav class="navbar navbar-dark navbar-expand-md fixed-top py-1">
 
-        <div class="d-inline col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 text-center text-sm-center text-md-left text-lg-left text-xl-left">
-            <a href="index.html">
-                <img src="Assets/bugFields.png" alt="logo" class="nav-logo">
-            </a>
-        </div>
-
-        <div class="d-inline col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-center">
-            <form action="#" method="get" id="SearchForm">
-                <input class="form-control d-inline w-75 shadow-none" type="text" placeholder="Buscar" id="search-input">
-                <button class="btn btn-dark shadow-none" type="submit">Buscar</button>
+        <a class="navbar-brand" href="index.html">
+            <img src="Assets/bugFields.png" alt="logo" class="nav-logo">
+        </a>
+    
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse justify-content-between" id="navbar-content">
+    
+            <form class="form-inline mx-auto  w-50">
+                <div class="input-group w-100">
+                    <input class="form-control shadow-none" type="search" placeholder="Buscar publicaciones" aria-label="Search">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn bg-white shadow-none"><i class="fas fa-search text-secondary"></i></button>
+                    </div>
+                </div>
             </form>
+        
+            <ul class="navbar-nav"></ul>
+            
         </div>
-
-        <div class="d-inline col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-right session">
-        </div>
-
+    
     </nav>
 
 

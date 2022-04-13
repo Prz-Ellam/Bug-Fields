@@ -2,8 +2,10 @@ import SignupValidator from './Validators/SignUpValidator.js'
 
 var date = new Date();
 var dateFormat = date.getFullYear() + '-' + 
-String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
-$('#dateOfBirth').val(dateFormat);
+String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+String(date.getDate()).padStart(2, '0');
+
+$('#date-of-birth').val(dateFormat);
 
 $.ajax({
     async: false,
@@ -24,15 +26,15 @@ $(document).ready(function() {
 
     let formID = "#signup-form";
     let inputClass = ".signup-input";
-    var validator = new SignupValidator(formID, inputClass, dateFormat);
+    var validator = new SignupValidator(formID, dateFormat);
 
-    $(".signup-input").blur(function() {
+    $(inputClass).blur(function() {
 
         validator.validateInput(this);
         
     });
 
-    $(".signup-input").focus(function() {
+    $(inputClass).focus(function() {
 
         validator.focusInput(this);
 
@@ -88,14 +90,14 @@ $(document).ready(function() {
         e.preventDefault();
 
         if($(formID).valid() === false) {
-            validator.validateInput($("#firstName"));
-            validator.validateInput($("#lastName"));
-            validator.validateInput($("#dateOfBirth"));
+            validator.validateInput($("#first-name"));
+            validator.validateInput($("#last-name"));
+            validator.validateInput($("#date-of-birth"));
             validator.validateInput($("#email"));
             validator.validateInput($("#username"));
             validator.validateInput($("#password"));
             validatePasswordRequirements();
-            validator.validateInput($("#confirmPassword"));
+            validator.validateInput($("#confirm-password"));
             return;
         }
         
@@ -112,10 +114,12 @@ $(document).ready(function() {
 
                 Swal.fire(
                     'Good job!',
-                    'You clicked the button!',
+                    '¡Bienvenido a Bug Fields!',
                     'success'
-                );
-                //window.location.href = "index.html";
+                ).then(function () {
+                    window.location.href = "index.html";
+                });
+
             }
             else {
                 alert('No se pudo registrar');
@@ -141,6 +145,11 @@ photo.onchange = function(e) {
     }
 
 }
+
+
+
+
+
 
 // FORM BUSQUEDA NAVBAR
 
