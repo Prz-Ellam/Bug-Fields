@@ -1,0 +1,24 @@
+body {
+    background-color:#EFEFEF;
+    font-family: "Roboto", sans-serif;
+    padding-top: 100px;
+}
+
+nav {
+    background-color: #449342;
+}
+
+input[type="search"] {
+    border: none;
+    outline: none;
+}
+
+.nav-logo {
+    height: 40px;
+}
+
+.login-logo {
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
+}
