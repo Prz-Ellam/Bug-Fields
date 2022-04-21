@@ -124,7 +124,15 @@ $(document).ready(function() {
 
             }
             else {
-                alert('No se pudo registrar');
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Parece que algo salió mal',
+                    confirmButtonColor: "#de4f54",
+                    background: "#EFEFEF"
+                });
+                
             }
         }).fail(function(jqXHR, state) {
             console.log("Ups...algo salio mal: " + state);

@@ -1,6 +1,6 @@
 package Controllers;
 
-import DAO.PostDAO;
+import DAO.MySQLPostDAO;
 import DTO.PostDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -49,8 +49,8 @@ public class GetPostData extends HttpServlet {
             int id = Integer.parseInt(idObj.toString());
             int userId = Integer.parseInt(userObj.toString());
             
-            PostDAO dao = new PostDAO();
-            PostDTO post = dao.getUserPostByID(id, userId);
+            MySQLPostDAO postDao = new MySQLPostDAO();
+            PostDTO post = postDao.getByID(id, userId);
             
             if (post == null) {
                 result.put("status", false);

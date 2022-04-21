@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Connections.DBConnection;
@@ -9,7 +5,7 @@ import Connections.MainConnection;
 import Connections.SqlParameters;
 import Controllers.RegistrationController;
 import DTO.UserDTO;
-import Interfaces.GenericDAO;
+import DAO.Contracts.GenericDAO;
 import com.google.gson.Gson;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -29,42 +25,50 @@ import java.util.HashMap;
  *
  * @author eliam
  */
-public class UserDAO implements GenericDAO<UserDTO> {
+public class MySQLUserDAO implements GenericDAO<UserDTO> {
     
-    MainConnection connection = MainConnection.getInstance();
-    
-    public UserDTO getUser(int id) {
+    private final String CREATE = "CALL sp_InsertUser(?,?,?,?,?,?,?)";
+    private final String UPDATE = "CALL sp_UpdateUser(?,?,?,?,?,?,?)";
+    private final String GET_ONE = "CALL sp_GetUser(?)";
         
+    public UserDTO getUser(int userId) {
         Connection connection = null;
-        
+        ResultSet rs = null;
         try {
-            
             connection = DBConnection.getConnection();
-
-            CallableStatement statement = connection.prepareCall("CALL sp_GetUser(?)");
-            statement.setInt(1, id);
-        
-            ResultSet result = statement.executeQuery();
-            
-            while(result.next()){
-                UserDTO user = new UserDTO();
-                user.setUserId(result.getInt(1));
-                user.setName(result.getString(2));
-                user.setLastName(result.getString(3));
-                user.setDateOfBirth(result.getString(4));
-                user.setEmail(result.getString(5));
-                user.setPhoto(result.getString(6));
-                user.setUsername(result.getString(7));
-                //user.setPassword(result.getString(8));
-                user.setAge(result.getInt(11));
-                return user;
+            CallableStatement statement = connection.prepareCall(GET_ONE);
+            statement.setInt(1, userId);
+            rs = statement.executeQuery();
+            UserDTO user = new UserDTO();
+            if(rs.next()) {
+                user.setUserId(rs.getInt(1));
+                user.setName(rs.getString(2));
+                user.setLastName(rs.getString(3));
+                user.setDateOfBirth(rs.getString(4));
+                user.setEmail(rs.getString(5));
+                user.setPhoto(rs.getString(6));
+                user.setUsername(rs.getString(7));
+                user.setAge(rs.getInt(11));
             }
-            
+            else{
+                return null;
+            }
+            rs.close();
+            statement.close();
+            return user;
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
             if (connection != null) {
                 try {
                     connection.close();
@@ -74,35 +78,30 @@ public class UserDAO implements GenericDAO<UserDTO> {
                 }
             }
         }
-        
         return null;
-        
     }
 
     public UserDTO login(String username, String password) {
-        
         Connection connection = null;
-        
+        CallableStatement statement = null;
+        ResultSet rs = null;
         try {
-            
             connection = DBConnection.getConnection();
-
-            CallableStatement statement = connection.prepareCall("CALL sp_LoginUser(?,?)");
+            statement = connection.prepareCall("CALL sp_LoginUser(?,?)");
             statement.setString(1, username);
             statement.setString(2, password);
-        
-            ResultSet result = statement.executeQuery();
+            rs = statement.executeQuery();
             
-            while(result.next()){
+            while(rs.next()){
                 UserDTO user = new UserDTO();
-                user.setUserId(result.getInt(1));
-                user.setName(result.getString(2));
-                user.setLastName(result.getString(3));
-                user.setDateOfBirth(result.getString(4));
-                user.setEmail(result.getString(5));
-                user.setPhoto(result.getString(6));
-                user.setUsername(result.getString(7));
-                user.setPassword(result.getString(8));
+                user.setUserId(rs.getInt(1));
+                user.setName(rs.getString(2));
+                user.setLastName(rs.getString(3));
+                user.setDateOfBirth(rs.getString(4));
+                user.setEmail(rs.getString(5));
+                user.setPhoto(rs.getString(6));
+                user.setUsername(rs.getString(7));
+                user.setPassword(rs.getString(8));
                 return user;
             }
             
@@ -127,14 +126,11 @@ public class UserDAO implements GenericDAO<UserDTO> {
     
     @Override
     public boolean create(UserDTO user) {
-
         Connection connection = null;
-        
+        CallableStatement statement = null;
         try {
-            
             connection = DBConnection.getConnection();
-
-            CallableStatement statement = connection.prepareCall("CALL sp_InsertUser(?,?,?,?,?,?,?)");
+            statement = connection.prepareCall(CREATE);
             statement.setString(1, user.getName());
             statement.setString(2, user.getLastName());
             statement.setObject(3, user.getDateOfBirth());
@@ -142,20 +138,21 @@ public class UserDAO implements GenericDAO<UserDTO> {
             statement.setString(5, user.getPhoto());
             statement.setString(6, user.getUsername());
             statement.setString(7, user.getPassword());
-        
             int rowCount = statement.executeUpdate();
-            
-            if (rowCount > 0) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;          
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
             if (connection != null) {
                 try {
                     connection.close();
@@ -165,9 +162,7 @@ public class UserDAO implements GenericDAO<UserDTO> {
                 }
             }
         }
-        
         return false;
-
     }
     
     public int usernameExists(String username, int id) {
@@ -228,7 +223,7 @@ public class UserDAO implements GenericDAO<UserDTO> {
         try{
             connection = DBConnection.getConnection();
             
-            CallableStatement statement = connection.prepareCall("CALL sp_UpdateUser(?,?,?,?,?,?,?)");
+            CallableStatement statement = connection.prepareCall(UPDATE);
             statement.setInt(1, user.getUserId());
             statement.setString(2, user.getName());
             statement.setString(3, user.getLastName());

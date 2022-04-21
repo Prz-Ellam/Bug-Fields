@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users(
 	name				VARCHAR(50) NOT NULL,
     last_name			VARCHAR(50) NOT NULL,
     date_of_birth		DATE NOT NULL,
-    email				VARCHAR(50) NOT NULL,
+    email				VARCHAR(50) UNIQUE NOT NULL,
     photo				VARCHAR(50) NOT NULL,
     username			VARCHAR(20) UNIQUE NOT NULL,
     password			VARCHAR(50) NOT NULL,
@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS posts(
 
 CREATE TABLE IF NOT EXISTS categories(
 	category_id			INT NOT NULL AUTO_INCREMENT,
-    name			VARCHAR(30) NOT NULL,
-    creation_date	TIMESTAMP NOT NULL DEFAULT NOW(),
-    active			BOOLEAN DEFAULT TRUE,
+    name				VARCHAR(30) NOT NULL,
+    creation_date		TIMESTAMP NOT NULL DEFAULT NOW(),
+    active				BOOLEAN DEFAULT TRUE,
     CONSTRAINT categories_pk PRIMARY KEY (category_id)
 );
 
@@ -73,6 +73,7 @@ DROP TABLE posts_categories;
 SELECT*FROM users;
 SELECT*FROM posts;
 SELECT*FROM categories;
+SELECT*FROM posts_categories;
 */
 
 

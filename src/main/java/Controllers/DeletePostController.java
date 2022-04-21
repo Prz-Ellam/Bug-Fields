@@ -1,6 +1,6 @@
 package Controllers;
 
-import DAO.PostDAO;
+import DAO.MySQLPostDAO;
 import DTO.PostDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class DeletePostController extends HttpServlet {
         
         int userId = Integer.parseInt(userObj.toString());
         
-        PostDAO postDao = new PostDAO();
+        MySQLPostDAO postDao = new MySQLPostDAO();
         PostDTO post = new PostDTO(postId, userId);
         
         boolean daoResult = postDao.delete(postId, userId);

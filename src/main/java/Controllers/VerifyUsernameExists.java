@@ -4,7 +4,7 @@
  */
 package Controllers;
 
-import DAO.UserDAO;
+import DAO.MySQLUserDAO;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -52,7 +52,7 @@ public class VerifyUsernameExists extends HttpServlet {
             id = Integer.parseInt(obj.toString());
         }
          
-        UserDAO dao = new UserDAO();
+        MySQLUserDAO dao = new MySQLUserDAO();
         int count = dao.usernameExists(username, id);
         
         if (count == 0) {

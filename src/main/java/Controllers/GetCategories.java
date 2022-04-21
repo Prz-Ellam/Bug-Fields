@@ -4,13 +4,13 @@
  */
 package Controllers;
 
-import DAO.CategoryDAO;
+import DAO.MySQLCategoryDAO;
 import DTO.CategoryDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,8 +38,8 @@ public class GetCategories extends HttpServlet {
         
         HashMap result = new HashMap();
         
-        CategoryDAO categoryDao = new CategoryDAO();
-        ArrayList<CategoryDTO> categories = categoryDao.read();
+        MySQLCategoryDAO categoryDao = new MySQLCategoryDAO();
+        List<CategoryDTO> categories = categoryDao.read();
         
         if (categories == null) {
             result.put("status", false);

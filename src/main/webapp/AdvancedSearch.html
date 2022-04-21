@@ -12,6 +12,7 @@
 
     <!-- CSS -->
     <link href="CSS/Navbar.css" rel="stylesheet">
+    <link href="CSS/AdvancedSearch.css" rel="stylesheet">
     
 </head>
 <body>
@@ -63,24 +64,26 @@
 
         <div class="col-8 row">
 
+            <form action="#" method="get" class="form-inline" id="date-filter">
         <div class="col-5 input-group">
             <div class="input-group-prepend">
                 <div class="input-group-text">De</div>
               </div>
-            <input type="date" class="form-control shadow-none">
+            <input type="date" class="form-control shadow-none" name="start">
             
         </div>
         <div class="col-5 input-group">
             <div class="input-group-prepend">
                 <div class="input-group-text">Hasta</div>
               </div>
-            <input type="date" class="form-control shadow-none">
+            <input type="date" class="form-control shadow-none" name="end">
             
         </div>
 
         <div class="col-2">
             <button class="btn bg-white shadow-none" style="border: solid 1px grey" type="submit"><i class="fas fa-search text-secondary"></i></button>
         </div>
+    </form>
     </div>
 
     </div>

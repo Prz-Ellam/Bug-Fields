@@ -4,13 +4,14 @@
  */
 package Controllers;
 
-import DAO.PostDAO;
+import DAO.MySQLPostDAO;
 import DTO.DashboardPostDTO;
+import ViewModels.PostViewModel;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,8 +36,8 @@ public class SearchBoxController extends HttpServlet {
             return result;
         }
         
-        PostDAO postDao = new PostDAO();
-        ArrayList<DashboardPostDTO> posts = postDao.readLikePosts(searching);
+        MySQLPostDAO postDao = new MySQLPostDAO();
+        List<PostViewModel> posts = postDao.getByFilter(searching);
         
         if (posts.size() < 0) {
             result.put("status", false);

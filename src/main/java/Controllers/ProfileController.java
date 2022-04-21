@@ -4,7 +4,7 @@
  */
 package Controllers;
 
-import DAO.UserDAO;
+import DAO.MySQLUserDAO;
 import DTO.UserDTO;
 import com.google.gson.Gson;
 import java.io.File;
@@ -68,7 +68,7 @@ public class ProfileController extends HttpServlet {
         }
         else {
             int userId = Integer.parseInt(session.getAttribute("user").toString());
-            UserDAO userDao = new UserDAO();
+            MySQLUserDAO userDao = new MySQLUserDAO();
             
             UserDTO user = new UserDTO(userId, firstName, lastName, dateOfBirth, email, username, "Images/" + photoName);
             

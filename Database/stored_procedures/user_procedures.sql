@@ -4,13 +4,14 @@ DROP procedure IF EXISTS `sp_InsertUser`;
 DELIMITER $$
 USE `bug_fields`$$
 CREATE PROCEDURE `sp_InsertUser` (
-    _name 					VARCHAR(50), 
-	_last_name 				VARCHAR(50), 
-	_date_of_birth 			DATE, 
-	_email 					VARCHAR(50), 
-    _photo                  VARCHAR(100),
-	_username				VARCHAR(20), 
-	_password 				VARCHAR(50))
+    IN _name 					VARCHAR(50), 
+	IN _last_name 				VARCHAR(50), 
+	IN _date_of_birth 			DATE, 
+	IN _email 					VARCHAR(50), 
+    IN _photo                  VARCHAR(100),
+	IN _username				VARCHAR(20), 
+	IN _password 				VARCHAR(50)
+)
 BEGIN
 
     INSERT INTO users(name, last_name, date_of_birth, email, photo, username, password)
@@ -33,7 +34,8 @@ DELIMITER $$
 USE `bug_fields`$$
 CREATE PROCEDURE `sp_LoginUser` (
 	IN _username 				VARCHAR(20), 
-	IN _password 				VARCHAR(50))
+	IN _password 				VARCHAR(50)
+)
 BEGIN
 
     SELECT user_id, name, last_name, date_of_birth, email, photo, username, password, creation_date, active
@@ -76,13 +78,13 @@ DELIMITER ;
 DELIMITER $$
 USE `bug_fields`$$
 CREATE PROCEDURE `sp_UpdateUser` (
-	_user_id				INT,
-	_name 					VARCHAR(50), 
-	_last_name 				VARCHAR(50), 
-	_date_of_birth 			DATE, 
-	_email 					VARCHAR(50), 
-    _photo                  VARCHAR(100),
-	_username				VARCHAR(20))
+	IN _user_id				INT,
+	IN _name 					VARCHAR(50), 
+	IN _last_name 				VARCHAR(50), 
+	IN _date_of_birth 			DATE, 
+	IN _email 					VARCHAR(50), 
+    IN _photo                  VARCHAR(100),
+	IN _username				VARCHAR(20))
 BEGIN
 
     UPDATE users
@@ -98,6 +100,34 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_UpdateUserPassword;
+
+CREATE PROCEDURE sp_UpdateUserPassword(
+	IN _user_id 			INT,
+	IN _old_pwd 			VARCHAR(50),
+	IN _new_pwd 			VARCHAR(255)
+)
+BEGIN
+
+	UPDATE users
+    SET
+    password = _new_pwd
+    WHERE user_id = _user_id AND password = _old_pwd;
+
+END$$
+
+DELIMITER ;
+
+
+
+
+
 
 
 

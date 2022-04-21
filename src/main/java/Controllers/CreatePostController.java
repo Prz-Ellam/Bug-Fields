@@ -4,12 +4,18 @@
  */
 package Controllers;
 
-import DAO.PostDAO;
+import DAO.MySQLPostDAO;
 import DTO.PostDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +38,16 @@ public class CreatePostController extends HttpServlet {
         
         String title = request.getParameter("title");
         String description = request.getParameter("description");
+        String[] categories = request.getParameterValues("categories");
         HttpSession session = request.getSession();
+        
+        List<String> arrayList;
+        if (categories == null) {
+            arrayList = new ArrayList<String>();
+        }
+        else{
+            arrayList =  Arrays.asList(categories);
+        }
         
         Object userObj = session.getAttribute("user");
         if (userObj == null) {
@@ -44,8 +59,13 @@ public class CreatePostController extends HttpServlet {
             
             PostDTO post = new PostDTO(title, description, id);
             
-            PostDAO postDAO = new PostDAO();
-            boolean rowCount = postDAO.create(post);
+            MySQLPostDAO postDAO = new MySQLPostDAO();
+            boolean rowCount = false;
+            try {
+                rowCount = postDAO.create(post, arrayList);
+            } catch (SQLException ex) {
+                Logger.getLogger(CreatePostController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             if (rowCount){
             result.put("status", true);

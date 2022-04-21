@@ -4,7 +4,7 @@
  */
 package Controllers;
 
-import DAO.PostDAO;
+import DAO.MySQLPostDAO;
 import DTO.DashboardPostDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class GetPosts extends HttpServlet {
             offset = 0;
         }
         
-        PostDAO postDao = new PostDAO();
+        MySQLPostDAO postDao = new MySQLPostDAO();
         
         ArrayList<DashboardPostDTO> posts = postDao.read(offset);
         
@@ -63,7 +63,7 @@ public class GetPosts extends HttpServlet {
         HashMap result = new HashMap();
         
 
-        result.put("posts",posts);
+        result.put("posts", posts);
         result.put("pagesCount", pagesCount);
         
         Gson gson = new Gson();

@@ -43,23 +43,15 @@ $.ajax({
 
         console.log(data.categories);
 
-        let categoriesName = [];
+        //let categoriesName = [];
         for (let i = 0; i < data.categories.length; i++) {
-            categoriesName.push(data.categories[i].name);
+            $("#categories").append(`
+            <option value="${data.categories[i].categoryId}"> ${data.categories[i].name}</option>
+            `);
+            //categoriesName.push(data.categories[i].name);
         }
 
-        var input = document.querySelector('input[name=tags]');
-            
-        new Tagify(input,{
-            whitelist : categoriesName,      
-            enforceWhitelist: true,
-            dropdown : {
-            enabled: 0,
-            position: "Manual",
-            classname : 'extra-properties',
-            },
-            hasManualList: true
-        });
+
 
     }
 
@@ -71,6 +63,12 @@ $.ajax({
 
 
 $(document).ready(function() {
+
+    $("#categories").multipleSelect({
+        selectAll: false,
+        width: '100%',
+        filter: true
+    });
 
     var formID = "#create-post-form";
     var validator = new CreatePostValidator(formID);
@@ -105,7 +103,27 @@ $(document).ready(function() {
             url: "CreatePostController"
         }).done(function(data) {
             if (data.status){
-                console.log("Good");
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Se ha guardado con éxito tú publicación",
+                    confirmButtonColor: "#449342",
+                    background: "#EFEFEF"
+                }).then(function () {
+                    window.location.href = "index.html";
+                });
+                
+            }
+            else {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Parece que algo salió mal',
+                    confirmButtonColor: "#de4f54",
+                    background: "#EFEFEF"
+                });
+
             }
         }).fail(function() {
 

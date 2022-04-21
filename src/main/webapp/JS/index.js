@@ -57,7 +57,7 @@ $.ajax({
                     
                     <a href="modifyPost.html?id=${post.postId}" class="card-title" id="${post.postId}">${post.title}</a>
                     <h6 class="card-subtitle text-muted">${post.username}</h5>
-                    <p class="card-body">Descripción Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis reprehenderit hic commodi eius! Porro tenetur optio, ex nobis quod excepturi debitis dignissimos deleniti quidem? Sit dolor velit quas id perferendis?</p>
+                    <p class="card-body description">${post.description}</p>
 
                     <div class="btn-group card-link">
                         <button type="button" class="btn btn-outline-primary p-0">Categoría 1</button>

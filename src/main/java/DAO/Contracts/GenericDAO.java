@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package Interfaces;
+package DAO.Contracts;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,7 +14,7 @@ public interface GenericDAO<T> {
     
     public boolean create(T dto);
     
-    public ArrayList<T> read();
+    public List<T> read();
     
     public boolean update(T dto);
     

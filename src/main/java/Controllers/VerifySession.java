@@ -4,7 +4,7 @@
  */
 package Controllers;
 
-import DAO.UserDAO;
+import DAO.MySQLUserDAO;
 import DTO.UserDTO;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class VerifySession extends HttpServlet {
         }
         else {
             int userID = Integer.parseInt(session.getAttribute("user").toString());
-            UserDAO dao = new UserDAO();
+            MySQLUserDAO dao = new MySQLUserDAO();
             UserDTO user = dao.getUser(userID);
             HashMap userInfo = new HashMap();
             result.put("status", true);

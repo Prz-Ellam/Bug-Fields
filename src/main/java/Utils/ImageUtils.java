@@ -25,8 +25,12 @@ public class ImageUtils {
         String imagePath = relativePath + path + imageName;
         image.write(imagePath);
         
-        return imageName;
+        return path + imageName;
         
+    }
+    
+    public static boolean deleteImage() {
+        return true;
     }
     
 }

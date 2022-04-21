@@ -65,6 +65,12 @@ $(document).ready(function() {
     // Solo hay espacios en blanco
     var rgxWhitespaces = /^\s*$/;
 
+    $("#categories").multipleSelect({
+        selectAll: false,
+        width: '100%',
+        filter: true
+    });
+
 
     //FUNCIONES PARA VALIDAR
 
