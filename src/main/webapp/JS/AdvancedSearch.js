@@ -89,7 +89,7 @@ $.ajax({
             </section>
             `;
 
-            $("main").append(html);
+            $("#dashboard").append(html);
 
         }
 
@@ -101,23 +101,57 @@ $.ajax({
 
 $(document).ready(function() {
 
-    $("#date-filter").submit( function(e) {
-
+    $("#advanced-search").submit( function(e) {
+        
         e.preventDefault();
-       alert($(this).serialize());
+        
+        $.ajax({
+            data: $(this).serialize(),
+            type: "POST",
+            url: "GetPostsByAdvancedSearch",
+            dataType: "json"
+       }).done(function(data) {
+
+           if (data.status) {
+
+                $("#dashboard").empty();
+
+                let posts = data.posts;
+
+        for (let i = 0; i < posts.length; i++) {
+
+            const html = `
+            <section>
+                <div class="container mt-5">
+                    <article class="card bg-light m-4 p-4 rounded-3">
+                        <a href="#" class="card-title">${posts[i].title}</a>
+                        <h6 class="card-subtitle text-muted">por: ${posts[i].username}</h5>
+                        <p class="card-body description" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis">${posts[i].description}</p>
+                        
+                        <div class="card-text text-right">
+                            <p><small class="text-muted">Creada: ${posts[i].creationDate}</small></p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+            `;
+
+            $("#dashboard").append(html);
+
+        }
+
+
+
+           }
+
+        
+       }).fail(function(jqXHR, state) {
+        console.log("Ups...algo salio mal: " + state);
+       });
+
+
     });
 
-    $("#category-filter").submit( function(e) {
-
-        e.preventDefault();
-        alert($(this).serialize());
-     });
-
-     $("#like-filter").submit( function(e) {
-
-        e.preventDefault();
-        alert($(this).serialize());
-     });
 
 
 });

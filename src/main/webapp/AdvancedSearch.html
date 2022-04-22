@@ -48,19 +48,16 @@
 
     <div class="row px-5">
 
-        <div class="col-4">
-            <form action="#" method="get" class="form-inline" id="category-filter">
+        <form action="#" method="get" class="form-inline" id="advanced-search">
+            <div class="col-4">
                 <div class="input-group">
                     <select class="form-control shadow-none" name="category" id="categories">
                         <option value="1" disabled selected>Categorías</option>
                     </select>
-                    <button class="btn bg-white shadow-none" type="submit"><i class="fas fa-search text-secondary"></i></button>
                 </div>
-            </form>
-        </div>
-        
-        <div class="col-4">
-            <form class="form-inline" id="date-filter">
+            </div>
+            
+            <div class="col-4">
                 <div class="input-group-prepend">
                     <div class="input-group-text">De</div>
                 </div>
@@ -69,16 +66,20 @@
                     <div class="input-group-text">Hasta</div>
                 </div>
                 <input type="date" class="form-control shadow-none" name="end">
-                <button class="btn bg-white shadow-none" type="submit"><i class="fas fa-search text-secondary"></i></button>
-            </form>
-        </div>
-
-        <div class="col-4">
-            <form class="form-inline" id="like-filter">
+            </div>
+            
+            <div class="col-4">
                 <input type="search" class="form-control shadow-none" name="search" placeholder="Buscar publicaciones">
                 <button class="btn bg-white shadow-none" type="submit"><i class="fas fa-search text-secondary"></i></button>
-            </form>
-        </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div id="dashboard">
+
+
+
 
     </div>
 

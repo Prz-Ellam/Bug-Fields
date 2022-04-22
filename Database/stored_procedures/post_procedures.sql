@@ -218,7 +218,28 @@ DELIMITER ;
 SELECT * FROM posts;
 SELECT * FROM categories;
 SELECT * FROM posts_categories;
-CALL sp_GetPostsByAdvancedSearch(1,'20220401', '20220429', 'a');
+CALL sp_GetPostsByAdvancedSearch(null,null, null, null);
+
+
+
+CREATE  OR REPLACE VIEW vw_AdvancedSearchCategories AS
+SELECT DISTINCT 
+        			p.post_id, 
+                    p.title, 
+                    p.description, 
+                    u.username, 
+                    p.creation_date
+    	FROM 
+        			posts AS p
+    				JOIN users AS u
+    				ON p.user_id = u.user_id
+					JOIN posts_categories AS pc
+        			ON p.post_id = pc.post_id;
+
+
+
+
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_GetPostsByAdvancedSearch;
@@ -231,57 +252,24 @@ CREATE PROCEDURE sp_GetPostsByAdvancedSearch(
 )
 BEGIN
 
-	IF (_start IS NOT NULL AND _end IS NOT NULL) THEN
-    
-    	SELECT p.post_id, p.title, p.description, u.username, p.creation_date
-    	FROM posts AS p
-    	JOIN users AS u
-    	ON p.user_id = u.user_id
-		JOIN posts_categories AS pc
-        ON p.post_id = pc.post_id
-        WHERE (p.creation_date BETWEEN _start AND _end)
-        AND (p.title LIKE CONCAT("%", _filter, "%") OR p.description LIKE CONCAT("%", _filter, "%"))
-        AND pc.category_id = _category_id IF _category_id IS NOT NULL
-        AND p.active = TRUE
-        LIMIT 10;
-    
-    ELSEIF _start IS NOT NULL THEN
-    
-		SELECT p.post_id, p.title, p.description, u.username, p.creation_date
-    	FROM posts AS p
-    	JOIN users AS u
-    	ON p.user_id = u.user_id
-		JOIN posts_categories AS pc
-        ON p.post_id = pc.post_id
-        WHERE (p.creation_date > _start)
-		AND (p.title LIKE CONCAT("%", _filter, "%") OR p.description LIKE CONCAT("%", _filter, "%"))
-        AND pc.category_id = _category_id
-        AND p.active = TRUE
-        LIMIT 10;
-    
-    ELSEIF _end IS NOT NULL THEN
-    
-		SELECT p.post_id, p.title, p.description, u.username, p.creation_date
-    	FROM posts AS p
-    	JOIN users AS u
-    	ON p.user_id = u.user_id
-		JOIN posts_categories AS pc
-        ON p.post_id = pc.post_id
-        WHERE (p.creation_date < _end)
-		AND (p.title LIKE CONCAT("%", _filter, "%") OR p.description LIKE CONCAT("%", _filter, "%"))
-        AND pc.category_id = _category_id
-        AND p.active = TRUE
-        LIMIT 10;
-    
-    ELSE
-    
-    	SELECT p.post_id, p.title, p.description, u.username, p.creation_date
-    	FROM posts AS p
-    	JOIN users AS u
-    	ON p.user_id = u.user_id
-        LIMIT 10;
-    
-    END IF;
+	SELECT DISTINCT 
+				p.post_id, 
+				p.title, 
+				p.description, 
+				u.username, 
+				p.creation_date
+	FROM 
+				posts AS p
+				JOIN users AS u
+				ON p.user_id = u.user_id
+				JOIN posts_categories AS pc
+				ON p.post_id = pc.post_id
+	WHERE 
+				(p.creation_date BETWEEN IFNULL(_start, '1000-01-01') AND IFNULL(_end, '9999-12-31')) AND 
+				(p.title LIKE CONCAT("%", _filter, "%") OR p.description LIKE CONCAT("%", _filter, "%") OR _filter IS NULL) AND 
+				(pc.category_id = _category_id OR _category_id IS NULL) AND 
+				p.active = TRUE
+	LIMIT 10;
 
 END$$
 

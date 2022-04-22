@@ -1,7 +1,12 @@
 package Controllers;
 
+import DAO.MySQLPostDAO;
+import ViewModels.PostViewModel;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,28 +15,68 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "GetPostsByAdvancedSearch", urlPatterns = {"/GetPostsByAdvancedSearch"})
 public class GetPostsByAdvancedSearch extends HttpServlet {
+    
+    private HashMap getRequestData(HttpServletRequest request) {
+        
+        HashMap result = new HashMap();
+        
+        String category = request.getParameter("category");
+        String startDate = request.getParameter("start");
+        String endDate = request.getParameter("end");
+        String search = request.getParameter("search");
+        
+        if (category != null){
+            if (category.equals(""))   category = null;
+        }
+        if (startDate != null){
+        if (startDate.equals(""))   startDate = null;
+        }
+        if (endDate != null){
+        if (endDate.equals(""))   endDate = null;
+        }
+        if (search != null){
+        if (search.equals(""))   search = null;
+        }
+        
+        Integer categoryId;
+        try {
+            categoryId = Integer.parseInt(category);
+        }
+        catch (NumberFormatException ex) {
+            categoryId = null;
+        }
+        
+        MySQLPostDAO postDao = new MySQLPostDAO();
+        List<PostViewModel> posts = postDao.getByAdvancedSearch(categoryId, startDate, endDate, search);
+        
+        if (posts == null) {
+            result.put("status", false);
+        }
+        else {
+            result.put("status", true);
+            result.put("posts", posts);
+        }
+        
+        return result;
+        
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GetPostsByAdvancedSearch</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GetPostsByAdvancedSearch at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+        
+        request.setCharacterEncoding("UTF-8");
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+        HashMap result = getRequestData(request);
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(result);
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println(json);
+        out.flush();
+        
     }
     
     @Override

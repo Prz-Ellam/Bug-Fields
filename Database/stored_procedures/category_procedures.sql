@@ -30,3 +30,11 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+SELECT * FROM posts_categories;
+
+DELETE FROM posts_categories WHERE post_id = 1;
+
+
+
+

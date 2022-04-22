@@ -18,6 +18,8 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import java.util.ArrayList;
 import java.sql.Types;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -96,11 +98,9 @@ public class MySQLPostDAO implements PostDAO {
             
             PreparedStatement addCategoryPost = connection.prepareStatement("INSERT INTO posts_categories(post_id, category_id) VALUES(?, ?)");
             for (String category : categories) {
-            
                 addCategoryPost.setInt(1, id);
                 addCategoryPost.setInt(2, Integer.parseInt(category));
                 result = addCategoryPost.executeUpdate();
-            
             }
             
             connection.commit();
@@ -124,6 +124,56 @@ public class MySQLPostDAO implements PostDAO {
         
         return false;
           
+    }
+    
+    public boolean update(PostDTO post, List<String> categories) {
+        Connection connection = null;
+        try {
+            connection = DBConnection.getConnection();
+            connection.setAutoCommit(false);
+            CallableStatement statement = connection.prepareCall("CALL sp_UpdatePost(?,?,?,?)");
+            statement.setInt(1, post.getPostID());
+            statement.setString(2, post.getTitle());
+            statement.setString(3, post.getDescription());
+            statement.setInt(4, post.getUserID());
+            int result = statement.executeUpdate();
+            
+            PreparedStatement deleteCategories = connection.prepareStatement("DELETE FROM posts_categories WHERE post_id = ?");
+            deleteCategories.setInt(1, post.getPostID());
+            result = deleteCategories.executeUpdate();
+            
+            PreparedStatement addCategoryPost = connection.prepareStatement("INSERT INTO posts_categories(post_id, category_id) VALUES(?, ?)");
+            for (String category : categories) {
+            
+                addCategoryPost.setInt(1, post.getPostID());
+                addCategoryPost.setInt(2, Integer.parseInt(category));
+                result = addCategoryPost.executeUpdate();
+            
+            }
+            
+            connection.commit();
+            return true;
+        }
+        catch (SQLException ex) {
+            try {
+                connection.rollback();
+                System.out.println(ex.getMessage());
+            } catch (SQLException ex1) {
+                Logger.getLogger(MySQLPostDAO.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return false;
     }
     
     
@@ -227,47 +277,6 @@ public class MySQLPostDAO implements PostDAO {
     public ArrayList readByDate(char type) {
         return null;
     }
-
-    
-    public boolean update(PostDTO post) {
-        
-        Connection connection = null;
-        
-        try {
-            connection = DBConnection.getConnection();
-            
-            CallableStatement statement = connection.prepareCall("CALL sp_UpdatePost(?,?,?,?)");
-            statement.setInt(1, post.getPostID());
-            statement.setString(2, post.getTitle());
-            statement.setString(3, post.getDescription());
-            statement.setInt(4, post.getUserID());
-            
-            int rowCount = statement.executeUpdate();
-            
-            if (rowCount > 0) {
-                return true;
-            }
-            else {
-                return false;
-            }
-            
-        }
-        catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-        }
-        
-        return false;
-    }
     
     
     public boolean delete(int postId) {
@@ -369,6 +378,65 @@ public class MySQLPostDAO implements PostDAO {
         
         return null;
         
+    }
+    
+    public List<PostViewModel> getByAdvancedSearch(Integer categoryId, String startDate, String endDate, String filter) {
+        Connection connection = null;
+        CallableStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareCall("CALL sp_GetPostsByAdvancedSearch(?, ?, ?, ?)");
+            statement.setObject(1, categoryId);
+            statement.setString(2, startDate);
+            statement.setString(3, endDate);
+            statement.setString(4, filter);
+            rs = statement.executeQuery();
+            
+            List<PostViewModel> posts = new ArrayList<PostViewModel>();
+            while (rs.next()) {
+                PostViewModel post = new PostViewModel();
+                post.setPostId(rs.getInt("post_id"));
+                post.setTitle(rs.getString("title"));
+                post.setDescription(rs.getString("description"));
+                post.setUsername(rs.getString("username"));
+                post.setCreationDate(rs.getString("creation_date")); 
+                posts.add(post);      
+            }
+            
+            return posts;
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return null;
     }
     
     @Override
@@ -538,6 +606,11 @@ public class MySQLPostDAO implements PostDAO {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean update(PostDTO dto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }
