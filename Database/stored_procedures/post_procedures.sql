@@ -92,7 +92,8 @@ DROP PROCEDURE IF EXISTS sp_ReadPosts;
 
 CREATE PROCEDURE sp_ReadPosts(
 	IN _limit					INT,
-	IN _offset					INT
+	IN _offset					INT,
+    IN _user_id					INT
 )
 BEGIN
 
@@ -218,7 +219,7 @@ DELIMITER ;
 SELECT * FROM posts;
 SELECT * FROM categories;
 SELECT * FROM posts_categories;
-CALL sp_GetPostsByAdvancedSearch(null, null, null, 'H', 10, 0);
+CALL sp_GetPostsByAdvancedSearch(null, null, null, 'H', 10, 0, 2);
 CALL sp_GetPostsByAdvancedSearchCount(null, null, null, 'H');
 
 
@@ -250,7 +251,8 @@ CREATE PROCEDURE sp_GetPostsByAdvancedSearch(
 	_end					DATE,
     _filter					VARCHAR(100),
     _limit					INT,
-    _offset					INT
+    _offset					INT,
+	_user_id				INT
 )
 BEGIN
 
@@ -259,7 +261,8 @@ BEGIN
 				p.title, 
 				p.description, 
 				u.username, 
-				p.creation_date
+				p.creation_date,
+                IF(u.user_id = _user_id, TRUE, FALSE) AS Own
 	FROM 
 				posts AS p
 				JOIN users AS u

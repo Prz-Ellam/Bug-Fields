@@ -5,10 +5,8 @@ $.ajax({
     url: "VerifySession"
 }).done(function(data) {
 
-    if (!data.status) {
-        window.location.href = "index.html";
-    }
-
+    if (data.status) {
+        
     const html = `
         <li class="nav-item dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle">
@@ -23,6 +21,16 @@ $.ajax({
         </li>`;
 
     $(".navbar-nav").append(html);
+    }
+    else {
+
+        const html = `
+        <li class="nav-item">
+            <a href="Login.html" class="nav-link text-white">Iniciar sesión</a>
+        </li>`;
+
+        $(".navbar-nav").append(html);
+    }
 
 }).fail(function(jqXHR, state) {
 
@@ -80,7 +88,7 @@ $.ajax({
             <section>
                 <div class="container mt-5">
                     <article class="card bg-light m-4 p-4 rounded-3">
-                        <a href="modifyPost.html?id=${post.postId}" class="card-title" id="${post.postId}">${post.title}</a>
+                        ${post.userOwn ? `<a href="modifyPost.html?id=${post.postId}"` : `<p `} class="card-title" id="${post.postId}">${post.title}</a>
                         <h6 class="card-subtitle text-muted">${post.username}</h5>
                         <p class="card-body description">${post.description}</p>
     
@@ -100,9 +108,12 @@ $.ajax({
                             <p><small class="text-muted">Creada: ${post.creationDate}</small></p>
                         </div>
     
-                        <div class="card-footer m-0 p-2 text-right">
-                            <a class="delete btn btn-danger" href="deletePost.html?id=${post.postId}">Eliminar</a>
-                        </div>
+                        ${post.userOwn ?
+
+                            `<div class="card-footer m-0 p-2 text-right">
+                                <a class="delete btn btn-danger" href="deletePost.html?id=${post.postId}">Eliminar</a>
+                            </div>` : ``
+                        }
     
                     </article>
                 </div>

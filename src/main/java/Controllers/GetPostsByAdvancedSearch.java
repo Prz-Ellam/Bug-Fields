@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "GetPostsByAdvancedSearch", urlPatterns = {"/GetPostsByAdvancedSearch"})
 public class GetPostsByAdvancedSearch extends HttpServlet {
@@ -73,11 +74,27 @@ public class GetPostsByAdvancedSearch extends HttpServlet {
             offset = 0;
         }
         
+        HttpSession session = request.getSession();
+        Object obj = session.getAttribute("user");
+        
+        int userId;
+        if (obj == null) {
+            userId = -1;
+        }
+        else{
+            try {
+                userId = Integer.parseInt(obj.toString());
+            }
+            catch (NumberFormatException ex) {
+                userId = -1;
+            }
+        }
+        
         
         MySQLPostDAO postDao = new MySQLPostDAO();
         CategoryDAO categoryDao = new MySQLCategoryDAO();
         List<PostViewModel> posts = postDao.getByAdvancedSearch(categoryId, startDate, endDate, 
-                search, resultsPerPage, offset);
+                search, resultsPerPage, offset, userId);
         
         for (PostViewModel post : posts) {
             post.setCategories(categoryDao.getPostCategories(post.getPostId()));

@@ -11,6 +11,7 @@ public class PostViewModel {
     private String username;
     private String creationDate;
     private List<CategoryDTO> categories;
+    private boolean userOwn;
     
     public PostViewModel() {
         
@@ -71,5 +72,13 @@ public class PostViewModel {
     public void setCategories(List<CategoryDTO> categories) {
         this.categories = categories;
     }
+    public boolean getUserOwn() {
+        return userOwn;
+    }
+    
+    public void setUserOwn(boolean userOwn) {
+        this.userOwn = userOwn;
+    }
+    
     
 }

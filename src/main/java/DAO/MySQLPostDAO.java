@@ -30,7 +30,7 @@ public class MySQLPostDAO implements PostDAO {
     MainConnection connection = MainConnection.getInstance();
     
     private final String CREATE = "INSERT INTO posts(title, description, user_id) VALUES(?, ?, ?)";
-    private final String READ = "CALL sp_ReadPosts(?, ?)";
+    private final String READ = "CALL sp_ReadPosts(?, ?, ?)";
     private final String UPDATE = "CALL sp_UpdatePost(?, ?, ?, ?)";
     private final String DELETE = "CALL sp_DeletePost(?, ?)";
 
@@ -182,7 +182,7 @@ public class MySQLPostDAO implements PostDAO {
     }
     
 
-    public ArrayList<PostViewModel> read(int limit, int offset) {
+    public ArrayList<PostViewModel> read(int limit, int offset, int userId) {
         Connection connection = null;
         CallableStatement statement = null;
         ResultSet rs = null;
@@ -191,6 +191,7 @@ public class MySQLPostDAO implements PostDAO {
             statement = connection.prepareCall(READ);
             statement.setInt(1, limit);
             statement.setInt(2, offset);
+            statement.setInt(3, userId);
             rs = statement.executeQuery();
             ArrayList<PostViewModel> posts = new ArrayList<PostViewModel>();
             while(rs.next()){
@@ -200,6 +201,7 @@ public class MySQLPostDAO implements PostDAO {
                 dashboardPost.setDescription(rs.getString(3));
                 dashboardPost.setUsername(rs.getString(4));
                 dashboardPost.setCreationDate(rs.getString(5));
+                dashboardPost.setUserOwn(rs.getBoolean(6));
                 posts.add(dashboardPost);
             }
             return posts;
@@ -415,19 +417,20 @@ public class MySQLPostDAO implements PostDAO {
     }
     
     public List<PostViewModel> getByAdvancedSearch(Integer categoryId, String startDate, String endDate, 
-        String filter, int limit, int offset) {
+        String filter, int limit, int offset, int userId) {
         Connection connection = null;
         CallableStatement statement = null;
         ResultSet rs = null;
         try {
             connection = DBConnection.getConnection();
-            statement = connection.prepareCall("CALL sp_GetPostsByAdvancedSearch(?, ?, ?, ?, ?, ?)");
+            statement = connection.prepareCall("CALL sp_GetPostsByAdvancedSearch(?, ?, ?, ?, ?, ?, ?)");
             statement.setObject(1, categoryId);
             statement.setString(2, startDate);
             statement.setString(3, endDate);
             statement.setString(4, filter);
             statement.setInt(5, limit);
             statement.setInt(6, offset);
+            statement.setInt(7, userId);
             rs = statement.executeQuery();
             
             List<PostViewModel> posts = new ArrayList<PostViewModel>();
@@ -438,6 +441,7 @@ public class MySQLPostDAO implements PostDAO {
                 post.setDescription(rs.getString("description"));
                 post.setUsername(rs.getString("username"));
                 post.setCreationDate(rs.getString("creation_date")); 
+                post.setUserOwn(rs.getBoolean("Own"));
                 posts.add(post);      
             }
             
