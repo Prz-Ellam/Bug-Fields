@@ -99,21 +99,23 @@
     <!-- MODALES -->
     <div class="modal" tabindex="-1" role="dialog" id="exampleModal">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Eliminar publicación</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <form method="POST" action="#" id="delete-post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar publicación</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Desea eliminar esta publicación?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger btn-delete-pub">Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-body">
-              <p>¿Desea eliminar esta publicación?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger btn-delete-pub">Eliminar</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            </div>
-          </div>
         </div>
     </div>
 
@@ -164,6 +166,10 @@
     <!-- Validate -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- Sweet Alert -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Popper JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         
@@ -171,50 +177,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         
     <!-- JavaScript -->
-    <script src="JS/deletePost.js"></script>
+    <script src="JS/DeletePost.js"></script>
     
     <script src="https://kit.fontawesome.com/48ce36e499.js" crossorigin="anonymous"></script>
-    <!--TagsInput-->
-    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
-    <script>
-        $(function () {
-        $('.tags')
-            .on('change', function (event) {
-            var $element = $(event.target);
-            var $container = $element.closest('.example');
-
-            if (!$element.data('tagsinput')) return;
-
-            var val = $element.val();
-            if (val === null) val = 'null';
-            var items = $element.tagsinput('items');
-
-            $('code', $('pre.val', $container)).html(
-                $.isArray(val)
-                ? JSON.stringify(val)
-                : '"' + val.replace('"', '\\"') + '"'
-            );
-            $('code', $('pre.items', $container)).html(
-                JSON.stringify($element.tagsinput('items'))
-            );
-            })
-            .trigger('change');
-        });
-    </script-->
-    <script src="https://unpkg.com/@yaireo/tagify"></script>
-    <script src="https://unpkg.com/@yaireo/tagify@3.1.0/dist/tagify.polyfills.min.js"></script>
-    <script>
-            // The DOM element you wish to replace with Tagify
-            var input = document.querySelector('input[name=tags]');
-            
-            // initialize Tagify on the above input node reference
-            new Tagify(input,{
-                whitelist        : ['jQuery', 'tags', 'plugin', 'Javascript'],      
-                dropdown : {
-                enabled: 1, // suggest tags after a single character input
-                classname : 'extra-properties', // custom class for the suggestions dropdown
-                },
-            });
-    </script>
 </body>
 </html>

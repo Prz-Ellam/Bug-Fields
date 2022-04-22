@@ -6,6 +6,7 @@ package Controllers;
 
 import DAO.MySQLUserDAO;
 import DTO.UserDTO;
+import Utils.ImageUtils;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
@@ -28,15 +29,6 @@ import javax.servlet.http.Part;
 @MultipartConfig(maxFileSize = 1000*1000 * 5, maxRequestSize = 1000 * 1000 * 25, fileSizeThreshold = 1000 * 1000)
 public class ProfileController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -50,31 +42,24 @@ public class ProfileController extends HttpServlet {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         Part photo = request.getPart("photo");
-        
-        String filePath = this.getServletContext().getRealPath("/Images/");
-        File fDir = new File(filePath);
-        if (!fDir.exists()) {
-            fDir.mkdir();
-        }
-        
-        String photoName = String.valueOf(System.currentTimeMillis() + "." + photo.getContentType().split("/")[1]);
-        photo.write(filePath + photoName);        
-        
+        String photoName = ImageUtils.uploadImage(photo, this.getServletContext().getRealPath(""));
+   
+            
         HttpSession session = request.getSession();
         Object userSession = session.getAttribute("user");
         
         if (userSession == null) {
-            result.put("session", false);
+            result.put("status", false);
         }
         else {
             int userId = Integer.parseInt(session.getAttribute("user").toString());
             MySQLUserDAO userDao = new MySQLUserDAO();
             
-            UserDTO user = new UserDTO(userId, firstName, lastName, dateOfBirth, email, username, "Images/" + photoName);
+            UserDTO user = new UserDTO(userId, firstName, lastName, dateOfBirth, email, username, photoName);
             
             boolean rowCount = userDao.update(user);
             
-            result.put("session", true);
+            result.put("status", true);
             result.put("profile", rowCount);
         }
         
@@ -86,16 +71,9 @@ public class ProfileController extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println(json);
         out.flush();
+
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

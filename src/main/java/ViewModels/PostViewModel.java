@@ -1,5 +1,8 @@
 package ViewModels;
 
+import DTO.CategoryDTO;
+import java.util.List;
+
 public class PostViewModel {
     
     private int postId;
@@ -7,6 +10,7 @@ public class PostViewModel {
     private String description;
     private String username;
     private String creationDate;
+    private List<CategoryDTO> categories;
     
     public PostViewModel() {
         
@@ -58,6 +62,14 @@ public class PostViewModel {
 
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+    
+    public List<CategoryDTO> getCategories() {
+        return categories;
+    }
+    
+    public void setCategories(List<CategoryDTO> categories) {
+        this.categories = categories;
     }
     
 }

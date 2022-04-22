@@ -1,4 +1,63 @@
 $.ajax({
+    async: false,
+    type: "GET",
+    dataType: "json",
+    url: "VerifySession"
+}).done(function(data) {
+
+    if (!data.status) {
+        window.location.href = "index.html";
+    }
+
+    const html = `
+        <li class="nav-item dropdown">
+            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle">
+                <span class="text-white mr-2">${data.user.username}</span>
+                <img src=${data.user.photo} alt="logo" class="login-logo img-fluid rounded-circle">
+            </a>
+            <div class="dropdown-menu">
+                <a href="Profile.html" class="dropdown-item">Perfil</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item" id="close-session">Salir</a>
+            </div>
+        </li>`;
+
+    $(".navbar-nav").append(html);
+
+}).fail(function(jqXHR, state) {
+
+    console.log("Ups...algo salio mal: " + state);
+
+});
+
+$.ajax({
+    async: false,
+    type: "GET",
+    dataType: "json",
+    url: "GetCategories"
+}).done(function(data) {
+
+    if (data.status) {
+
+        console.log(data.categories);
+
+        //let categoriesName = [];
+        for (let i = 0; i < data.categories.length; i++) {
+            $("#categories").append(`
+            <option value="${data.categories[i].categoryId}"> ${data.categories[i].name}</option>
+            `);
+            //categoriesName.push(data.categories[i].name);
+        }
+
+    }
+
+}).fail(function(jqXHR, state) {
+
+    console.log("Ups...algo salio mal: " + state);
+
+});
+
+$.ajax({
     data: { "search-query" : new URLSearchParams(window.location.search).get("search-query"), },
     type: "POST",
     dataType: "json",
@@ -44,9 +103,21 @@ $(document).ready(function() {
 
     $("#date-filter").submit( function(e) {
 
-       // e.preventDefault();
-        alert("Hola");
+        e.preventDefault();
+       alert($(this).serialize());
     });
+
+    $("#category-filter").submit( function(e) {
+
+        e.preventDefault();
+        alert($(this).serialize());
+     });
+
+     $("#like-filter").submit( function(e) {
+
+        e.preventDefault();
+        alert($(this).serialize());
+     });
 
 
 });

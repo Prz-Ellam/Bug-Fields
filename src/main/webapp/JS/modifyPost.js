@@ -31,6 +31,33 @@ $.ajax({
 });
 
 $.ajax({
+    async: false,
+    type: "GET",
+    dataType: "json",
+    url: "GetCategories"
+}).done(function(data) {
+
+    if (data.status) {
+
+        console.log(data.categories);
+
+        //let categoriesName = [];
+        for (let i = 0; i < data.categories.length; i++) {
+            $("#categories").append(`
+            <option value="${data.categories[i].categoryId}"> ${data.categories[i].name}</option>
+            `);
+            //categoriesName.push(data.categories[i].name);
+        }
+
+    }
+
+}).fail(function(jqXHR, state) {
+
+    console.log("Ups...algo salio mal: " + state);
+
+});
+
+$.ajax({
     data: { "id" : new URLSearchParams(window.location.search).get("id"), },
     async: false,
     type: "GET",
@@ -42,6 +69,10 @@ $.ajax({
 
         $("#title").val(data.post.title);
         $("#description").val(data.post.description);
+
+        $.each(data.categories, function(i, e) {
+            $(`option[value="${e.categoryId}"]`).attr("selected", "selected");
+        });
 
     }
     else {
@@ -120,9 +151,31 @@ $(document).ready(function() {
             dataType: "json",
             url: "UpdatePostController"
         }).done(function(data) {
-            if (data.status){
-                console.log("Good");
+
+            if (data.status) {
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Se ha editado con éxito tú publicación",
+                    confirmButtonColor: "#449342",
+                    background: "#EFEFEF"
+                }).then(function () {
+                    window.location.href = "index.html";
+                });
+                
             }
+            else {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Parece que algo salió mal',
+                    confirmButtonColor: "#de4f54",
+                    background: "#EFEFEF"
+                });
+
+            }
+
         }).fail(function(jqXHR, state) {
             console.log("Ups...algo salio mal: " + state);
         });

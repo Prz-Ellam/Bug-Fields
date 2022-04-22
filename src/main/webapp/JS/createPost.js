@@ -51,8 +51,6 @@ $.ajax({
             //categoriesName.push(data.categories[i].name);
         }
 
-
-
     }
 
 }).fail(function(jqXHR, state) {

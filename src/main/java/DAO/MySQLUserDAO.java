@@ -6,6 +6,7 @@ import Connections.SqlParameters;
 import Controllers.RegistrationController;
 import DTO.UserDTO;
 import DAO.Contracts.GenericDAO;
+import DAO.Contracts.UserDAO;
 import com.google.gson.Gson;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -25,7 +26,7 @@ import java.util.HashMap;
  *
  * @author eliam
  */
-public class MySQLUserDAO implements GenericDAO<UserDTO> {
+public class MySQLUserDAO implements UserDAO {
     
     private final String CREATE = "CALL sp_InsertUser(?,?,?,?,?,?,?)";
     private final String UPDATE = "CALL sp_UpdateUser(?,?,?,?,?,?,?)";
@@ -215,7 +216,7 @@ public class MySQLUserDAO implements GenericDAO<UserDTO> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
+    //@Override
     public boolean update(UserDTO user) {
         
         Connection connection = null;
@@ -258,7 +259,7 @@ public class MySQLUserDAO implements GenericDAO<UserDTO> {
         return false;
     }
 
-    @Override
+    //@Override
     public boolean delete(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

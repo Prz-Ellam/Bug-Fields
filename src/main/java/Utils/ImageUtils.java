@@ -15,7 +15,12 @@ public class ImageUtils {
     
     public static String uploadImage(Part image, String relativePath) throws IOException {
         
-        String imageName = image.getName() + System.currentTimeMillis() + "." + image.getContentType().split("/")[1];
+        String extension = image.getContentType().split("/")[1];
+        String imageName = image.getName() + System.currentTimeMillis() + "." + extension;
+        
+        if (extension.equals("octet-stream")) {
+            return null;
+        }
         
         File file = new File(relativePath + path);
         if (!file.exists()) {

@@ -132,7 +132,7 @@ public class MySQLPostDAO implements PostDAO {
     }
     
 
-    public ArrayList read(int offset) {
+    public ArrayList<PostViewModel> read(int offset) {
         Connection connection = null;
         CallableStatement statement = null;
         ResultSet rs = null;
@@ -142,9 +142,9 @@ public class MySQLPostDAO implements PostDAO {
             statement.setInt(1, 10); // LIMIT
             statement.setInt(2, offset);
             rs = statement.executeQuery();
-            ArrayList<DashboardPostDTO> posts = new ArrayList<DashboardPostDTO>();
+            ArrayList<PostViewModel> posts = new ArrayList<PostViewModel>();
             while(rs.next()){
-                DashboardPostDTO dashboardPost = new DashboardPostDTO();
+                PostViewModel dashboardPost = new PostViewModel();
                 dashboardPost.setPostId(rs.getInt(1));
                 dashboardPost.setTitle(rs.getString(2));
                 dashboardPost.setDescription(rs.getString(3));
@@ -293,14 +293,7 @@ public class MySQLPostDAO implements PostDAO {
             statement.setInt(1, postId);
             statement.setInt(2, userId);
             int rowCount = statement.executeUpdate();
-            
-            if (rowCount > 0) {
-                return true;
-            }
-            else {
-                return false;
-            }
-            
+            return (rowCount > 0) ? true : false;
         }
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -320,7 +313,7 @@ public class MySQLPostDAO implements PostDAO {
         
     }
     
-    public PostDTO getByID(int postId, int userId) {
+    public PostDTO getById(int postId, int userId) {
         Connection connection = null;
         CallableStatement statement = null;
         ResultSet rs = null;

@@ -50,7 +50,7 @@ $.ajax({
 
         let post = data.posts[i];
 
-        const html = `
+        let html = `
         <section>
             <div class="container mt-5">
                 <article class="card bg-light m-4 p-4 rounded-3">
@@ -59,25 +59,30 @@ $.ajax({
                     <h6 class="card-subtitle text-muted">${post.username}</h5>
                     <p class="card-body description">${post.description}</p>
 
-                    <div class="btn-group card-link">
-                        <button type="button" class="btn btn-outline-primary p-0">Categoría 1</button>
-                        <button type="button" class="btn btn-outline-primary p-0">Categoría 2</button>
-                        <button type="button" class="btn btn-outline-primary p-0">Categoría 3</button>
-                    </div>
+                    <div class="btn-group card-link">`;
+
+                    for (let j = 0; j < post.categories.length; j++) {
+
+                        html +=  `
+                        <a href="AdvancedSearch.html" class="btn btn-outline-primary p-0">${post.categories[j].name}</a>
+                        `;
+
+                    }
+
+                    html += `</div>
 
                     <div class="card-text text-right">
-                        <p><small class="text-muted">${post.creationDate}</small></p>
+                        <p><small class="text-muted">Creada: ${post.creationDate}</small></p>
                     </div>
 
                     <div class="card-footer m-0 p-2 text-right">
-                        <button class="update btn btn-secondary">Modificar</button>
-                        <button class="delete btn btn-danger">Eliminar</button>
+                        <a class="delete btn btn-danger" href="deletePost.html?id=${post.postId}">Eliminar</a>
                     </div>
 
                 </article>
             </div>
         </section>
-        `
+        `;
 
         $("main").append(html);
 

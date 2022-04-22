@@ -39,15 +39,11 @@ $.ajax({
 }).done(function(data) {
 
     if (data.status) {
-
         $("#title").val(data.post.title);
         $("#description").val(data.post.description);
-
     }
     else {
-
         window.location.href = "index.html";
-
     }
 
 }).fail(function(jqXHR, state) {
@@ -132,9 +128,43 @@ $(document).ready(function(){
         });
     });
 
+    $("#delete-post").submit(function(e) {
 
+        e.preventDefault();
 
+        $.ajax({
+            data: "post-id=" + new URLSearchParams(window.location.search).get("id"),
+            type: "POST",
+            dataType: "json",
+            url: "DeletePostController"
+        }).done(function(data) {
+            if (data.status) {
 
+                Swal.fire({
+                    icon: "success",
+                    title: "Se ha eliminado tú publicación",
+                    confirmButtonColor: "#449342",
+                    background: "#EFEFEF"
+                }).then(function () {
+                    window.location.href = "index.html";
+                });
+                
+            }
+            else {
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Parece que algo salió mal',
+                    confirmButtonColor: "#de4f54",
+                    background: "#EFEFEF"
+                });
 
+            }
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
+
+    });
 
 });

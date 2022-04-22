@@ -17,7 +17,7 @@ $.ajax({
         const html = `
         <li class="nav-item dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle">
-                <span class="text-white mr-2">Perfil</span>
+                <span class="text-white mr-2">${data.profile.username}</span>
                 <img src=${data.profile.photo} alt="logo" class="login-logo img-fluid rounded-circle">
             </a>
             <div class="dropdown-menu">
@@ -56,24 +56,24 @@ $(document).ready(function() {
     
     
    
-    $("#firstName").focus(function() {
-        $("#firstName").removeClass("is-invalid").removeClass("is-valid");
+    $("#first-name").focus(function() {
+        $("#first-name").removeClass("is-invalid").removeClass("is-valid");
         $("#firstName-error-label").remove();
     });
 
-    $("#firstName").blur(function() {
+    $("#first-name").blur(function() {
         let validator = $("#profile-form").validate();
-        validateInput(validator.element("#firstName"), this.name); 
+        validateInput(validator.element("#first-name"), this.name); 
     });
 
-    $('#lastName').focus(function() {
-        $("#lastName").removeClass("is-invalid").removeClass("is-valid");
-        $("#lastName-error-label").remove();
+    $('#last-name').focus(function() {
+        $("#last-name").removeClass("is-invalid").removeClass("is-valid");
+        $("#last-name-error-label").remove();
     });
 
-    $('#lastName').blur(function() {
+    $('#last-name').blur(function() {
         let validator = $("#profile-form").validate();
-        validateInput(validator.element("#lastName"), this.name); 
+        validateInput(validator.element("#last-name"), this.name); 
     });
 
     $('#username').focus(function() {
@@ -96,17 +96,17 @@ $(document).ready(function() {
         validateInput(validator.element("#email"), this.name); 
     });
 
-    $('#dateOfBirth').focus(function() {
-        $("#dateOfBirth").removeClass("is-invalid").removeClass("is-valid");
-        $("#dateOfBirth-error-label").remove();
+    $('#date-of-birth').focus(function() {
+        $("#date-of-birth").removeClass("is-invalid").removeClass("is-valid");
+        $("#date-of-birth-error-label").remove();
     });
 
-    $('#dateOfBirth').blur(function() {
+    $('#date-of-birth').blur(function() {
         let validator = $("#profile-form").validate();
-        validateInput(validator.element("#dateOfBirth"), this.name); 
+        validateInput(validator.element("#date-of-birth"), this.name); 
     });
     
-    $('#dateOfBirth').on('input', function() { 
+    $('#date-of-birth').on('input', function() { 
         
         let diff = Date.now() - Date.parse($(this).val());
     let age = new Date(diff);
@@ -178,12 +178,12 @@ $(document).ready(function() {
     
     $('#profile-form').validate({
         rules: {
-            firstName:{
+            "first-name":{
                 required: true,
                 whitespaces: true,
                 alphas: true
             },
-            lastName: {
+            "last-name": {
                 required: true,
                 whitespaces: true,
                 alphas: true
@@ -199,7 +199,7 @@ $(document).ready(function() {
                 whitespaces: true,
                 emailForm: true
             },
-            dateOfBirth: {
+            "date-of-birth": {
                 required: true,
                 whitespaces: true,
                 date: true,
@@ -207,12 +207,12 @@ $(document).ready(function() {
             }
         },
         messages: {
-            firstName:{
+            "first-name":{
                 required: 'El nombre no puede estar vacío.',
                 whitespaces: 'El nombre no puede estar vacío.',
                 alphas: 'El nombre no es válido.'
             },
-            lastName: {
+            "last-name": {
                 required: 'El apellido no puede estar vacío.',
                 whitespaces: 'El apellido no puede estar vacío.',
                 alphas: 'El apellido no es válido.'
@@ -228,7 +228,7 @@ $(document).ready(function() {
                 whitespaces: 'El correo electrónico no puede estar vacío.',
                 emailForm: 'El correo electrónico no es válido.'
             },
-            dateOfBirth: {
+            "date-of-birth": {
                 required: 'La fecha de nacimiento no puede estar vacía.',
                 whitespaces: 'La fecha de nacimiento no puede estar vacía.',
                 date: 'La fecha de nacimiento no es válida',
@@ -265,7 +265,29 @@ $(document).ready(function() {
             processData: false
         }).done(function(data) {
 
-            console.log(data);
+            if (data.status) {
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Se ha editado con éxito tú perfil",
+                    confirmButtonColor: "#449342",
+                    background: "#EFEFEF"
+                }).then(function () {
+                    window.location.href = "index.html";
+                });
+
+            }
+            else {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Parece que algo salió mal',
+                    confirmButtonColor: "#de4f54",
+                    background: "#EFEFEF"
+                });
+
+            }
 
         }).fail(function(jqXHR, state) {
             console.log("Ups...algo salio mal: " + state);

@@ -46,45 +46,39 @@
 
 </nav>
 
-    <div class="row px-5 ">
+    <div class="row px-5">
 
         <div class="col-4">
-            <form class="form-inline" id="search-box">
+            <form action="#" method="get" class="form-inline" id="category-filter">
                 <div class="input-group">
-                    <select class="form-control shadow-none">
-                        <option>Categorías</option>
+                    <select class="form-control shadow-none" name="category" id="categories">
+                        <option value="1" disabled selected>Categorías</option>
                     </select>
-                    <input type="search" class="form-control shadow-none" name="search" placeholder="Buscar publicaciones">
-                    <div class="input-group-append">
-                        <button class="btn bg-white shadow-none" style="border: solid 1px grey" type="submit"><i class="fas fa-search text-secondary"></i></button>
-                    </div>
+                    <button class="btn bg-white shadow-none" type="submit"><i class="fas fa-search text-secondary"></i></button>
                 </div>
             </form>
         </div>
-
-        <div class="col-8 row">
-
-            <form action="#" method="get" class="form-inline" id="date-filter">
-        <div class="col-5 input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text">De</div>
-              </div>
-            <input type="date" class="form-control shadow-none" name="start">
-            
-        </div>
-        <div class="col-5 input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text">Hasta</div>
-              </div>
-            <input type="date" class="form-control shadow-none" name="end">
-            
+        
+        <div class="col-4">
+            <form class="form-inline" id="date-filter">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">De</div>
+                </div>
+                <input type="date" class="form-control shadow-none" name="start">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Hasta</div>
+                </div>
+                <input type="date" class="form-control shadow-none" name="end">
+                <button class="btn bg-white shadow-none" type="submit"><i class="fas fa-search text-secondary"></i></button>
+            </form>
         </div>
 
-        <div class="col-2">
-            <button class="btn bg-white shadow-none" style="border: solid 1px grey" type="submit"><i class="fas fa-search text-secondary"></i></button>
+        <div class="col-4">
+            <form class="form-inline" id="like-filter">
+                <input type="search" class="form-control shadow-none" name="search" placeholder="Buscar publicaciones">
+                <button class="btn bg-white shadow-none" type="submit"><i class="fas fa-search text-secondary"></i></button>
+            </form>
         </div>
-    </form>
-    </div>
 
     </div>
 
