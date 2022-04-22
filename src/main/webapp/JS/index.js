@@ -64,7 +64,7 @@ $.ajax({
                     for (let j = 0; j < post.categories.length; j++) {
 
                         html +=  `
-                        <a href="AdvancedSearch.html" class="btn btn-outline-primary p-0">${post.categories[j].name}</a>
+                        <a href="AdvancedSearch.html?category=${post.categories[j].categoryId}&start=&end=&search=" class="btn btn-outline-primary p-0">${post.categories[j].name}</a>
                         `;
 
                     }
