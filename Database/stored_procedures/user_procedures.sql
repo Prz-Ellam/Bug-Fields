@@ -111,7 +111,7 @@ DROP PROCEDURE IF EXISTS sp_UpdateUserPassword;
 CREATE PROCEDURE sp_UpdateUserPassword(
 	IN _user_id 			INT,
 	IN _old_pwd 			VARCHAR(50),
-	IN _new_pwd 			VARCHAR(255)
+	IN _new_pwd 			VARCHAR(50)
 )
 BEGIN
 

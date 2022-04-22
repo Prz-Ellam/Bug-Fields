@@ -218,8 +218,8 @@ DELIMITER ;
 SELECT * FROM posts;
 SELECT * FROM categories;
 SELECT * FROM posts_categories;
-CALL sp_GetPostsByAdvancedSearch(null,null, null, null);
-
+CALL sp_GetPostsByAdvancedSearch(null, null, null, 'H', 10, 0);
+CALL sp_GetPostsByAdvancedSearchCount(null, null, null, 'H');
 
 
 CREATE  OR REPLACE VIEW vw_AdvancedSearchCategories AS
@@ -248,7 +248,9 @@ CREATE PROCEDURE sp_GetPostsByAdvancedSearch(
 	_category_id			INT,
 	_start					DATE,
 	_end					DATE,
-    _filter					VARCHAR(100)
+    _filter					VARCHAR(100),
+    _limit					INT,
+    _offset					INT
 )
 BEGIN
 
@@ -262,14 +264,15 @@ BEGIN
 				posts AS p
 				JOIN users AS u
 				ON p.user_id = u.user_id
-				JOIN posts_categories AS pc
+				LEFT JOIN posts_categories AS pc
 				ON p.post_id = pc.post_id
 	WHERE 
 				(p.creation_date BETWEEN IFNULL(_start, '1000-01-01') AND IFNULL(_end, '9999-12-31')) AND 
-				(p.title LIKE CONCAT("%", _filter, "%") OR p.description LIKE CONCAT("%", _filter, "%") OR _filter IS NULL) AND 
+				((p.title LIKE CONCAT("%", _filter, "%") OR p.description LIKE CONCAT("%", _filter, "%")) OR _filter IS NULL) AND 
 				(pc.category_id = _category_id OR _category_id IS NULL) AND 
 				p.active = TRUE
-	LIMIT 10;
+	LIMIT _limit
+    OFFSET _offset;
 
 END$$
 
@@ -278,7 +281,34 @@ DELIMITER ;
 
 
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetPostsByAdvancedSearchCount;
 
+CREATE PROCEDURE sp_GetPostsByAdvancedSearchCount(
+	_category_id			INT,
+	_start					DATE,
+	_end					DATE,
+    _filter					VARCHAR(100)
+)
+BEGIN
+
+	SELECT 
+				COUNT(DISTINCT p.post_id)
+	FROM 
+				posts AS p
+				JOIN users AS u
+				ON p.user_id = u.user_id
+				LEFT JOIN posts_categories AS pc
+				ON p.post_id = pc.post_id
+	WHERE 
+				(p.creation_date BETWEEN IFNULL(_start, '1000-01-01') AND IFNULL(_end, '9999-12-31')) AND 
+				((p.title LIKE CONCAT("%", _filter, "%") OR p.description LIKE CONCAT("%", _filter, "%")) OR _filter IS NULL) AND 
+				(pc.category_id = _category_id OR _category_id IS NULL) AND 
+				p.active = TRUE;
+
+END$$
+
+DELIMITER ;
 
 
 

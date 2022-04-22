@@ -32,10 +32,14 @@ public class GetPosts extends HttpServlet {
         
         HashMap result = new HashMap();
         
+        // Resultados por pagina: 10
+        int resultsPerPage = 10;
+        
+        // Numero de la pagina
         String strPage = request.getParameter("page");
         int page = 0;
         
-        if (strPage == null || strPage.equals("")) {
+        if (strPage == null) {
             page = 1;
         }
         else {
@@ -47,23 +51,28 @@ public class GetPosts extends HttpServlet {
             }
         }
         
-        int offset = (page - 1) * 10;
+        // Offset de la busqueda
+        int offset = (page - 1) * resultsPerPage;
         if (offset < 0) {
             offset = 0;
         }
         
         MySQLPostDAO postDao = new MySQLPostDAO();
         CategoryDAO categoryDao = new MySQLCategoryDAO();
-        List<PostViewModel> posts = postDao.read(offset);
+        List<PostViewModel> posts = postDao.read(resultsPerPage, offset);
         
         for (PostViewModel post : posts) {
             post.setCategories(categoryDao.getPostCategories(post.getPostId()));
         }
         
-        int pagesCount = postDao.getActivePostsCount();
+        // Cantidad de posts actuales
+        int resultsCount = postDao.getActivePostsCount();
         
         result.put("posts", posts);
-        result.put("pagesCount", pagesCount);
+        result.put("resultsCount", resultsCount);
+        result.put("resultsPerPage", resultsPerPage);
+        result.put("numberOfPages", Math.ceil((float)resultsCount / resultsPerPage));
+        result.put("page", page);
         
         return result;
         

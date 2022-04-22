@@ -182,14 +182,14 @@ public class MySQLPostDAO implements PostDAO {
     }
     
 
-    public ArrayList<PostViewModel> read(int offset) {
+    public ArrayList<PostViewModel> read(int limit, int offset) {
         Connection connection = null;
         CallableStatement statement = null;
         ResultSet rs = null;
         try {
             connection = DBConnection.getConnection();
             statement = connection.prepareCall(READ);
-            statement.setInt(1, 10); // LIMIT
+            statement.setInt(1, limit);
             statement.setInt(2, offset);
             rs = statement.executeQuery();
             ArrayList<PostViewModel> posts = new ArrayList<PostViewModel>();
@@ -236,25 +236,59 @@ public class MySQLPostDAO implements PostDAO {
         return null;
     }
     
-    public int getActivePostsCount() {
-        
+    public int getAdvancedSearchCount(Integer categoryId, String startDate, String endDate, String filter) {
         Connection connection = null;
-        
+        CallableStatement statement = null;
+        ResultSet rs = null;
         try {
-            
             connection = DBConnection.getConnection();
-
-            PreparedStatement statement = connection.prepareCall("SELECT CEILING( (SELECT COUNT(*) FROM posts WHERE active <> FALSE) / 10) AS Total;");
+            statement = connection.prepareCall("CALL sp_GetPostsByAdvancedSearchCount(?, ?, ?, ?)");
+            statement.setObject(1, categoryId);
+            statement.setString(2, startDate);
+            statement.setString(3, endDate);
+            statement.setString(4, filter);
             
-            ResultSet result = statement.executeQuery();
-            
-            while(result.next()){
-                
-                return result.getInt(1);
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
             }
+            else {
+                return -1;
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return -1;
+        }
+        finally {
+            try {
+                if (rs != null)           rs.close();
+                if (statement != null)    statement.close();
+                if (connection != null)   connection.close();
+            }
+            catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+    
+    public int getActivePostsCount() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement("SELECT COUNT(*) FROM posts WHERE active = TRUE");
+            rs = statement.executeQuery();
             
-            return 0;
+            if(rs.next()){
+                
+                return rs.getInt(1);
+            }
+            else{
             
+              return 0;
+            }
         }
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -380,17 +414,20 @@ public class MySQLPostDAO implements PostDAO {
         
     }
     
-    public List<PostViewModel> getByAdvancedSearch(Integer categoryId, String startDate, String endDate, String filter) {
+    public List<PostViewModel> getByAdvancedSearch(Integer categoryId, String startDate, String endDate, 
+        String filter, int limit, int offset) {
         Connection connection = null;
         CallableStatement statement = null;
         ResultSet rs = null;
         try {
             connection = DBConnection.getConnection();
-            statement = connection.prepareCall("CALL sp_GetPostsByAdvancedSearch(?, ?, ?, ?)");
+            statement = connection.prepareCall("CALL sp_GetPostsByAdvancedSearch(?, ?, ?, ?, ?, ?)");
             statement.setObject(1, categoryId);
             statement.setString(2, startDate);
             statement.setString(3, endDate);
             statement.setString(4, filter);
+            statement.setInt(5, limit);
+            statement.setInt(6, offset);
             rs = statement.executeQuery();
             
             List<PostViewModel> posts = new ArrayList<PostViewModel>();
@@ -410,29 +447,13 @@ public class MySQLPostDAO implements PostDAO {
             System.out.println(ex.getMessage());
         }
         finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (rs != null)           rs.close();
+                if (statement != null)    statement.close();
+                if (connection != null)   connection.close();
             }
-            if (statement != null) {
-                try {
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
         }
         

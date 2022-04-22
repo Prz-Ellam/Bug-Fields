@@ -1,13 +1,9 @@
 package DAO;
 
 import Connections.DBConnection;
-import Connections.MainConnection;
-import Connections.SqlParameters;
-import Controllers.RegistrationController;
 import DTO.UserDTO;
 import DAO.Contracts.GenericDAO;
 import DAO.Contracts.UserDAO;
-import com.google.gson.Gson;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +16,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Types;
-import java.util.HashMap;
 
 /**
  *
@@ -28,8 +23,9 @@ import java.util.HashMap;
  */
 public class MySQLUserDAO implements UserDAO {
     
-    private final String CREATE = "CALL sp_InsertUser(?,?,?,?,?,?,?)";
-    private final String UPDATE = "CALL sp_UpdateUser(?,?,?,?,?,?,?)";
+    private final String CREATE = "CALL sp_InsertUser(?, ?, ?, ?, ?, ?, ?)";
+    private final String UPDATE = "CALL sp_UpdateUser(?, ?, ?, ?, ?, ?, ?)";
+    private final String UPDATE_PWD = "CALL sp_UpdateUserPassword(?, ?, ?)";
     private final String GET_ONE = "CALL sp_GetUser(?)";
         
     public UserDTO getUser(int userId) {
@@ -262,6 +258,33 @@ public class MySQLUserDAO implements UserDAO {
     //@Override
     public boolean delete(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    public boolean updatePwd(int userId, String oldPwd, String newPwd) {
+        Connection connection = null;
+        CallableStatement statement = null;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareCall(UPDATE_PWD);
+            statement.setInt(1, userId);
+            statement.setString(2, oldPwd);
+            statement.setString(3, newPwd);
+            int rowCount = statement.executeUpdate();
+            return (rowCount > 0) ? true : false;
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            }
+           catch (SQLException e) {
+                System.out.println(e.getMessage());
+           }   
+        }
+        return false;
     }
     
 }

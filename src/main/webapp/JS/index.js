@@ -54,7 +54,6 @@ $.ajax({
         <section>
             <div class="container mt-5">
                 <article class="card bg-light m-4 p-4 rounded-3">
-                    
                     <a href="modifyPost.html?id=${post.postId}" class="card-title" id="${post.postId}">${post.title}</a>
                     <h6 class="card-subtitle text-muted">${post.username}</h5>
                     <p class="card-body description">${post.description}</p>
@@ -88,40 +87,70 @@ $.ajax({
 
     }
 
+    if (data.page > 1) {
+        
+        $("ul.pagination").append(`
+        <li class="page-item">
+            <a class="page-link" href="?page=${data.page-1}">Anterior</a>
+        </li>
+        `);
 
-    let page = new URLSearchParams(window.location.search).get("page");
-    if (page === null) {
-        page = 0;
     }
+    else {
 
-    previousPage = page - 1;
-    nextPage = parseInt(page) + 1;
+        $("ul.pagination").append(`
+        <li class="page-item disabled">
+            <a class="page-link">Anterior</a>
+        </li>
+        `);
 
-    if (previousPage > 0) {
+    }
     
-    $("ul.pagination").append(`<li class="page-item">
-    <a class="page-link" href="?page=${page-1}" tabindex="-1">Anterior</a>
-    </li>`);
+    let numberOfButtons = (data.numberOfPages > 5) ? 5 : data.numberOfPages;
+
+    for (let i = 0; i < numberOfButtons; i++) {
+
+        $("ul.pagination").append(`
+        <li class="page-item">
+            <a class="page-link" href="?page=${i + 1}">${i + 1}</a>
+        </li>
+        `);
+
+    }
+
+    if (data.numberOfPages > numberOfButtons) {
+
+        $("ul.pagination").append(`
+        <li class="page-item disabled">
+            <span class="page-link">...</span>
+        </li>
+        `);
+
+        $("ul.pagination").append(`
+        <li class="page-item">
+            <a class="page-link" href="?page=${data.numberOfPages}">${data.numberOfPages}</a>
+        </li>
+        `);
+
+    }
+
+
+    if (data.page + 1 > data.numberOfPages) {
+
+        $("ul.pagination").append(`
+        <li class="page-item disabled">
+            <a class="page-link">Siguiente</a>
+        </li>
+        `);
 
     }
     else {
-        $("ul.pagination").append(`<li class="page-item disabled">
-        <a class="page-link" tabindex="-1">Anterior</a>
-        </li>`);
-    }
 
-    if (nextPage > data.pagesCount) {
-
-        $("ul.pagination").append(`<li class="page-item disabled">
-        <a class="page-link">Siguiente</a>
-      </li>`);
-
-    }
-    else {
-
-        $("ul.pagination").append(`<li class="page-item">
-        <a class="page-link" href="?page=${parseInt(page)+1}">Siguiente</a>
-      </li>`);
+        $("ul.pagination").append(`
+        <li class="page-item">
+            <a class="page-link" href="?page=${parseInt(data.page) + 1}">Siguiente</a>
+        </li>
+        `);
 
     }
 

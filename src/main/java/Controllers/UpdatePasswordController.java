@@ -1,54 +1,71 @@
 package Controllers;
 
+import DAO.MySQLUserDAO;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author eliam
- */
-@WebServlet(name = "UpdatePassword", urlPatterns = {"/UpdatePassword"})
+@WebServlet(name = "UpdatePasswordController", urlPatterns = {"/UpdatePasswordController"})
 public class UpdatePasswordController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private HashMap getRequestData(HttpServletRequest request)  {
+        
+        HashMap result = new HashMap();
+        
+        String oldPassword = request.getParameter("old-password");
+        String newPassword = request.getParameter("new-password");
+        String confirmNewPassword = request.getParameter("confirm-new-password");
+        
+        HttpSession session = request.getSession();
+        Object obj = session.getAttribute("user");
+        
+        if (obj == null) {
+            result.put("status", false);
+            return result;
+        }
+        
+        int userId = -1;
+        try {
+            userId = Integer.parseInt(obj.toString());
+        }
+        catch (NumberFormatException ex) {
+            result.put("status", false);
+            return result;
+        }
+        
+        MySQLUserDAO userDao = new MySQLUserDAO();
+        
+        boolean queryResult = userDao.updatePwd(userId, oldPassword, newPassword);
+        
+        result.put("status", queryResult);
+        
+        return result;
+        
+    }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdatePassword</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdatePassword at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+        HashMap result = getRequestData(request);
+       
+        Gson gson = new Gson();
+        String json = gson.toJson(result);
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println(json);
+        out.flush();
+    
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -145,7 +145,7 @@ $(document).ready(function() {
     }, 'fecha invalida');
     
     $.validator.addMethod('passwordX', function(value, element, parameter) {
-        return this.optional(element) || $('#newPassword').val() == value;
+        return this.optional(element) || $('#new-password').val() == value;
     }, 'invalido');
     
     $.validator.addMethod('duplicateUsername', function(value, element, parameter) {
@@ -297,28 +297,28 @@ $(document).ready(function() {
     
     
     
-    $('#password').focus(function() {
-        $("#password").removeClass("is-invalid").removeClass("is-valid");
-        $("#password-error-label").remove();
+    $('#old-password').focus(function() {
+        $("#old-password").removeClass("is-invalid").removeClass("is-valid");
+        $("#old-password-error-label").remove();
     });
 
-    $('#password').blur(function() {
+    $('#old-password').blur(function() {
         let validator = $("#profile-password-form").validate();
-        validateInput(validator.element("#password"), this.name); 
+        validateInput(validator.element("#old-password"), this.name); 
     });
 
-    $('#newPassword').focus(function() {
-        $("#newPassword").removeClass("is-invalid").removeClass("is-valid");
-        $("#newPassword-error-label").remove();
+    $('#new-password').focus(function() {
+        $("#new-password").removeClass("is-invalid").removeClass("is-valid");
+        $("#new-password-error-label").remove();
     });
 
-    $('#newPassword').blur(function() {
+    $('#new-password').blur(function() {
         let validator = $("#profile-password-form").validate();
-        validateInput(validator.element("#newPassword"), this.name); 
+        validateInput(validator.element("#new-password"), this.name); 
     });
     
     function validatePasswordRequirements() {
-        let password = $("#newPassword").val();
+        let password = $("#new-password").val();
 
         if (/([A-Z])/.test(password)) {
             $('#field-password-upper').addClass('text-success').removeClass('text-danger');
@@ -356,52 +356,52 @@ $(document).ready(function() {
         }
     }
     
-    $('#newPassword').on('input', function() {
+    $('#new-password').on('input', function() {
 
         validatePasswordRequirements();
 
     });
 
 
-    $('#confirmNewPassword').focus(function() {
-        $("#confirmNewPassword").removeClass("is-invalid").removeClass("is-valid");
-        $("#confirmNewPassword-error-label").remove();
+    $('#confirm-new-password').focus(function() {
+        $("#confirm-new-password").removeClass("is-invalid").removeClass("is-valid");
+        $("#confirm-new-password-error-label").remove();
     });
 
-    $('#confirmNewPassword').blur(function() {
+    $('#confirm-new-password').blur(function() {
         let validator = $("#profile-password-form").validate();
-        validateInput(validator.element("#confirmNewPassword"), this.name); 
+        validateInput(validator.element("#confirm-new-password"), this.name); 
     });
 
 
 $('#profile-password-form').validate({
         rules: {
-            password: {
+            "old-password": {
                 required: true,
                 whitespaces: true
             },
-            newPassword:{
+            "new-password": {
                 required: true,
                 whitespaces: true,
                 passwordRequirements: true
             },
-            confirmNewPassword: {
+            "confirm-new-password": {
                 required: true,
                 whitespaces: true,
                 passwordX: true
             }
         },
         messages: {
-            password: {
+            "old-password": {
                 required: 'La contraseña no puede estar vacía.',
                 whitespaces: 'La contraseña no puede estar vacía.'
             },
-            newPassword: {
+            "new-password": {
                 required: 'La nueva contraseña no puede estar vacía.',
                 whitespaces: 'La nueva contraseña no puede estar vacía.',
                 passwordRequirements: 'La nueva contraseña no es válida.'
             },
-            confirmNewPassword: {
+            "confirm-new-password": {
                 required: 'Confirmar nueva contraseña no puede estar vacío.',
                 whitespaces: 'Confirmar nueva contraseña no puede estar vacío.',
                 passwordX: 'Confirmar nueva contraseña no coincide con contraseña.'
@@ -425,6 +425,41 @@ $("#profile-password-form").submit(function(e){
         validateInput(validator.element("#confirmNewPassword"), 'confirmNewPassword');
         return;
     }
+
+    $.ajax({
+        data: $(this).serialize(),
+        type: "POST",
+        dataType: "json",
+        url: "UpdatePasswordController",
+    }).done(function(data) {
+
+        if (data.status) {
+
+            Swal.fire({
+                icon: "success",
+                title: "Se ha editado con éxito tú perfil",
+                confirmButtonColor: "#449342",
+                background: "#EFEFEF"
+            }).then(function () {
+                window.location.href = "index.html";
+            });
+
+        }
+        else {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Parece que algo salió mal, revise que su contraseña este correcta',
+                confirmButtonColor: "#de4f54",
+                background: "#EFEFEF"
+            });
+
+        }
+
+    }).fail(function(jqXHR, state) {
+        console.log("Ups...algo salio mal: " + state);
+    });
         
 });
 

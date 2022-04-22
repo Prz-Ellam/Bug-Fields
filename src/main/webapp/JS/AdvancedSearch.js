@@ -71,26 +71,43 @@ $.ajax({
     if (data.status) {
 
         $("#dashboard").empty();
-
-        let posts = data.posts;
         
-        for (let i = 0; i < posts.length; i++) {
+        for (let i = 0; i < data.posts.length; i++) {
 
-        const html = `
-        <section>
-            <div class="container mt-5">
-                <article class="card bg-light m-4 p-4 rounded-3">
-                    <a href="#" class="card-title">${posts[i].title}</a>
-                    <h6 class="card-subtitle text-muted">por: ${posts[i].username}</h5>
-                    <p class="card-body description" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis">${posts[i].description}</p>
-                    
-                    <div class="card-text text-right">
-                        <p><small class="text-muted">Creada: ${posts[i].creationDate}</small></p>
-                    </div>
-                </article>
-            </div>
-        </section>
-        `;
+            let post = data.posts[i];
+
+            let html = `
+            <section>
+                <div class="container mt-5">
+                    <article class="card bg-light m-4 p-4 rounded-3">
+                        <a href="modifyPost.html?id=${post.postId}" class="card-title" id="${post.postId}">${post.title}</a>
+                        <h6 class="card-subtitle text-muted">${post.username}</h5>
+                        <p class="card-body description">${post.description}</p>
+    
+                        <div class="btn-group card-link">`;
+    
+                        for (let j = 0; j < post.categories.length; j++) {
+    
+                            html +=  `
+                            <a href="AdvancedSearch.html?category=${post.categories[j].categoryId}&start=&end=&search=" class="btn btn-outline-primary p-0">${post.categories[j].name}</a>
+                            `;
+    
+                        }
+    
+                        html += `</div>
+    
+                        <div class="card-text text-right">
+                            <p><small class="text-muted">Creada: ${post.creationDate}</small></p>
+                        </div>
+    
+                        <div class="card-footer m-0 p-2 text-right">
+                            <a class="delete btn btn-danger" href="deletePost.html?id=${post.postId}">Eliminar</a>
+                        </div>
+    
+                    </article>
+                </div>
+            </section>
+            `;
 
         $("#dashboard").append(html);
 
@@ -131,31 +148,48 @@ $(document).ready(function() {
             dataType: "json"
        }).done(data => {
 
-           if (data.status) {
+        if (data.status) {
 
-                $("#dashboard").empty();
+            $("#dashboard").empty();
+            
+            for (let i = 0; i < data.posts.length; i++) {
 
-                let posts = data.posts;
-
-        for (let i = 0; i < posts.length; i++) {
-
-            const html = `
-            <section>
-                <div class="container mt-5">
-                    <article class="card bg-light m-4 p-4 rounded-3">
-                        <a href="#" class="card-title">${posts[i].title}</a>
-                        <h6 class="card-subtitle text-muted">por: ${posts[i].username}</h5>
-                        <p class="card-body description" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis">${posts[i].description}</p>
-                        
-                        <div class="card-text text-right">
-                            <p><small class="text-muted">Creada: ${posts[i].creationDate}</small></p>
+                let post = data.posts[i];
+        
+                let html = `
+                    <section>
+                        <div class="container mt-5">
+                            <article class="card bg-light m-4 p-4 rounded-3">
+                                <a href="modifyPost.html?id=${post.postId}" class="card-title" id="${post.postId}">${post.title}</a>
+                                <h6 class="card-subtitle text-muted">${post.username}</h5>
+                                <p class="card-body description">${post.description}</p>
+            
+                                <div class="btn-group card-link">`;
+            
+                                for (let j = 0; j < post.categories.length; j++) {
+            
+                                    html +=  `
+                                    <a href="AdvancedSearch.html?category=${post.categories[j].categoryId}&start=&end=&search=" class="btn btn-outline-primary p-0">${post.categories[j].name}</a>
+                                    `;
+            
+                                }
+            
+                                html += `</div>
+            
+                                <div class="card-text text-right">
+                                    <p><small class="text-muted">Creada: ${post.creationDate}</small></p>
+                                </div>
+            
+                                <div class="card-footer m-0 p-2 text-right">
+                                    <a class="delete btn btn-danger" href="deletePost.html?id=${post.postId}">Eliminar</a>
+                                </div>
+            
+                            </article>
                         </div>
-                    </article>
-                </div>
-            </section>
-            `;
-
-            $("#dashboard").append(html);
+                    </section>
+                    `;
+        
+                $("#dashboard").append(html);
 
         }
 

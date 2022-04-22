@@ -1,5 +1,7 @@
 package Controllers;
 
+import DAO.Contracts.CategoryDAO;
+import DAO.MySQLCategoryDAO;
 import DAO.MySQLPostDAO;
 import ViewModels.PostViewModel;
 import com.google.gson.Gson;
@@ -29,13 +31,13 @@ public class GetPostsByAdvancedSearch extends HttpServlet {
             if (category.equals(""))   category = null;
         }
         if (startDate != null){
-        if (startDate.equals(""))   startDate = null;
+            if (startDate.equals(""))   startDate = null;
         }
         if (endDate != null){
-        if (endDate.equals(""))   endDate = null;
+            if (endDate.equals(""))   endDate = null;
         }
         if (search != null){
-        if (search.equals(""))   search = null;
+            if (search.equals(""))   search = null;
         }
         
         Integer categoryId;
@@ -46,8 +48,42 @@ public class GetPostsByAdvancedSearch extends HttpServlet {
             categoryId = null;
         }
         
+        
+        // Resultados por pagina: 10
+        int resultsPerPage = 10;
+        
+        String strPage = request.getParameter("page");
+        int page = 0;
+        
+        if (strPage == null) {
+            page = 1;
+        }
+        else {
+            try {
+                page = Integer.parseInt(strPage);
+            }
+            catch (NumberFormatException ex) {
+                page = 1;
+            }
+        }
+        
+        // Offset de la busqueda
+        int offset = (page - 1) * resultsPerPage;
+        if (offset < 0) {
+            offset = 0;
+        }
+        
+        
         MySQLPostDAO postDao = new MySQLPostDAO();
-        List<PostViewModel> posts = postDao.getByAdvancedSearch(categoryId, startDate, endDate, search);
+        CategoryDAO categoryDao = new MySQLCategoryDAO();
+        List<PostViewModel> posts = postDao.getByAdvancedSearch(categoryId, startDate, endDate, 
+                search, resultsPerPage, offset);
+        
+        for (PostViewModel post : posts) {
+            post.setCategories(categoryDao.getPostCategories(post.getPostId()));
+        }
+        
+        int resultsCount = postDao.getAdvancedSearchCount(categoryId, startDate, endDate, search);
         
         if (posts == null) {
             result.put("status", false);
@@ -55,6 +91,10 @@ public class GetPostsByAdvancedSearch extends HttpServlet {
         else {
             result.put("status", true);
             result.put("posts", posts);
+            result.put("resultsCount", resultsCount);
+            result.put("resultsPerPage", resultsPerPage);
+            result.put("numberOfPages", Math.ceil((float)resultsCount / resultsPerPage));
+            result.put("page", page);
         }
         
         return result;
