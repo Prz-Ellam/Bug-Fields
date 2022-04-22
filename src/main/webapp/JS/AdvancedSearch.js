@@ -96,7 +96,17 @@ $.ajax({
 
     }
 
+    let category = new URLSearchParams(window.location.search).get("category");
+    if (category !== null) {
+        $(`option[value="${category}"`).attr("selected", "selected");
     }
+
+    let filter = new URLSearchParams(window.location.search).get("search");
+    if (filter !== null) {
+        $(`#search-input`).val(filter);
+    }
+
+}
 
     
 }).fail(function(jqXHR, state) {
