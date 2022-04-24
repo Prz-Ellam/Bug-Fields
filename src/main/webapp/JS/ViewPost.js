@@ -53,7 +53,7 @@ $.ajax({
     if (data.status) {
 
         $("#title").html(data.post.title);
-        $("#autor").html(data.post.username);
+        $("#author").html(data.post.username);
         $("#description").html(data.post.description);
 
         let html = '';
