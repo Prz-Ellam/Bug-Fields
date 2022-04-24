@@ -120,21 +120,100 @@ $.ajax({
             </section>
             `;
 
-        $("#dashboard").append(html);
+            $("#dashboard").append(html);
+
+        }
+
+        let category = new URLSearchParams(window.location.search).get("category");
+        if (category !== null) {
+            $(`option[value="${category}"`).attr("selected", "selected");
+        }
+        
+        let filter = new URLSearchParams(window.location.search).get("search");
+        if (filter !== null) {
+            $(`#search-input`).val(filter);
+        }
+
+    if (data.page > 1) {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('page', data.page - 1);
+        
+        $("ul.pagination").append(`
+        <li class="page-item">
+            <a class="page-link" href="AdvancedSearch.html?${urlParams.toString()}">Anterior</a>
+        </li>
+        `);
+
+    }
+    else {
+
+        $("ul.pagination").append(`
+        <li class="page-item disabled">
+            <a class="page-link">Anterior</a>
+        </li>
+        `);
+
+    }
+    
+    let numberOfButtons = (data.numberOfPages > 5) ? 5 : data.numberOfPages;
+
+    for (let i = 0; i < numberOfButtons; i++) {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('page', i + 1);
+
+        $("ul.pagination").append(`
+        <li class="page-item">
+            <a class="page-link" href="AdvancedSearch.html?${urlParams.toString()}">${i + 1}</a>
+        </li>
+        `);
 
     }
 
-    let category = new URLSearchParams(window.location.search).get("category");
-    if (category !== null) {
-        $(`option[value="${category}"`).attr("selected", "selected");
+    if (data.numberOfPages > numberOfButtons) {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('page', data.numberOfPages);
+
+        $("ul.pagination").append(`
+        <li class="page-item disabled">
+            <span class="page-link">...</span>
+        </li>
+        `);
+
+        $("ul.pagination").append(`
+        <li class="page-item">
+            <a class="page-link" href="AdvancedSearch.html?${urlParams.toString()}">${data.numberOfPages}</a>
+        </li>
+        `);
+
     }
 
-    let filter = new URLSearchParams(window.location.search).get("search");
-    if (filter !== null) {
-        $(`#search-input`).val(filter);
+
+    if (data.page + 1 > data.numberOfPages) {
+
+        $("ul.pagination").append(`
+        <li class="page-item disabled">
+            <a class="page-link">Siguiente</a>
+        </li>
+        `);
+
+    }
+    else {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('page', parseInt(data.page) + 1);
+
+        $("ul.pagination").append(`
+        <li class="page-item">
+            <a class="page-link" href="AdvancedSearch.html?${urlParams.toString()}">Siguiente</a>
+        </li>
+        `);
+
     }
 
-}
+    }
 
     
 }).fail(function(jqXHR, state) {
@@ -162,51 +241,134 @@ $(document).ready(function() {
         if (data.status) {
 
             $("#dashboard").empty();
+            $("ul.pagination").empty();
             
             for (let i = 0; i < data.posts.length; i++) {
 
                 let post = data.posts[i];
         
                 let html = `
-                    <section>
-                        <div class="container mt-5">
-                            <article class="card bg-light m-4 p-4 rounded-3">
-                                <a href="modifyPost.html?id=${post.postId}" class="card-title" id="${post.postId}">${post.title}</a>
-                                <h6 class="card-subtitle text-muted">${post.username}</h5>
-                                <p class="card-body description">${post.description}</p>
-            
-                                <div class="btn-group card-link">`;
-            
-                                for (let j = 0; j < post.categories.length; j++) {
-            
-                                    html +=  `
-                                    <a href="AdvancedSearch.html?category=${post.categories[j].categoryId}&start=&end=&search=" class="btn btn-outline-primary p-0">${post.categories[j].name}</a>
-                                    `;
-            
-                                }
-            
-                                html += `</div>
-            
-                                <div class="card-text text-right">
-                                    <p><small class="text-muted">Creada: ${post.creationDate}</small></p>
-                                </div>
-            
-                                <div class="card-footer m-0 p-2 text-right">
+                <section>
+                    <div class="container mt-5">
+                        <article class="card bg-light m-4 p-4 rounded-3">
+                        ${post.userOwn ? `<a href="modifyPost.html?id=${post.postId}"` : `<a href="ViewPost.html?id=${post.postId}"`} class="card-title" id="${post.postId}">${post.title}</a>
+                            <h6 class="card-subtitle text-muted">${post.username}</h5>
+                            <p class="card-body description">${post.description}</p>
+        
+                            <div class="btn-group card-link">`;
+        
+                            for (let j = 0; j < post.categories.length; j++) {
+        
+                                html +=  `
+                                <a href="AdvancedSearch.html?category=${post.categories[j].categoryId}&start=&end=&search=" class="btn btn-outline-primary p-0">${post.categories[j].name}</a>
+                                `;
+        
+                            }
+        
+                            html += `</div>
+        
+                            <div class="card-text text-right">
+                                <p><small class="text-muted">Creada: ${post.creationDate}</small></p>
+                            </div>
+        
+                            ${post.userOwn ?
+    
+                                `<div class="card-footer m-0 p-2 text-right">
                                     <a class="delete btn btn-danger" href="deletePost.html?id=${post.postId}">Eliminar</a>
-                                </div>
-            
-                            </article>
-                        </div>
-                    </section>
-                    `;
+                                </div>` : ``
+                            }
+        
+                        </article>
+                    </div>
+                </section>
+                `;
+    
         
                 $("#dashboard").append(html);
+            }
 
         }
 
         window.history.pushState( {} , "", "AdvancedSearch.html?" + $(this).serialize());
 
-           }
+        if (data.page > 1) {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', data.page - 1);
+            
+            $("ul.pagination").append(`
+            <li class="page-item">
+                <a class="page-link" href="AdvancedSearch.html?${urlParams.toString()}">Anterior</a>
+            </li>
+            `);
+    
+        }
+        else {
+    
+            $("ul.pagination").append(`
+            <li class="page-item disabled">
+                <a class="page-link">Anterior</a>
+            </li>
+            `);
+    
+        }
+        
+        let numberOfButtons = (data.numberOfPages > 5) ? 5 : data.numberOfPages;
+    
+        for (let i = 0; i < numberOfButtons; i++) {
+    
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', i + 1);
+    
+            $("ul.pagination").append(`
+            <li class="page-item">
+                <a class="page-link" href="AdvancedSearch.html?${urlParams.toString()}">${i + 1}</a>
+            </li>
+            `);
+    
+        }
+    
+        if (data.numberOfPages > numberOfButtons) {
+    
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', data.numberOfPages);
+    
+            $("ul.pagination").append(`
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            `);
+    
+            $("ul.pagination").append(`
+            <li class="page-item">
+                <a class="page-link" href="AdvancedSearch.html?${urlParams.toString()}">${data.numberOfPages}</a>
+            </li>
+            `);
+    
+        }
+    
+    
+        if (data.page + 1 > data.numberOfPages) {
+    
+            $("ul.pagination").append(`
+            <li class="page-item disabled">
+                <a class="page-link">Siguiente</a>
+            </li>
+            `);
+    
+        }
+        else {
+    
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', parseInt(data.page) + 1);
+    
+            $("ul.pagination").append(`
+            <li class="page-item">
+                <a class="page-link" href="AdvancedSearch.html?${urlParams.toString()}">Siguiente</a>
+            </li>
+            `);
+    
+        }
 
         
        }).fail(function(jqXHR, state) {
@@ -219,3 +381,13 @@ $(document).ready(function() {
 
 
 });
+
+
+/*
+
+const urlParams = new URLSearchParams(window.location.search.substring(1));
+    urlParams.set('page', 2);
+    console.log(urlParams.toString());
+
+
+*/ 
