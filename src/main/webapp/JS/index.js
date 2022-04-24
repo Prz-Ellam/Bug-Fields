@@ -54,7 +54,7 @@ $.ajax({
         <section>
             <div class="container mt-5">
                 <article class="card bg-light m-4 p-4 rounded-3">
-                ${post.userOwn ? `<a href="modifyPost.html?id=${post.postId}"` : `<p `} class="card-title" id="${post.postId}">${post.title}</a>
+                ${post.userOwn ? `<a href="modifyPost.html?id=${post.postId}"` : `<a href="ViewPost.html?id=${post.postId}"`} class="card-title" id="${post.postId}">${post.title}</a>
                     <h6 class="card-subtitle text-muted">${post.username}</h5>
                     <p class="card-body description">${post.description}</p>
 

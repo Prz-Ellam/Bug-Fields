@@ -41,6 +41,11 @@ $.ajax({
     if (data.status) {
         $("#title").val(data.post.title);
         $("#description").val(data.post.description);
+
+        $.each(data.categories, function(i, e) {
+            $("#post-categories").append(`<option>${e.name}</option>`);
+        });
+
     }
     else {
         window.location.href = "index.html";
@@ -90,8 +95,6 @@ $("#SearchForm").submit(function(e){
 
 // Tags
 $(document).ready(function(){
-    $(".tags").val('jQuery,C++,HTML');
-
 
     $(".btn-delete-pub").on('click', function() {
         

@@ -416,6 +416,65 @@ public class MySQLPostDAO implements PostDAO {
         
     }
     
+    public PostViewModel getById(int postId) {
+        Connection connection = null;
+        CallableStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareCall("CALL sp_GetPostByID(?)");
+            statement.setInt(1, postId);
+            rs = statement.executeQuery();
+            
+            PostViewModel post = null;
+            if(rs.next()){
+                post = new PostViewModel();
+                post.setPostId(rs.getInt(1));
+                post.setTitle(rs.getString(2));
+                post.setDescription(rs.getString(3));
+                post.setUsername(rs.getString(4));
+                post.setCreationDate(rs.getString(5));
+                return post;
+            }
+            else {
+                return null;
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        
+        return null;
+        
+    }
+    
+    
     public List<PostViewModel> getByAdvancedSearch(Integer categoryId, String startDate, String endDate, 
         String filter, int limit, int offset, int userId) {
         Connection connection = null;

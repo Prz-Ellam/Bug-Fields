@@ -43,6 +43,28 @@ DELIMITER ;
 
 
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetPostByID;
+
+CREATE PROCEDURE sp_GetPostByID(
+	_post_id 				INT
+)
+BEGIN
+
+	SELECT post_id, title, description, user_id
+    FROM posts
+    WHERE post_id = _post_id AND active = TRUE;
+
+END$$
+
+DELIMITER ;
+
+
+
+
+
+
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_UpdatePost;
@@ -97,7 +119,13 @@ CREATE PROCEDURE sp_ReadPosts(
 )
 BEGIN
 
-	SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+	SELECT 
+    		p.post_id, 
+            p.title, 
+            p.description, 
+            u.username, 
+            p.creation_date,
+            IF(u.user_id = _user_id, TRUE, FALSE) AS Own
     FROM posts AS p
     JOIN users AS u
     ON p.user_id = u.user_id
