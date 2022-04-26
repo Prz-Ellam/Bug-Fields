@@ -1,3 +1,5 @@
+import ModifyPostValidator from "./Validators/ModifyPostValidator.js";
+
 $.ajax({
     async: false,
     type: "GET",
@@ -39,14 +41,10 @@ $.ajax({
 
     if (data.status) {
 
-        console.log(data.categories);
-
-        //let categoriesName = [];
         for (let i = 0; i < data.categories.length; i++) {
             $("#categories").append(`
             <option value="${data.categories[i].categoryId}"> ${data.categories[i].name}</option>
             `);
-            //categoriesName.push(data.categories[i].name);
         }
 
     }
@@ -93,40 +91,23 @@ $(document).ready(function() {
         filter: true
     });
 
+    var formID = "#modify-form";
+    var validator = new ModifyPostValidator(formID);
 
     //FUNCIONES PARA VALIDAR
+    $(".form-input").blur(function() {
 
-    $('#title').blur(function() {
-        let validator = $("#modify-form").validate();
-        if (validator.element("#title") === false) {
-            $("#title").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#title").addClass("is-valid").removeClass("is-invalid");
-        }
+        validator.validateInput(this);
+        
     });
 
-    $('#title').focus(function() {
-        $("#title").removeClass("is-invalid").removeClass("is-valid");
-        $("#title-error-label").remove();
-    });
+    $(".form-input").focus(function() {
 
-    $('#description').blur(function() {
-        let validator = $("#modify-form").validate();
-        if (validator.element("#description") === false) {
-            $("#description").addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $("#description").addClass("is-valid").removeClass("is-invalid");
-        }
-    });
+        validator.focusInput(this);
 
-    $('#description').focus(function() {
-        $("#description").removeClass("is-invalid").removeClass("is-valid");
-        $("#description-error-label").remove();
     });
-
-    $("#modify-form").submit(function(e){
+    
+    $(formID).submit(function(e){
 
         e.preventDefault();
 
@@ -171,43 +152,6 @@ $(document).ready(function() {
             console.log("Ups...algo salio mal: " + state);
         });
 
-    });
-
-    $.validator.addMethod('whitespaces', function(value, element, parameter) {
-        return this.optional(element) || !/^\s*$/.test(value);
-    }, 'El correo electrónico no puede estar vacío');
-
-    $.validator.addMethod('alphas', function(value, element, parameter) {
-        return this.optional(element) || /^[a-zA-Z \u00C0-\u00FF]+$/.test(value);
-    }, 'invalido');
-
-    $('#modify-form').validate({
-        rules: {
-            title: {
-                required: true,
-                whitespaces: true,
-                alphas: true
-            },
-            description: {
-                required: true,
-                whitespaces: true
-            }
-        },
-        messages: {
-            title: {
-                required: 'El título no puede estar vacío.',
-                whitespaces: 'El título no puede estar vacío',
-                alphas: 'El título no es válido.'
-            },
-            description: {
-                required: 'La descripción no puede estar vacía.',
-                whitespaces: 'La descripción no puede estar vacía.'
-            }
-        },
-        errorElement: 'small',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
-        }
     });
 
     $(document).on('click', '#close-session', function(e) {

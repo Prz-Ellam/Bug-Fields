@@ -9,16 +9,15 @@ export default class SignUpValidator extends GenericValidator {
 
         $.validator.addMethod("fileSize", function(value, element, parameter) {
 
-            const size = (element.files[0].size / 1024 / 1024).toFixed(2);
             let result;
-
-            if (size > 5) {
-                result = false;
-
-            } else {
-                result = true;
+            if (element.files[0] === undefined) {
+                return this.optional(element) || result; 
             }
 
+            const size = (element.files[0].size / 1024 / 1024).toFixed(2);
+
+            result =  (size > 5.0) ? false : true;
+ 
             return this.optional(element) || result; 
         }, "invalido");
 

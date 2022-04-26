@@ -9,10 +9,10 @@ export default class CreatePostValidator extends GenericValidator {
 
         $.validator.addMethod('whitespaces', function(value, element, parameter) {
             return this.optional(element) || !/^\s*$/.test(value);
-        }, 'El correo electrónico no puede estar vacío');
+        }, 'invalido');
     
         $.validator.addMethod('alphanumeric', function(value, element, parameter) {
-            return this.optional(element) || /^[a-zA-Z0-9.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"… \u00C0-\u00FF]+$/.test(value);
+            return this.optional(element) || /^[a-zA-Z0-9.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"…@ \u00C0-\u00FF]+$/.test(value);
         }, 'invalido');
 
         $(formID).validate({

@@ -38,8 +38,6 @@ $.ajax({
 
 });
 
-
-
 $.ajax({
     async: false,
     type: "GET",
@@ -49,14 +47,10 @@ $.ajax({
 
     if (data.status) {
 
-        console.log(data.categories);
-
-        //let categoriesName = [];
         for (let i = 0; i < data.categories.length; i++) {
             $("#categories").append(`
             <option value="${data.categories[i].categoryId}"> ${data.categories[i].name}</option>
             `);
-            //categoriesName.push(data.categories[i].name);
         }
 
     }
@@ -378,16 +372,4 @@ $(document).ready(function() {
 
     });
 
-
-
 });
-
-
-/*
-
-const urlParams = new URLSearchParams(window.location.search.substring(1));
-    urlParams.set('page', 2);
-    console.log(urlParams.toString());
-
-
-*/ 

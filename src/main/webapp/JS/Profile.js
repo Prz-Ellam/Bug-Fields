@@ -1,3 +1,6 @@
+import ProfileValidator from "./Validators/ProfileValidator.js";
+import PasswordValidator from "./Validators/PasswordValidator.js";
+
 var date = new Date();
 var dateFormat = date.getFullYear() + '-' + 
 String(date.getMonth() + 1).padStart(2, '0') + '-' + 
@@ -44,214 +47,64 @@ $.ajax({
 $(document).ready(function() {
 
     $("#photo-file").change(showPreviewImage_click);
-    
-    function validateInput(state, name) {
-        if (state === false) {
-            $('#' + name).addClass("is-invalid").removeClass("is-valid");
-        }
-        else {
-            $('#' + name).addClass("is-valid").removeClass("is-invalid");
-        }
-    }
-    
-    
-   
-    $("#first-name").focus(function() {
-        $("#first-name").removeClass("is-invalid").removeClass("is-valid");
-        $("#firstName-error-label").remove();
+
+    let formID = "#profile-form";
+    let validator = new ProfileValidator(formID, dateFormat);
+
+    let passwordFormId = "#profile-password-form";
+    let passwordValidator = new PasswordValidator(passwordFormId);
+
+    //FUNCIONES PARA VALIDAR
+    $(".form-input").blur(function() {
+
+        validator.validateInput(this);
+        
     });
 
-    $("#first-name").blur(function() {
-        let validator = $("#profile-form").validate();
-        validateInput(validator.element("#first-name"), this.name); 
+    $(".form-input").focus(function() {
+
+        validator.focusInput(this);
+
     });
 
-    $('#last-name').focus(function() {
-        $("#last-name").removeClass("is-invalid").removeClass("is-valid");
-        $("#last-name-error-label").remove();
+    $(".password-input").blur(function() {
+
+        passwordValidator.validateInput(this);
+        
     });
 
-    $('#last-name').blur(function() {
-        let validator = $("#profile-form").validate();
-        validateInput(validator.element("#last-name"), this.name); 
+    $(".password-input").focus(function() {
+
+        passwordValidator.focusInput(this);
+
     });
 
-    $('#username').focus(function() {
-        $("#username").removeClass("is-invalid").removeClass("is-valid");
-        $("#username-error-label").remove();
-    });
 
-    $('#username').blur(function() {
-        let validator = $("#profile-form").validate();
-        validateInput(validator.element("#username"), this.name);
-    })
-
-    $('#email').focus(function() {
-        $("#email").removeClass("is-invalid").removeClass("is-valid");
-        $("#email-error-label").remove();
-    });
-
-    $('#email').blur(function() {
-        let validator = $("#profile-form").validate();
-        validateInput(validator.element("#email"), this.name); 
-    });
-
-    $('#date-of-birth').focus(function() {
-        $("#date-of-birth").removeClass("is-invalid").removeClass("is-valid");
-        $("#date-of-birth-error-label").remove();
-    });
-
-    $('#date-of-birth').blur(function() {
-        let validator = $("#profile-form").validate();
-        validateInput(validator.element("#date-of-birth"), this.name); 
-    });
-    
     $('#date-of-birth').on('input', function() { 
         
         let diff = Date.now() - Date.parse($(this).val());
-    let age = new Date(diff);
-
-    let outputAge = age.getUTCFullYear() - 1970;
-
-    if(outputAge < 0)
-        outputAge = 0;
-
-    $("#age").val(outputAge);
+        let age = new Date(diff);
+        let outputAge = age.getUTCFullYear() - 1970;
         
-    });
-
- 
-
-
-    $.validator.addMethod('whitespaces', function(value, element, parameter) {
-        return this.optional(element) || !/^\s*$/.test(value);
-    }, 'El correo electrónico no puede estar vacío');
-
-    $.validator.addMethod('alphas', function(value, element, parameter) {
-        return this.optional(element) || /^[a-zA-Z \u00C0-\u00FF]+$/.test(value);
-    }, 'invalido');
-
-    $.validator.addMethod('username', function(value, element, parameter) {
-        return this.optional(element) || /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/.test(value);
-    }, 'invalido');
-    
-    $.validator.addMethod('emailForm', function(value, element, parameter) {
-        return this.optional(element) || /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
-    }, 'invalido');
-
-    $.validator.addMethod('daterange', function(value, element, parameter) {
-        return this.optional(element) ||
-        !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
-    }, 'fecha invalida');
-    
-    $.validator.addMethod('passwordX', function(value, element, parameter) {
-        return this.optional(element) || $('#new-password').val() == value;
-    }, 'invalido');
-    
-    $.validator.addMethod('duplicateUsername', function(value, element, parameter) {
-        
-        let result;
-        $.ajax({
-            async: false,
-            data: {"username":value},
-            type: "POST",
-            dataType: "json",
-            url: "VerifyUsernameExists"
-        }).done(function(data) {
-            result = !data.exists;
-        }).fail(function(jqXHR, state) {
-            console.log("Ups...algo salio mal: " + state);
-        });
-        
-        return this.optional(element) || result;
-    }, 'invalido');
-    
-    $.validator.addMethod('passwordRequirements', function(value, element, parameter) {
-        let upper = this.optional(element) || /([A-Z])/.test(value);
-        let lower = this.optional(element) || /([a-z])/.test(value);
-        let number = this.optional(element) || /([0-9])/.test(value);
-        let symbol = this.optional(element) || /[.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"…]/.test(value);
-        let length = this.optional(element) || value.length > 7;
-       
-        return upper && lower && number && symbol && length;
-    }, 'invalido');
-    
-    $('#profile-form').validate({
-        rules: {
-            "first-name":{
-                required: true,
-                whitespaces: true,
-                alphas: true
-            },
-            "last-name": {
-                required: true,
-                whitespaces: true,
-                alphas: true
-            },
-            username: {
-                required: true,
-                whitespaces: true,
-                username: true,
-                duplicateUsername: true
-            },
-            email: {
-                required: true,
-                whitespaces: true,
-                emailForm: true
-            },
-            "date-of-birth": {
-                required: true,
-                whitespaces: true,
-                date: true,
-                daterange: ['1900-01-01', dateFormat]
-            }
-        },
-        messages: {
-            "first-name":{
-                required: 'El nombre no puede estar vacío.',
-                whitespaces: 'El nombre no puede estar vacío.',
-                alphas: 'El nombre no es válido.'
-            },
-            "last-name": {
-                required: 'El apellido no puede estar vacío.',
-                whitespaces: 'El apellido no puede estar vacío.',
-                alphas: 'El apellido no es válido.'
-            },
-            username: {
-                required: 'El nombre de usuario no puede estar vacío.',
-                whitespaces: 'El nombre de usuario no puede estar vacío.',
-                username: 'El nombre de usuario no es válido',
-                duplicateUsername: 'El nombre de usuario ya esta siendo usado.'
-            },
-            email: {
-                required: 'El correo electrónico no puede estar vacío.',
-                whitespaces: 'El correo electrónico no puede estar vacío.',
-                emailForm: 'El correo electrónico no es válido.'
-            },
-            "date-of-birth": {
-                required: 'La fecha de nacimiento no puede estar vacía.',
-                whitespaces: 'La fecha de nacimiento no puede estar vacía.',
-                date: 'La fecha de nacimiento no es válida',
-                daterange: 'La fecha de nacimiento no es válida'
-            }
-        },
-        errorElement: 'small',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
+        if(outputAge < 0) {
+            outputAge = 0;
         }
+        
+        $("#age").val(outputAge);
+        
     });
 
-    $("#profile-form").submit(function(e) {
+
+    $(formID).submit(function(e) {
         
         e.preventDefault();
 
-        if($('#profile-form').valid() === false) {
-            let validator = $("#profile-form").validate();
-            validateInput(validator.element("#first-name"), 'firstName');
-            validateInput(validator.element("#last-name"), 'lastName');
-            validateInput(validator.element("#date-of-birth"), 'dateOfBirth');
-            validateInput(validator.element("#email"), 'email');
-            validateInput(validator.element("#username"), 'username');
+        if($(formID).valid() === false) {
+            validator.validateInput($("#first-name"));
+            validator.validateInput($("#last-name"));
+            validator.validateInput($("#date-of-birth"));
+            validator.validateInput($("#email"));
+            validator.validateInput($("#username"));
             return;
         }
 
@@ -266,7 +119,6 @@ $(document).ready(function() {
         }).done(function(data) {
 
             if (data.status) {
-
                 Swal.fire({
                     icon: "success",
                     title: "Se ha editado con éxito tú perfil",
@@ -275,10 +127,8 @@ $(document).ready(function() {
                 }).then(function () {
                     window.location.href = "index.html";
                 });
-
             }
             else {
-
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -286,7 +136,6 @@ $(document).ready(function() {
                     confirmButtonColor: "#de4f54",
                     background: "#EFEFEF"
                 });
-
             }
 
         }).fail(function(jqXHR, state) {
@@ -295,27 +144,6 @@ $(document).ready(function() {
 
     });
     
-    
-    
-    $('#old-password').focus(function() {
-        $("#old-password").removeClass("is-invalid").removeClass("is-valid");
-        $("#old-password-error-label").remove();
-    });
-
-    $('#old-password').blur(function() {
-        let validator = $("#profile-password-form").validate();
-        validateInput(validator.element("#old-password"), this.name); 
-    });
-
-    $('#new-password').focus(function() {
-        $("#new-password").removeClass("is-invalid").removeClass("is-valid");
-        $("#new-password-error-label").remove();
-    });
-
-    $('#new-password').blur(function() {
-        let validator = $("#profile-password-form").validate();
-        validateInput(validator.element("#new-password"), this.name); 
-    });
     
     function validatePasswordRequirements() {
         let password = $("#new-password").val();
@@ -361,70 +189,17 @@ $(document).ready(function() {
         validatePasswordRequirements();
 
     });
-
-
-    $('#confirm-new-password').focus(function() {
-        $("#confirm-new-password").removeClass("is-invalid").removeClass("is-valid");
-        $("#confirm-new-password-error-label").remove();
-    });
-
-    $('#confirm-new-password').blur(function() {
-        let validator = $("#profile-password-form").validate();
-        validateInput(validator.element("#confirm-new-password"), this.name); 
-    });
-
-
-$('#profile-password-form').validate({
-        rules: {
-            "old-password": {
-                required: true,
-                whitespaces: true
-            },
-            "new-password": {
-                required: true,
-                whitespaces: true,
-                passwordRequirements: true
-            },
-            "confirm-new-password": {
-                required: true,
-                whitespaces: true,
-                passwordX: true
-            }
-        },
-        messages: {
-            "old-password": {
-                required: 'La contraseña no puede estar vacía.',
-                whitespaces: 'La contraseña no puede estar vacía.'
-            },
-            "new-password": {
-                required: 'La nueva contraseña no puede estar vacía.',
-                whitespaces: 'La nueva contraseña no puede estar vacía.',
-                passwordRequirements: 'La nueva contraseña no es válida.'
-            },
-            "confirm-new-password": {
-                required: 'Confirmar nueva contraseña no puede estar vacío.',
-                whitespaces: 'Confirmar nueva contraseña no puede estar vacío.',
-                passwordX: 'Confirmar nueva contraseña no coincide con contraseña.'
-            }
-        },
-        errorElement: 'small',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
+    
+    $(passwordFormId).submit(function(e){
+        
+        e.preventDefault();
+        if($(passwordFormId).valid() === false) {
+            passwordValidator.validateInput($("#old-password"));
+            passwordValidator.validateInput($("#new-password"));
+            validatePasswordRequirements();
+            passwordValidator.validateInput($("#confirm-new-password"));
+            return;
         }
-    });
-
-
-$("#profile-password-form").submit(function(e){
-
-    e.preventDefault();
-    if($('#profile-password-form').valid() === false) {
-        let validator = $("#profile-password-form").validate();
-        validateInput(validator.element("#password"), 'password');
-        validateInput(validator.element("#newPassword"), 'newPassword');
-        validatePasswordRequirements();
-        validateInput(validator.element("#confirmNewPassword"), 'confirmNewPassword');
-        return;
-    }
 
     $.ajax({
         data: $(this).serialize(),
@@ -434,7 +209,6 @@ $("#profile-password-form").submit(function(e){
     }).done(function(data) {
 
         if (data.status) {
-
             Swal.fire({
                 icon: "success",
                 title: "Se ha editado con éxito tú perfil",
@@ -443,10 +217,8 @@ $("#profile-password-form").submit(function(e){
             }).then(function () {
                 window.location.href = "index.html";
             });
-
         }
         else {
-
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -454,7 +226,6 @@ $("#profile-password-form").submit(function(e){
                 confirmButtonColor: "#de4f54",
                 background: "#EFEFEF"
             });
-
         }
 
     }).fail(function(jqXHR, state) {
@@ -502,12 +273,6 @@ $("#profile-password-form").submit(function(e){
 }
 
 
-
-
-
-
-
-
 });
 
 
@@ -527,50 +292,3 @@ function showPreviewImage_click(e) {
     };
     reader.readAsDataURL(inputFile);
 }
-
-
-
-// FORM BUSQUEDA
-
-function validateSearching(){
-
-    if($("#search-input").val() === ""){
-        return 1;      
-    }else if(!$("#search-input").val().match(rgxAlphas) || $("#search-input").val().match(rgxWhitespaces)){
-        return 1;
-    }else
-        return 0;
-
-}
-
-$("#SearchForm").submit(function(e){
-
-    let search = $("#search-input").val();
-
-    let result = 0;
-    result += validateSearching(search);
-
-    if(result > 0){
-        e.preventDefault();
-        alert("Búsqueda no válida.");
-    }
-
-});
-
-$(document).on('click', '#close-session', function(e) {
-    e.preventDefault();
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "CloseSession"
-    }).done(function(data) {
-        if (data.result) {
-            window.location.href = "index.html";
-        }
-        else {
-            alert('No se pudo cerrar la sesión');
-        }
-    }).fail(function(jqXHR, state) {
-        console.log("Ups...algo salio mal: " + state);
-    });
-});
