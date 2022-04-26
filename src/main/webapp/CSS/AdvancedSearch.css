@@ -1,3 +1,23 @@
+body {
+    background-color: #EFEFEF;
+    font-family: "Roboto", sans-serif;
+}
+
+.github {
+    color: rgb(224, 224, 224);
+    font-size: 48px;
+}
+
+.page-footer{
+    padding: 48px;
+    margin-top: 50px;
+    height: 224px;
+}
+
+main{
+    margin-top: 35px;
+}
+
 .description {
     overflow: hidden;
     white-space: nowrap;

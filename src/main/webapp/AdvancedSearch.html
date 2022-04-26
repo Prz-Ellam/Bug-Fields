@@ -46,10 +46,10 @@
 
 </nav>
 
-    <div class="row px-5">
+    <div class="container-fluid px-5">
 
-        <form action="#" method="get" class="form-inline" id="advanced-search">
-            <div class="col-4">
+        <form action="#" method="get" class="d-flex justify-content-around" id="advanced-search">
+            <div class="col">
                 <div class="input-group">
                     <select class="form-control shadow-none" name="category" id="categories">
                         <option value="1" disabled selected>Categorías</option>
@@ -57,7 +57,7 @@
                 </div>
             </div>
             
-            <div class="col-4">
+            <div class="col">
                 <div class="input-group-prepend">
                     <div class="input-group-text">De</div>
                 </div>
@@ -68,7 +68,7 @@
                 <input type="date" class="form-control shadow-none" name="end">
             </div>
             
-            <div class="col-4">
+            <div class="col">
                 <input type="search" class="form-control shadow-none" name="search" id="search-input" placeholder="Buscar publicaciones">
                 <button class="btn bg-white shadow-none" type="submit"><i class="fas fa-search text-secondary"></i></button>
             </div>
