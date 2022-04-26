@@ -110,7 +110,7 @@ $(document).ready(function() {
             contentType: false,
             processData: false
         }).done(function(data) {
-            if (data.signin) {
+            if (data.status) {
 
                 Swal.fire({
                     icon: "success",

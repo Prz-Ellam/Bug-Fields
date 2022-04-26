@@ -51,9 +51,18 @@ CREATE PROCEDURE sp_GetPostByID(
 )
 BEGIN
 
-	SELECT post_id, title, description, user_id
-    FROM posts
-    WHERE post_id = _post_id AND active = TRUE;
+	SELECT 
+    		p.post_id, 
+            p.title, 
+            p.description, 
+            u.username, 
+            p.creation_date
+    FROM 
+    		posts AS p
+    		JOIN users AS u
+    		ON p.user_id = u.user_id
+    WHERE 
+    		p.post_id = _post_id AND p.active = TRUE;
 
 END$$
 

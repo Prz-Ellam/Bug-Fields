@@ -23,16 +23,16 @@
             <a class="navbar-brand" href="index.html">
                 <img src="Assets/bugFields.png" alt="logo" class="nav-logo">
             </a>
-
+        
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+        
             <div class="collapse navbar-collapse justify-content-between" id="navbar-content">
-
-                <form class="form-inline mx-auto  w-50">
+        
+                <form class="form-inline mx-auto w-50" id="search-box" method="GET" action="AdvancedSearch.html">
                     <div class="input-group w-100">
-                        <input class="form-control shadow-none" type="search" placeholder="Buscar publicaciones" aria-label="Search">
+                        <input class="form-control shadow-none" type="search" name="search" id="searching" placeholder="Buscar publicaciones" aria-label="Search">
                         <div class="input-group-append">
                             <button type="submit" class="btn bg-white shadow-none"><i class="fas fa-search text-secondary"></i></button>
                         </div>
@@ -44,8 +44,9 @@
                         <a href="Login.html" class="nav-link text-white">Iniciar sesión</a>
                     </li>
                 </ul>
+                
             </div>
-
+        
         </nav>
 
         <div class="container main">

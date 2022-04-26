@@ -49,6 +49,24 @@ export default class SignUpValidator extends GenericValidator {
             
             return this.optional(element) || result;
         }, 'invalido');
+
+        $.validator.addMethod('duplicateEmail', function(value, element, parameter) {
+        
+            let result;
+            $.ajax({
+                async: false,
+                data: { "email" : value },
+                type: "POST",
+                dataType: "json",
+                url: "EmailExists"
+            }).done(function(data) {
+                result = !data.status;
+            }).fail(function(jqXHR, state) {
+                console.log("Ups...algo salio mal: " + state);
+            });
+            
+            return this.optional(element) || result;
+        }, 'invalido');
         
         $.validator.addMethod('passwordRequirements', function(value, element, parameter) {
             let upper = this.optional(element) || /([A-Z])/.test(value);
@@ -84,7 +102,8 @@ export default class SignUpValidator extends GenericValidator {
                 email: {
                     required: true,
                     whitespaces: true,
-                    emailForm: true
+                    emailForm: true,
+                    duplicateEmail: true
                 },
                 username: {
                     required: true,
@@ -126,7 +145,8 @@ export default class SignUpValidator extends GenericValidator {
                 email: {
                     required: 'El correo electrónico no puede estar vacío.',
                     whitespaces: 'El correo electrónico no puede estar vacío.',
-                    emailForm: 'El correo electrónico no es válido.'
+                    emailForm: 'El correo electrónico no es válido.',
+                    duplicateEmail: 'El correo electrónico ya esta siendo usado.'
                 },
                 username: {
                     required: 'El nombre de usuario no puede estar vacío.',

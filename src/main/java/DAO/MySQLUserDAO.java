@@ -27,7 +27,7 @@ public class MySQLUserDAO implements UserDAO {
     private final String UPDATE = "CALL sp_UpdateUser(?, ?, ?, ?, ?, ?, ?)";
     private final String UPDATE_PWD = "CALL sp_UpdateUserPassword(?, ?, ?)";
     private final String GET_ONE = "CALL sp_GetUser(?)";
-        
+    
     public UserDTO getUser(int userId) {
         Connection connection = null;
         ResultSet rs = null;
@@ -142,21 +142,12 @@ public class MySQLUserDAO implements UserDAO {
             System.out.println(e.getMessage());
         }
         finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
             }
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
         return false;
@@ -206,6 +197,38 @@ public class MySQLUserDAO implements UserDAO {
         
         return 0;
 
+    }
+    
+    public boolean emailExists(String email, int userId) {
+        Connection connection = null;
+        try {
+            connection = DBConnection.getConnection();
+            Statement statement = connection.createStatement();
+            String query = "SELECT COUNT(*) FROM users WHERE email = ? AND user_id <> ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, email);
+            ps.setInt(2, userId);
+            ResultSet rs  = ps.executeQuery();
+            int n = 0;
+            if (rs.next()) {
+                n = rs.getInt(1);
+            }
+            return (n > 0) ? true : false;
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        return false;
     }
     
     public ArrayList<UserDTO> read() {

@@ -1,5 +1,6 @@
 package Controllers;
 
+import DAO.Contracts.UserDAO;
 import DAO.MySQLUserDAO;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -12,17 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "VerifyUsernameExists", urlPatterns = {"/VerifyUsernameExists"})
-public class VerifyUsernameExists extends HttpServlet {
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        request.setCharacterEncoding("UTF-8");
+@WebServlet(name = "EmailExists", urlPatterns = {"/EmailExists"})
+public class EmailExists extends HttpServlet {
+    
+    private HashMap getRequestData(HttpServletRequest request) {
         
         HashMap result = new HashMap();
         
-        String username = request.getParameter("username");
+        UserDAO userDao = new MySQLUserDAO();
+        
+        String email = request.getParameter("email");
         int id;
         
         HttpSession session = request.getSession();
@@ -34,25 +34,27 @@ public class VerifyUsernameExists extends HttpServlet {
         else {
             id = Integer.parseInt(obj.toString());
         }
-         
-        MySQLUserDAO dao = new MySQLUserDAO();
-        int count = dao.usernameExists(username, id);
         
-        if (count == 0) {
-            result.put("exists", false);
-        }
-        else {
-            result.put("exists", true);
-        }
+        boolean queryResult = userDao.emailExists(email, id);
+        
+        result.put("status", queryResult);
+        return result;
+        
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        request.setCharacterEncoding("UTF-8");
+        
+        HashMap result = getRequestData(request);
         
         Gson gson = new Gson();
         String json = gson.toJson(result);
-        
+            
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        out.println(json);
-        out.flush();
+        response.getWriter().write(json);
         
     }
 

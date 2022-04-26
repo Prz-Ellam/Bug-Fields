@@ -61,7 +61,7 @@ $(document).ready(function() {
             dataType: "json",
             url: "LoginController"
         }).done(function(data) {
-            if (data.result) {
+            if (data.status) {
                 window.location.href = "index.html";
             }
             else {
@@ -106,35 +106,6 @@ $(document).ready(function() {
         errorPlacement: function(error, element) {
             error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
         }
-    });
-
-
-
-    // FORM BUSQUEDA
-
-    function validateSearching(){
-
-        if($("#search-input").val() === ""){
-            return 1;      
-        }else if(!$("#search-input").val().match(rgxAlphas) || $("#search-input").val().match(rgxWhitespaces)){
-            return 1;
-        }else
-            return 0;
-
-    }
-
-    $("#SearchForm").submit(function(e){
-
-        let search = $("#search-input").val();
-
-        let result = 0;
-        result += validateSearching(search);
-
-        if(result > 0){
-            e.preventDefault();
-            alert("Búsqueda no válida.");
-        }
-
     });
 
 });

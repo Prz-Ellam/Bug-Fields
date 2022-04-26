@@ -2,7 +2,8 @@ $.ajax({
     async: false,
     type: "GET",
     dataType: "json",
-    url: "VerifySession"
+    url: "VerifySession",
+    cache: false
 }).done(function(data) {
     
     if (data.status) {
@@ -34,7 +35,7 @@ $.ajax({
      
     }
       
-}).fail(function(jqXHR, state) {
+}).fail(function(jqXHR, state, error) {
     console.log("Ups...algo salio mal: " + state);
 });
 
@@ -43,7 +44,8 @@ $.ajax({
     async: false,
     type: "GET",
     dataType: "json",
-    url: "GetPosts"
+    url: "GetPosts",
+    cache: false
 }).done(function(data) {
 
     for (let i = 0; i < data.posts.length; i++) {
@@ -156,60 +158,16 @@ $.ajax({
 
     }
 
-
-    
-}).fail(function(jqXHR, state) {
+}).fail(function(jqXHR, state, error) {
     console.log("Ups...algo salio mal: " + state);
 });
 
 $(document).ready(function() {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    // Solo letras del alfabeto
-    var rgxAlphas = /^[a-zA-Z0-9 \u00C0-\u00FF]+$/;
-
-    // Solo hay espacios en blanco
-    var rgxWhitespaces = /^\s*$/;
-
-
     // Botones para redirigir
-
     $("#btn-createPub").click(function(){
         location.href = "createPost.html";
     });
-
-    $("#btn-advSearch").click(function(){
-        location.href = "AdvancedSearch.html";
-    });
-    
-    $(".update").click(function(){
-        location.href = "modifyPost.html";
-    });
-    
-    $(".delete").click(function(){
-        location.href = "deletePost.html";
-    });
-
 
     // FORM BUSQUEDA
     $("#search-box").submit(function(e) {
@@ -237,7 +195,8 @@ $(document).ready(function() {
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "CloseSession"
+            url: "CloseSession",
+            cache: false
         }).done(function(data) {
             if (data.result) {
                 window.location.href = "index.html";

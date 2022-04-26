@@ -557,3 +557,20 @@ $("#SearchForm").submit(function(e){
 
 });
 
+$(document).on('click', '#close-session', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "CloseSession"
+    }).done(function(data) {
+        if (data.result) {
+            window.location.href = "index.html";
+        }
+        else {
+            alert('No se pudo cerrar la sesión');
+        }
+    }).fail(function(jqXHR, state) {
+        console.log("Ups...algo salio mal: " + state);
+    });
+});

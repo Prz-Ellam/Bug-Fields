@@ -4,6 +4,7 @@
  */
 package Controllers;
 
+import DAO.Contracts.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -57,15 +58,27 @@ public class RegistrationController extends HttpServlet {
         
         UserDTO user = new UserDTO(name, lastName, dateOfBirth, email, username, password, photoName);
         
-        MySQLUserDAO dao = new MySQLUserDAO();
-        boolean rowsAffected = dao.create(user);
+        UserDAO userDao = new MySQLUserDAO();
+        boolean queryResult = userDao.create(user);
         
-        if (rowsAffected) {
-            result.put("signin", true);
+        if (!queryResult) {
+            result.put("status", false);
+            result.put("error", 0);
+            return result;
         }
-        else {
-            result.put("signin", false);
+        
+        UserDTO loginUser = userDao.login(username, password);
+        
+        if (loginUser == null) {
+            result.put("status", false);
+            result.put("error", 1);
+            return result;
         }
+        
+        HttpSession session = request.getSession();
+        session.setAttribute("user", loginUser.getUserId());
+        
+        result.put("status", true);
         
         return result;
         
