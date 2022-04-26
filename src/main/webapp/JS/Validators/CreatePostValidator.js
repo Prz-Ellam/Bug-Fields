@@ -11,8 +11,8 @@ export default class CreatePostValidator extends GenericValidator {
             return this.optional(element) || !/^\s*$/.test(value);
         }, 'El correo electrónico no puede estar vacío');
     
-        $.validator.addMethod('alphas', function(value, element, parameter) {
-            return this.optional(element) || /^[a-zA-Z \u00C0-\u00FF]+$/.test(value);
+        $.validator.addMethod('alphanumeric', function(value, element, parameter) {
+            return this.optional(element) || /^[a-zA-Z0-9.,\/#!¡¿?$%\^&\*;:{}=\-_`~()”“"… \u00C0-\u00FF]+$/.test(value);
         }, 'invalido');
 
         $(formID).validate({
@@ -20,22 +20,26 @@ export default class CreatePostValidator extends GenericValidator {
                 title: {
                     required: true,
                     whitespaces: true,
-                    alphas: true
+                    alphanumeric: true,
+                    maxlength: 100
                 },
                 description: {
                     required: true,
-                    whitespaces: true
+                    whitespaces: true,
+                    maxlength: 500
                 }
             },
             messages: {
                 title: {
                     required: "El título no puede estar vacío.",
                     whitespaces: "El título no puede estar vacío.",
-                    alphas: "El título no es válido."
+                    alphanumeric: "El título no es válido.",
+                    maxlength: "El título es demasiado largo."
                 },
                 description: {
                     required: "La descripción no puede estar vacía.",
-                    whitespaces: "La descripción no puede estar vacía."
+                    whitespaces: "La descripción no puede estar vacía.",
+                    maxlength: "La descripción es demasiado larga."
                 }
             },
             errorElement: 'small',

@@ -7,28 +7,43 @@ export default class SignUpValidator extends GenericValidator {
         super(formID);
         this.formID = formID;
 
-        $.validator.addMethod('whitespaces', function(value, element, parameter) {
+        $.validator.addMethod("fileSize", function(value, element, parameter) {
+
+            const size = (element.files[0].size / 1024 / 1024).toFixed(2);
+            let result;
+
+            if (size > 5) {
+                result = false;
+
+            } else {
+                result = true;
+            }
+
+            return this.optional(element) || result; 
+        }, "invalido");
+
+        $.validator.addMethod("whitespaces", function(value, element, parameter) {
             return this.optional(element) || !/^\s*$/.test(value);
         }, 'El correo electrónico no puede estar vacío');
     
-        $.validator.addMethod('alphas', function(value, element, parameter) {
+        $.validator.addMethod("alphas", function(value, element, parameter) {
             return this.optional(element) || /^[a-zA-Z \u00C0-\u00FF]+$/.test(value);
         }, 'invalido');
     
-        $.validator.addMethod('username', function(value, element, parameter) {
+        $.validator.addMethod("username", function(value, element, parameter) {
             return this.optional(element) || /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/.test(value);
         }, 'invalido');
         
-        $.validator.addMethod('emailForm', function(value, element, parameter) {
+        $.validator.addMethod("emailForm", function(value, element, parameter) {
             return this.optional(element) || /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
         }, 'invalido');
     
-        $.validator.addMethod('daterange', function(value, element, parameter) {
+        $.validator.addMethod("daterange", function(value, element, parameter) {
             return this.optional(element) ||
             !(Date.parse(value) > Date.parse(parameter[1]) || Date.parse(value) < Date.parse(parameter[0]));
         }, 'fecha invalida');
         
-        $.validator.addMethod('passwordX', function(value, element, parameter) {
+        $.validator.addMethod('passwordForm', function(value, element, parameter) {
             return this.optional(element) || $('#password').val() == value;
         }, 'invalido');
 
@@ -81,17 +96,20 @@ export default class SignUpValidator extends GenericValidator {
         $(formID).validate({
             rules: {
                 photo: {
-                    required: true
+                    required: true,
+                    fileSize: true
                 },
                 "first-name": {
                     required: true,
                     whitespaces: true,
-                    alphas: true
+                    alphas: true,
+                    maxlength: 50
                 },
                 "last-name": {
                     required: true,
                     whitespaces: true,
-                    alphas: true
+                    alphas: true,
+                    maxlength: 50
                 },
                 "date-of-birth": {
                     required: true,
@@ -103,7 +121,8 @@ export default class SignUpValidator extends GenericValidator {
                     required: true,
                     whitespaces: true,
                     emailForm: true,
-                    duplicateEmail: true
+                    duplicateEmail: true,
+                    maxlength: 50
                 },
                 username: {
                     required: true,
@@ -114,27 +133,31 @@ export default class SignUpValidator extends GenericValidator {
                 password: {
                     required: true,
                     whitespaces: true,
-                    passwordRequirements: true
+                    passwordRequirements: true,
+                    maxlength: 50
                 },
                 "confirm-password": {
                     required: true,
                     whitespaces: true,
-                    passwordX: true
+                    passwordForm: true
                 }
             },
             messages: {
                 photo: {
-                    required: 'La foto de perfil no puede estar vacía.'
+                    required: 'La foto de perfil no puede estar vacía.',
+                    fileSize: "La foto de perfil es muy pesada."
                 },
                 "first-name": {
                     required: 'El nombre no puede estar vacío.',
                     whitespaces: 'El nombre no puede estar vacío.',
-                    alphas: 'El nombre no es válido.'
+                    alphas: 'El nombre no es válido.',
+                    maxlength: "El nombre es demasiado largo."
                 },
                 "last-name": {
                     required: 'El apellido no puede estar vacío.',
                     whitespaces: 'El apellido no puede estar vacío.',
-                    alphas: 'El apellido no es válido.'
+                    alphas: 'El apellido no es válido.',
+                    maxlength: "El apellido es demasiado largo."
                 },
                 "date-of-birth": {
                     required: 'La fecha de nacimiento no puede estar vacía.',
@@ -146,7 +169,8 @@ export default class SignUpValidator extends GenericValidator {
                     required: 'El correo electrónico no puede estar vacío.',
                     whitespaces: 'El correo electrónico no puede estar vacío.',
                     emailForm: 'El correo electrónico no es válido.',
-                    duplicateEmail: 'El correo electrónico ya esta siendo usado.'
+                    duplicateEmail: 'El correo electrónico ya esta siendo usado.',
+                    maxlength: "El correo electrónico es demasiado largo"
                 },
                 username: {
                     required: 'El nombre de usuario no puede estar vacío.',
@@ -157,12 +181,13 @@ export default class SignUpValidator extends GenericValidator {
                 password: {
                     required: 'La contraseña no puede estar vacía.',
                     whitespaces: 'La contraseña no puede estar vacía.',
-                    passwordRequirements: 'La contraseña no es válida.'
+                    passwordRequirements: 'La contraseña no es válida.',
+                    maxlength: "La contraseña es demasiado larga"
                 },
                 "confirm-password": {
                     required: 'Confirmar contraseña no puede estar vacío.',
                     whitespaces: 'Confirmar contraseña no puede estar vacío.',
-                    passwordX: 'Confirmar contraseña no coincide con contraseña.'
+                    passwordForm: 'Confirmar contraseña no coincide con contraseña.'
                 }
             },
             errorElement: 'small',
