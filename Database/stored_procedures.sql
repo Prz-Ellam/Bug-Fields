@@ -154,3 +154,120 @@ WHERE PC.category_id = 1;
 
 
 
+
+
+
+
+-- Cementerio de procedures
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetPostsByDate(
+	_start					DATE,
+    _end					DATE
+)
+BEGIN
+
+SELECT P.title, P.description, P.creation_date, U.username
+		FROM posts AS P
+		JOIN users AS U
+		ON P.user_id = U.user_id
+		WHERE P.active = TRUE AND P.creation_date BETWEEN _start AND _end
+		ORDER BY P.creation_date
+        LIMIT 10;
+
+
+END$$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetPostsByFilter;
+
+CREATE PROCEDURE sp_GetPostsByFilter(
+	_filter					VARCHAR(100)
+)
+BEGIN
+
+    SELECT 
+    		p.post_id, 
+            p.title, 
+            p.description, 
+            u.username, 
+            p.creation_date
+    FROM posts AS p
+    JOIN users AS u
+    ON p.user_id = u.user_id
+    WHERE (p.title LIKE CONCAT("%", _filter, "%") 
+    OR p.description LIKE CONCAT("%", _filter, "%"))
+    AND p.active = TRUE
+    LIMIT 10;
+
+END$$
+
+DELIMITER ;
+
+
+SELECT sp_GetPostsByDate('','');
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetPostsByDate;
+
+CREATE PROCEDURE sp_GetPostsByDate(
+	_start					DATE,
+	_end					DATE
+)
+BEGIN
+
+	IF (_start IS NOT NULL AND _end IS NOT NULL) THEN
+    
+    	SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    	FROM posts AS p
+    	JOIN users AS u
+    	ON p.user_id = u.user_id
+        WHERE p.creation_date BETWEEN _start AND _end;
+    
+    ELSEIF _start IS NOT NULL THEN
+    
+    	SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    	FROM posts AS p
+    	JOIN users AS u
+    	ON p.user_id = u.user_id
+        WHERE p.creation_date > _start
+        LIMIT 10;
+    
+    ELSEIF _end IS NOT NULL THEN
+    
+    	SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    	FROM posts AS p
+    	JOIN users AS u
+    	ON p.user_id = u.user_id
+        WHERE p.creation_date < _end
+        LIMIT 10;
+    
+    ELSE
+    
+    	SELECT p.post_id, p.title, p.description, u.username, p.creation_date
+    	FROM posts AS p
+    	JOIN users AS u
+    	ON p.user_id = u.user_id
+        LIMIT 10;
+    
+    END IF;
+
+END$$
+
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+

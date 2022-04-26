@@ -4,9 +4,13 @@ DROP PROCEDURE IF EXISTS sp_GetCategories;
 CREATE PROCEDURE sp_GetCategories()
 BEGIN
 
-	SELECT category_id, name
-    FROM categories
-    WHERE active = TRUE;
+	SELECT 
+    		category_id,
+            name
+    FROM 
+    		categories
+    WHERE 
+    		active = TRUE;
 
 END$$
 
@@ -21,20 +25,17 @@ CREATE PROCEDURE sp_GetPostCategories(
 )
 BEGIN
 
-	SELECT c.category_id, c.name 
-    FROM categories AS c
-    JOIN posts_categories AS pc
-    ON c.category_id = pc.category_id
-    WHERE pc.post_id = _post_id;
+	SELECT 
+    		c.category_id,
+            c.name 
+    FROM 
+    		categories AS c
+    		INNER JOIN posts_categories AS pc
+    		ON c.category_id = pc.category_id
+    WHERE 
+    		pc.post_id = _post_id;
 
 END$$
 
 DELIMITER ;
-
-SELECT * FROM posts_categories;
-
-DELETE FROM posts_categories WHERE post_id = 1;
-
-
-
 

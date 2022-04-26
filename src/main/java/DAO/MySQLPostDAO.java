@@ -21,10 +21,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author eliam
- */
 public class MySQLPostDAO implements PostDAO {
     
     MainConnection connection = MainConnection.getInstance();
@@ -40,21 +36,12 @@ public class MySQLPostDAO implements PostDAO {
         try {
             connection = DBConnection.getConnection();
             connection.setAutoCommit(false);
-
             CallableStatement statement = connection.prepareCall("CALL sp_CreatePost(?, ?, ?)");
             statement.setString(1, post.getTitle());
             statement.setString(2, post.getDescription());
             statement.setObject(3, post.getUserID());
-        
-            int rowCount = statement.executeUpdate();
-            
-            if (rowCount > 0) {
-                return true;
-            }
-            else {
-                return false;
-            }
-            
+            int rowCount = statement.executeUpdate();   
+            return (rowCount > 0) ? true : false;
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());

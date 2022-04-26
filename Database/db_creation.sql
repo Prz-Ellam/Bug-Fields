@@ -56,44 +56,8 @@ ALTER TABLE posts_categories
         REFERENCES categories(category_id);
 
 
--- Drop foreign keys
-/*
-ALTER TABLE posts
-	DROP CONSTRAINT posts_fk_users;
-    
-ALTER TABLE posts_categories
-	DROP CONSTRAINT posts_categories_fk_posts,
-	DROP CONSTRAINT posts_categories_fk_categories;
-
-DROP TABLE users;
-DROP TABLE posts;
-DROP TABLE categories;
-DROP TABLE posts_categories;
-
-SELECT*FROM users;
-SELECT*FROM posts;
-SELECT*FROM categories;
-SELECT*FROM posts_categories;
-*/
-
-
-
-
-
 INSERT INTO categories(name)
 VALUES('Desarrollo Web'), ('Desarrollo Móvil'), ('Bases de datos'), ('Videojuegos'), ('Big Data'),
 ('DevOps'), ('Estructura de Datos'), ('Ciberseguridad'), ('Machine learning');
-
-
-
-
-
-
-
-
-
-
-
-
 
 

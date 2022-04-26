@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface CategoryDAO {
     
+    List<CategoryDTO> read();
     List<CategoryDTO> getPostCategories(int postId);
     
 }
