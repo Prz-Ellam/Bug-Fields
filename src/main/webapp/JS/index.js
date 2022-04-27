@@ -17,11 +17,24 @@ $.ajax({
             <div class="dropdown-menu">
                 <a href="Profile.html" class="dropdown-item">Perfil</a>
                 <div class="dropdown-divider"></div>
+                <a href="MyPosts.html" class="dropdown-item">Mis publicaciones</a>
+                <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item" id="close-session">Salir</a>
             </div>
         </li>`;
 
         $(".navbar-nav").append(html);
+
+        const html2 = `
+        <div class="container">
+            <article class="card bg-light m-4 p-4 mt-5 rounded-3">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-primary form-control shadow-none" type="button" id="btn-createPub">Crear publicación</button>
+                </div>
+            </article>
+        </div>`;
+
+        $("main").append(html2);
 
     }
     else {

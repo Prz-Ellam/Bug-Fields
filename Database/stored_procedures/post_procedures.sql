@@ -1,3 +1,5 @@
+USE bug_fields;
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_CreatePost;
 
@@ -157,13 +159,74 @@ BEGIN
     		creation_date DESC
     LIMIT 
     		_limit
-    OFFSET 
+	OFFSET 
     		_offset;
 
 END$$
 
 DELIMITER ;
 
+
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetUserPosts;
+
+CREATE PROCEDURE sp_GetUserPosts(
+	IN _user_id					INT,
+    IN _limit					INT,
+    IN _offset					INT
+)
+BEGIN
+
+	SELECT
+    		p.post_id, 
+            p.title, 
+            p.description, 
+            u.username, 
+            p.creation_date
+    FROM 
+    		posts AS p
+    		INNER JOIN users AS u
+    		ON p.user_id = u.user_id
+	WHERE
+    		p.user_id = _user_id AND p.active = TRUE
+	ORDER BY
+    		p.creation_date DESC
+	LIMIT
+    		_limit
+	OFFSET
+			_offset;
+
+END$$
+
+DELIMITER ;
+
+
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetUserPostsCount;
+
+CREATE PROCEDURE sp_GetUserPostsCount(
+	IN _user_id					INT
+)
+BEGIN
+
+	SELECT
+    		COUNT(*)
+    FROM 
+    		posts AS p
+    		INNER JOIN users AS u
+    		ON p.user_id = u.user_id
+	WHERE
+    		p.user_id = _user_id AND p.active = TRUE;
+
+END$$
+
+DELIMITER ;
 
 
 
@@ -262,10 +325,4 @@ BEGIN
 END$$
 
 DELIMITER ;
-
-
-
-
-
-
 

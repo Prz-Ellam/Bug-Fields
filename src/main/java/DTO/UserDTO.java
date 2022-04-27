@@ -1,25 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
 import java.util.Date;
 import javax.validation.constraints.*;
 
-/**
- *
- * @author eliam
- */
 public class UserDTO {
     
     private int userId;
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String name; 
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String lastName;
     private String dateOfBirth;
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String email;
     private String photo;
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String username;
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String password;
     private int age;
     

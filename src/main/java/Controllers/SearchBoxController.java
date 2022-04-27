@@ -10,6 +10,7 @@ import ViewModels.PostViewModel;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -37,7 +38,8 @@ public class SearchBoxController extends HttpServlet {
         }
         
         MySQLPostDAO postDao = new MySQLPostDAO();
-        List<PostViewModel> posts = postDao.getByFilter(searching);
+        //List<PostViewModel> posts = postDao.getByFilter(searching);
+        List<PostViewModel> posts = new ArrayList<PostViewModel>();
         
         if (posts.size() < 0) {
             result.put("status", false);

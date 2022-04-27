@@ -29,6 +29,8 @@ public class MySQLPostDAO implements PostDAO {
     private final String READ = "CALL sp_ReadPosts(?, ?, ?)";
     private final String UPDATE = "CALL sp_UpdatePost(?, ?, ?, ?)";
     private final String DELETE = "CALL sp_DeletePost(?, ?)";
+    private final String USER_POSTS = "CALL sp_GetUserPosts(?, ?, ?)";
+    private final String USER_POSTS_COUNT = "CALL sp_GetUserPostsCount(?)";
 
     
     public boolean create(PostDTO post) {
@@ -47,20 +49,17 @@ public class MySQLPostDAO implements PostDAO {
             System.out.println(e.getMessage());
         }
         finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (connection != null) connection.close();
+            }
+            catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
         }
-        
         return false;
-          
     }
     
+    @Override
     public boolean create(PostDTO post, List<String> categories) throws SQLException {
         Connection connection = null;
         try {
@@ -488,7 +487,7 @@ public class MySQLPostDAO implements PostDAO {
                 post.setUsername(rs.getString("username"));
                 post.setCreationDate(rs.getString("creation_date")); 
                 post.setUserOwn(rs.getBoolean("Own"));
-                posts.add(post);      
+                posts.add(post);
             }
             
             return posts;
@@ -510,7 +509,7 @@ public class MySQLPostDAO implements PostDAO {
         return null;
     }
     
-    @Override
+    /*
     public List<PostViewModel> getByDate(String start, String end) {
         Connection connection = null;
         CallableStatement statement = null;
@@ -678,10 +677,79 @@ public class MySQLPostDAO implements PostDAO {
         }
         return null;
     }
+*/
 
     @Override
     public boolean update(PostDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<PostViewModel> getUserPosts(int userId, int limit, int offset) {
+        Connection connection = null;
+        CallableStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareCall(USER_POSTS);
+            statement.setInt(1, userId);
+            statement.setInt(2, limit);
+            statement.setInt(3, offset);
+            rs = statement.executeQuery();
+            List<PostViewModel> posts = new ArrayList<PostViewModel>();
+            while(rs.next()) {
+                PostViewModel post = new PostViewModel();
+                post.setPostId(rs.getInt("post_id"));
+                post.setTitle(rs.getString("title"));
+                post.setDescription(rs.getString("description"));
+                post.setUsername(rs.getString("username"));
+                post.setCreationDate(rs.getString("creation_date"));
+                posts.add(post);   
+            }
+            return posts;
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally {
+            try {
+                if (rs != null)           rs.close();
+                if (statement != null)    statement.close();
+                if (connection != null)   connection.close();
+            }
+            catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int getUserPostsCount(int userId) {
+        Connection connection = null;
+        CallableStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareCall(USER_POSTS_COUNT);
+            statement.setInt(1, userId);
+            rs = statement.executeQuery();        
+            return (rs.next()) ? rs.getInt(1) : -1;
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return -1;
+        }
+        finally {
+            try {
+                if (rs != null)           rs.close();
+                if (statement != null)    statement.close();
+                if (connection != null)   connection.close();
+            }
+            catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
     
 }

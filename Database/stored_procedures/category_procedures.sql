@@ -1,3 +1,5 @@
+USE bug_fields;
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_GetCategories;
 

@@ -14,7 +14,7 @@
 
     <!-- CSS -->
     <link href="CSS/Navbar.css" rel="stylesheet">
-    <link href="CSS/index.css" rel="stylesheet">
+    <link href="CSS/ViewPost.css" rel="stylesheet">
     
 </head>
 
@@ -32,7 +32,7 @@
 
         <form class="form-inline mx-auto w-50" id="search-box" method="GET" action="AdvancedSearch.html">
             <div class="input-group w-100">
-                <input class="form-control shadow-none" type="search" name="search" id="searching" placeholder="Buscar publicaciones" aria-label="Search">
+                <input class="form-control shadow-none" type="search" name="search-query" id="searching" placeholder="Buscar publicaciones" aria-label="Search">
                 <div class="input-group-append">
                     <button type="submit" class="btn bg-white shadow-none"><i class="fas fa-search text-secondary"></i></button>
                 </div>
@@ -46,17 +46,20 @@
 </nav>
 
     <main>
+        <div class="container">
+            <article class="card bg-light m-4 p-4 mt-5 rounded-3">
+                <h1 class="text-center">Mis posts</h1><br>
+                <div class="btn-group" role="group">
+                    <a href="createPost.html" class="btn btn-primary form-control" type="button" id="btn-createPub">Crear publicación</a>
+                </div>
+            </article>
+        </div>
 
-        <section>
-            <div class="container mt-5"></div>
-        </section>
     </main>
-
 
     <div aria-label="Page navigation example">
         <ul class="pagination justify-content-center mt-5"></ul>
     </div>
-
 
     <!-- Footer -->
     <footer class="page-footer font-small bg-dark pt-4">
@@ -102,7 +105,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         
     <!-- JavaScript -->
-    <script src="JS/index.js" type="text/javascript"></script>
+    <script src="JS/MyPosts.js" type="text/javascript"></script>
+
     <script src="https://kit.fontawesome.com/48ce36e499.js" crossorigin="anonymous"></script>
 </body>
 </html>
