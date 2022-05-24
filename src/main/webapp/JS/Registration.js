@@ -147,14 +147,37 @@ photo.onchange = function(e) {
 
     let fReader = new FileReader();
     fReader.readAsDataURL(photo.files[0]);
+    
+    // A PARTIR DE AQUI ES TEST PARA VALIDAR QUE SOLO SE INGRESEN IMAGENES
+    var fileInput = document.getElementById('photo');
+    var filePath = fileInput.value;
+         
+    // Allowing file type
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+             
+    if (!allowedExtensions.exec(filePath)) {
+            //alert('Invalid file type' + fileInput.value);
+            fileInput.value = '';
+            
+            fReader.onloadend = function(e) {
+                let img = document.getElementById('picture-box');
+                img.setAttribute('src', 'Assets/blank-profile-picture.svg');
+                img.style.opacity = '1';
+                photo.style.opacity = '1';
+            };
+            
+            return;
+     }     
+      // AQUI TERMINA LA VALIDACION PARA EL TIPO DE IMAGEN
+    
     fReader.onloadend = function(e) {
         let img = document.getElementById('picture-box');
         img.setAttribute('src', e.target.result);
         img.style.opacity = '1';
         photo.style.opacity = '0';
-    }
+    };
 
-}
+};
 
 
 
