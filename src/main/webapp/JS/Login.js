@@ -4,7 +4,7 @@ $.ajax({
     dataType: "json",
     url: "VerifySession"
 }).done(function(data) {
-    if (data.session) {
+    if (data.status) {
         window.location.href = "index.html";
     }
 }).fail(function(jqXHR, state) {

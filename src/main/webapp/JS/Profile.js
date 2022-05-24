@@ -24,10 +24,12 @@ $.ajax({
                 <img src=${data.profile.photo} alt="logo" class="login-logo img-fluid rounded-circle">
             </a>
             <div class="dropdown-menu">
-                <a href="Profile.html" class="dropdown-item">Perfil</a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item" id="close-session">Salir</a>
-            </div>
+            <a href="Profile.html" class="dropdown-item">Perfil</a>
+            <div class="dropdown-divider"></div>
+            <a href="MyPosts.html" class="dropdown-item">Mis publicaciones</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item" id="close-session">Salir</a>
+        </div>
         </li>`;
 
         $(".navbar-nav").append(html);

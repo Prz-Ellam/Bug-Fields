@@ -7,7 +7,7 @@ $.ajax({
 
     if (data.status) {
         
-    const html = `
+        const html = `
         <li class="nav-item dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle">
                 <span class="text-white mr-2">${data.user.username}</span>
@@ -16,9 +16,12 @@ $.ajax({
             <div class="dropdown-menu">
                 <a href="Profile.html" class="dropdown-item">Perfil</a>
                 <div class="dropdown-divider"></div>
+                <a href="MyPosts.html" class="dropdown-item">Mis publicaciones</a>
+                <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item" id="close-session">Salir</a>
             </div>
         </li>`;
+
 
     $(".navbar-nav").append(html);
     }
@@ -126,6 +129,16 @@ $.ajax({
         let filter = new URLSearchParams(window.location.search).get("search");
         if (filter !== null) {
             $(`#search-input`).val(filter);
+        }
+
+        let startDate = new URLSearchParams(window.location.search).get("start");
+        if (startDate !== null) {
+            $(`#start-date`).val(startDate);
+        }
+
+        let endDate = new URLSearchParams(window.location.search).get("end");
+        if (startDate !== null) {
+            $(`#end-date`).val(endDate);
         }
 
     if (data.page > 1) {
@@ -370,6 +383,24 @@ $(document).ready(function() {
        });
 
 
+    });
+
+    $(document).on('click', '#close-session', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "CloseSession"
+        }).done(function(data) {
+            if (data.result) {
+                window.location.href = "index.html";
+            }
+            else {
+                alert('No se pudo cerrar la sesión');
+            }
+        }).fail(function(jqXHR, state) {
+            console.log("Ups...algo salio mal: " + state);
+        });
     });
 
 });

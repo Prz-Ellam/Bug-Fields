@@ -63,7 +63,7 @@ BEGIN
 	FROM 
     		users
 	WHERE 
-    		username = _username AND password = _password;
+    		username = BINARY _username AND password = BINARY _password;
 
 END$$
 
