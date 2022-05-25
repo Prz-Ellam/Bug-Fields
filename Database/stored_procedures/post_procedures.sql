@@ -272,7 +272,7 @@ BEGIN
 	WHERE 
 			(p.creation_date BETWEEN IFNULL(_start, '1000-01-01') AND IFNULL(_end, '9999-12-31')) AND 
 			((p.title LIKE CONCAT("%", _filter, "%") OR p.description LIKE CONCAT("%", _filter, "%")) OR _filter IS NULL) AND 
-			(pc.category_id = _category_id OR _category_id IS NULL) AND 
+			(pc.category_id = _category_id OR _category_id IS NULL OR _category_id = -1) AND 
 			p.active = TRUE
 	ORDER BY 
     		creation_date DESC

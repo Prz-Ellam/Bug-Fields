@@ -50,37 +50,42 @@
 
     <div class="container-fluid px-5">
 
-        <form action="#" method="get" class="d-flex justify-content-around" id="advanced-search">
-            <div class="col">
-                <div class="input-group">
-                    <select class="form-control shadow-none" name="category" id="categories">
-                        <option value="1" disabled selected>Categorías</option>
-                    </select>
+        <form action="#" method="get" id="advanced-search">
+            <div class="d-flex justify-content-around">
+                <div class="col">
+                    <div class="input-group">
+                        <select class="form-control shadow-none" name="category" id="categories">
+                            <option value="-1" selected>Categorías</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">De</div>
+                        </div>
+                        <input type="date" class="form-control shadow-none" name="start" id="start-date">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Hasta</div>
+                        </div>
+                        <input type="date" class="form-control shadow-none" name="end" id="end-date">
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <input type="search" class="form-control" name="search" id="search-input" placeholder="Buscar publicaciones">
                 </div>
             </div>
-            
-            <div class="col">
 
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">De</div>
-                    </div>
-                    <input type="date" class="form-control shadow-none" name="start" id="start-date">
-                </div>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Hasta</div>
-                    </div>
-                    <input type="date" class="form-control shadow-none" name="end" id="end-date">
-                </div>
+            <div class="d-flex justify-content-center mt-4">
+                <!--button class="btn bg-white shadow-none" type="submit"><i class="fas fa-search text-secondary"></i></button-->
+                <button class="btn btn-primary shadow-none w-50" type="submit">Buscar</button>
             </div>
-            
-            <div class="col">
-                <input type="search" class="form-control shadow-none" name="search" id="search-input" placeholder="Buscar publicaciones">
-                <button class="btn bg-white shadow-none" type="submit"><i class="fas fa-search text-secondary"></i></button>
-            </div>
+        
         </form>
-
     </div>
 
     <div id="dashboard"></div>
