@@ -44,12 +44,14 @@ public class GetPostsByAdvancedSearch extends HttpServlet {
         Integer categoryId;
         try {
             categoryId = Integer.parseInt(category);
+            if (categoryId == -1) {
+                categoryId = null;
+            }
         }
         catch (NumberFormatException ex) {
             categoryId = null;
         }
-        
-        
+            
         // Resultados por pagina: 10
         int resultsPerPage = 10;
         

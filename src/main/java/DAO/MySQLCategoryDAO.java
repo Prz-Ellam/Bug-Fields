@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MySQLCategoryDAO implements CategoryDAO {
     
-    private final String READ = "CALL sp_GetCategories()";
+    private final String GET_CATEGORIES = "CALL sp_GetCategories()";
     private final String POST_CATEGORIES = "CALL sp_GetPostCategories(?)";
 
     @Override
@@ -23,7 +23,7 @@ public class MySQLCategoryDAO implements CategoryDAO {
         ResultSet rs = null;
         try {
             connection = DBConnection.getConnection();
-            statement = connection.prepareCall(READ);
+            statement = connection.prepareCall(GET_CATEGORIES);
             rs = statement.executeQuery();
             ArrayList<CategoryDTO> categories = new ArrayList<CategoryDTO>();
             while (rs.next()) {
@@ -39,6 +39,8 @@ public class MySQLCategoryDAO implements CategoryDAO {
         }
         finally {
             try {
+                if (connection != null) connection.close();
+                if (statement != null) statement.close();
                 if (connection != null) connection.close();
             }
             catch (SQLException ex) {

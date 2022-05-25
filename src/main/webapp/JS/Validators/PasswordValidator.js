@@ -18,7 +18,7 @@ export default class PasswordValidator extends GenericValidator {
         }, 'invalido');
 
         $.validator.addMethod('passwordForm', function(value, element, parameter) {
-            return this.optional(element) || $('#password').val() == value;
+            return this.optional(element) || $('#new-password').val() == value;
         }, 'invalido');
 
         $(formID).validate({

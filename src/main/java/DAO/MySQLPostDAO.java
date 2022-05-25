@@ -23,8 +23,6 @@ import java.util.logging.Logger;
 
 public class MySQLPostDAO implements PostDAO {
     
-    MainConnection connection = MainConnection.getInstance();
-    
     private final String CREATE = "INSERT INTO posts(title, description, user_id) VALUES(?, ?, ?)";
     private final String READ = "CALL sp_ReadPosts(?, ?, ?)";
     private final String UPDATE = "CALL sp_UpdatePost(?, ?, ?, ?)";
@@ -32,7 +30,6 @@ public class MySQLPostDAO implements PostDAO {
     private final String USER_POSTS = "CALL sp_GetUserPosts(?, ?, ?)";
     private final String USER_POSTS_COUNT = "CALL sp_GetUserPostsCount(?)";
 
-    
     public boolean create(PostDTO post) {
         Connection connection = null;
         try {
@@ -98,18 +95,15 @@ public class MySQLPostDAO implements PostDAO {
             System.out.println(e.getMessage());
         }
         finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (connection != null) connection.close();
+            }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
         
         return false;
-          
     }
     
     public boolean update(PostDTO post, List<String> categories) {
@@ -149,13 +143,11 @@ public class MySQLPostDAO implements PostDAO {
             }
         }
         finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (connection != null) connection.close();
+            }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
         
@@ -196,29 +188,13 @@ public class MySQLPostDAO implements PostDAO {
             System.out.println(ex.getMessage());
         }
         finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (rs != null) rs.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
             }
-            if (statement != null) {
-                try {
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
         return null;
@@ -282,38 +258,23 @@ public class MySQLPostDAO implements PostDAO {
             System.out.println(ex.getMessage());
         }
         finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (connection != null) connection.close();
+            }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
         
         return 0;
-        
     }
     
     public ArrayList readByDate(char type) {
         return null;
     }
     
-    
     public boolean delete(int postId) {
-        Connection connection = null;
-        try {
-            connection = DBConnection.getConnection();
-        }
-        catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        finally {
-            
-        }
-        return false;
-        
+        return false;       
     }
     
     public boolean delete(int postId, int userId) {
@@ -330,13 +291,11 @@ public class MySQLPostDAO implements PostDAO {
             System.out.println(ex.getMessage());
         }
         finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (connection != null) connection.close();
+            }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
         
@@ -372,34 +331,17 @@ public class MySQLPostDAO implements PostDAO {
             System.out.println(ex.getMessage());
         }
         finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (rs != null) rs.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
             }
-            if (statement != null) {
-                try {
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
         
-        return null;
-        
+        return null;  
     }
     
     public PostViewModel getById(int postId) {
@@ -430,34 +372,16 @@ public class MySQLPostDAO implements PostDAO {
             System.out.println(ex.getMessage());
         }
         finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (rs != null) rs.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
             }
-            if (statement != null) {
-                try {
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
-        
         return null;
-        
     }
     
     
@@ -508,176 +432,6 @@ public class MySQLPostDAO implements PostDAO {
         
         return null;
     }
-    
-    /*
-    public List<PostViewModel> getByDate(String start, String end) {
-        Connection connection = null;
-        CallableStatement statement = null;
-        ResultSet rs = null;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareCall("CALL sp_GetPostsByDateRange(?, ?)");
-            statement.setString(1, start);
-            statement.setString(2, end);
-            rs = statement.executeQuery();
-            
-            List<PostViewModel> posts = new ArrayList<PostViewModel>();
-            while (rs.next()) {
-                PostViewModel post = new PostViewModel();
-                post.setPostId(rs.getInt("post_id"));
-                post.setTitle(rs.getString("title"));
-                post.setDescription(rs.getString("description"));
-                post.setUsername(rs.getString("username"));
-                post.setCreationDate(rs.getString("creation_date")); 
-                posts.add(post);      
-            }
-            
-            return posts;
-        }
-        catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<PostViewModel> getByCategory(int categoryId) {
-        Connection connection = null;
-        CallableStatement statement = null;
-        ResultSet rs = null;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareCall("CALL sp_GetPostsByCategory(?)");
-            statement.setInt(1, categoryId);
-            rs = statement.executeQuery();
-            
-            List<PostViewModel> posts = new ArrayList<PostViewModel>();
-            while (rs.next()) {
-                PostViewModel post = new PostViewModel();
-                post.setPostId(rs.getInt("post_id"));
-                post.setTitle(rs.getString("title"));
-                post.setDescription(rs.getString("description"));
-                post.setUsername(rs.getString("username"));
-                post.setCreationDate(rs.getString("creation_date")); 
-                posts.add(post);      
-            }
-            
-            return posts;
-        }
-        catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<PostViewModel> getByFilter(String filter) {
-        Connection connection = null;
-        CallableStatement statement = null;
-        ResultSet rs = null;
-        try {
-            connection = DBConnection.getConnection();
-            statement = connection.prepareCall("CALL sp_GetPostsByFilter(?)");
-            statement.setString(1, filter);
-            rs = statement.executeQuery();
-            
-            List<PostViewModel> posts = new ArrayList<PostViewModel>();
-            while (rs.next()) {
-                PostViewModel post = new PostViewModel();
-                post.setPostId(rs.getInt("post_id"));
-                post.setTitle(rs.getString("title"));
-                post.setDescription(rs.getString("description"));
-                post.setUsername(rs.getString("username"));
-                post.setCreationDate(rs.getString("creation_date")); 
-                posts.add(post);      
-            }
-            
-            return posts;
-        }
-        catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-        }
-        return null;
-    }
-*/
 
     @Override
     public boolean update(PostDTO dto) {
@@ -751,5 +505,4 @@ public class MySQLPostDAO implements PostDAO {
             }
         }
     }
-    
 }

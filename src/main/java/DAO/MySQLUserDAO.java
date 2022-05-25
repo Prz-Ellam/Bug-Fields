@@ -54,21 +54,12 @@ public class MySQLUserDAO implements UserDAO {
             System.out.println(e.getMessage());
         }
         finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (rs != null) rs.close();
+                if (connection != null) connection.close();
             }
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
         return null;
@@ -146,13 +137,9 @@ public class MySQLUserDAO implements UserDAO {
     }
     
     public int usernameExists(String username, int id) {
-
         Connection connection = null;
-        
         try {
-            
             connection = DBConnection.getConnection();
-            
             Statement statement = connection.createStatement();
             String query = "SELECT COUNT(*) FROM users WHERE username = ? AND user_id <> ?";
             PreparedStatement ps = connection.prepareStatement(query);
@@ -177,18 +164,14 @@ public class MySQLUserDAO implements UserDAO {
             System.out.println(e.getMessage());
         }
         finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (connection != null) connection.close();
             }
-        }
-        
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }       
         return 0;
-
     }
     
     public boolean emailExists(String email, int userId) {
@@ -211,30 +194,20 @@ public class MySQLUserDAO implements UserDAO {
             System.out.println(e.getMessage());
         }
         finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (connection != null) connection.close();
             }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
+            } 
         }
         return false;
     }
-    
-    public ArrayList<UserDTO> read() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
-    //@Override
     public boolean update(UserDTO user) {
-        
         Connection connection = null;
-        
         try{
             connection = DBConnection.getConnection();
-            
             CallableStatement statement = connection.prepareCall(UPDATE);
             statement.setInt(1, user.getUserId());
             statement.setString(2, user.getName());
@@ -245,36 +218,23 @@ public class MySQLUserDAO implements UserDAO {
             statement.setString(7, user.getUsername());
             
             int rowCount = statement.executeUpdate();
-            
-            if (rowCount > 0) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return (rowCount > 0) ? true : false;
         }
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (connection != null) connection.close();
+            }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
         
         return false;
     }
 
-    //@Override
-    public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
     public boolean updatePwd(int userId, String oldPwd, String newPwd) {
         Connection connection = null;
         CallableStatement statement = null;

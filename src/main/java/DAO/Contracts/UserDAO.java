@@ -16,8 +16,6 @@ public interface UserDAO {
     
     public boolean update(UserDTO user);
     
-    public boolean delete(int userId);
-    
     public boolean updatePwd(int userId, String oldPwd, String newPwd);
     
 }
