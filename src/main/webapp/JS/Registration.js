@@ -135,7 +135,17 @@ $(document).ready(function() {
     });
 
     photo.onchange = function(e) {
-
+        
+        // Si se le da Cancelar, se pone la imagen por defecto y el path vacio
+        if(photo.files.length === 0){
+            let img = document.getElementById('picture-box');
+            img.setAttribute('src', 'Assets/blank-profile-picture.svg');
+            
+            var fileInputPhoto = document.getElementById('photo');
+            fileInputPhoto.value = '';
+            return;
+        }
+        
         let fReader = new FileReader();
         fReader.readAsDataURL(photo.files[0]);
         
