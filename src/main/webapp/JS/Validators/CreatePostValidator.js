@@ -47,6 +47,7 @@ export default class CreatePostValidator extends GenericValidator {
                 error.insertAfter(element).addClass('text-danger').addClass('invalid-feedback').attr('id', element[0].id + '-error-label');
             }
         });
-
+        
     }
+
 }

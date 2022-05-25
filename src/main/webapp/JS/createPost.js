@@ -1,4 +1,5 @@
 import CreatePostValidator from "./Validators/CreatePostValidator.js";
+import closeSession from "./Utils/CloseSession.js";
 
 $.ajax({
     async: false,
@@ -30,9 +31,7 @@ $.ajax({
     $(".navbar-nav").append(html);
 
 }).fail(function(jqXHR, state) {
-
     console.log("Ups...algo salio mal: " + state);
-
 });
 
 $.ajax({
@@ -43,25 +42,14 @@ $.ajax({
 }).done(function(data) {
 
     if (data.status) {
-
-        console.log(data.categories);
-
-        //let categoriesName = [];
-        for (let i = 0; i < data.categories.length; i++) {
-            $("#categories").append(`
-            <option value="${data.categories[i].categoryId}"> ${data.categories[i].name}</option>
-            `);
-            //categoriesName.push(data.categories[i].name);
-        }
-
+        $.each(data.categories, function(i, e) {
+            $("#categories").append(`<option value="${e.categoryId}"> ${e.name}</option>`);
+        });
     }
 
 }).fail(function(jqXHR, state) {
-
     console.log("Ups...algo salio mal: " + state);
-
 });
-
 
 $(document).ready(function() {
 
@@ -76,15 +64,11 @@ $(document).ready(function() {
 
     //FUNCIONES PARA VALIDAR
     $(".post-input").blur(function() {
-
         validator.validateInput(this);
-        
     });
 
     $(".post-input").focus(function() {
-
         validator.focusInput(this);
-
     });
 
     $(formID).submit(function(e){
@@ -116,7 +100,6 @@ $(document).ready(function() {
                 
             }
             else {
-
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -124,31 +107,21 @@ $(document).ready(function() {
                     confirmButtonColor: "#de4f54",
                     background: "#EFEFEF"
                 });
-
             }
         }).fail(function() {
-
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Parece que algo salió mal',
+                confirmButtonColor: "#de4f54",
+                background: "#EFEFEF"
+            });
         })
 
     });
 
-
-    $(document).on('click', '#close-session', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "CloseSession"
-        }).done(function(data) {
-            if (data.result) {
-                window.location.href = "index.html";
-            }
-            else {
-                alert('No se pudo cerrar la sesión');
-            }
-        }).fail(function(jqXHR, state) {
-            console.log("Ups...algo salio mal: " + state);
-        });
+    $(document).on('click', '#close-session', function() {
+        closeSession();
     });
 
 });

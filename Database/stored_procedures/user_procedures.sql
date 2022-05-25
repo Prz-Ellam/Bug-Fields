@@ -39,8 +39,6 @@ DELIMITER ;
 
 
 
-
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_LoginUser;
 
@@ -55,7 +53,8 @@ BEGIN
             name,
             last_name,
             date_of_birth,
-            email, photo,
+            email,
+            photo,
             username,
             password,
             creation_date,
@@ -63,13 +62,12 @@ BEGIN
 	FROM 
     		users
 	WHERE 
-    		username = BINARY _username AND password = BINARY _password;
+    		username = BINARY _username
+            AND password = BINARY _password;
 
 END$$
 
 DELIMITER ;
-
-
 
 
 
@@ -100,8 +98,6 @@ BEGIN
 END$$
 
 DELIMITER ;
-
-
 
 
 
@@ -137,8 +133,6 @@ DELIMITER ;
 
 
 
-
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_UpdateUserPassword;
 
@@ -154,9 +148,9 @@ BEGIN
     SET
     		password = _new_pwd
     WHERE 
-    		user_id = _user_id AND password = _old_pwd;
+    		user_id = _user_id
+            AND password = _old_pwd;
 
 END$$
 
 DELIMITER ;
-

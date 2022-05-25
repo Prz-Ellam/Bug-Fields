@@ -1,3 +1,5 @@
+import closeSession from "./Utils/CloseSession.js";
+
 $.ajax({
     async: false,
     type: "GET",
@@ -21,9 +23,9 @@ $.ajax({
                 <a href="#" class="dropdown-item" id="close-session">Salir</a>
             </div>
         </li>`;
+        
+        $(".navbar-nav").append(html);
 
-
-    $(".navbar-nav").append(html);
     }
     else {
 
@@ -36,10 +38,9 @@ $.ajax({
     }
 
 }).fail(function(jqXHR, state) {
-
     console.log("Ups...algo salio mal: " + state);
-
 });
+
 
 $.ajax({
     async: false,
@@ -49,19 +50,13 @@ $.ajax({
 }).done(function(data) {
 
     if (data.status) {
-
-        for (let i = 0; i < data.categories.length; i++) {
-            $("#categories").append(`
-            <option value="${data.categories[i].categoryId}"> ${data.categories[i].name}</option>
-            `);
-        }
-
+        $.each(data.categories, function(i, e) {
+            $("#categories").append(`<option value="${e.categoryId}"> ${e.name}</option>`);
+        });
     }
 
 }).fail(function(jqXHR, state) {
-
     console.log("Ups...algo salio mal: " + state);
-
 });
 
 
@@ -76,25 +71,22 @@ $.ajax({
     if (data.status) {
 
         $("#dashboard").empty();
-        
-        for (let i = 0; i < data.posts.length; i++) {
 
-            let post = data.posts[i];
-
+        $.each(data.posts, function(i, e) {
             let html = `
             <section>
                 <div class="container mt-5">
                     <article class="card bg-light m-4 p-4 rounded-3">
-                    ${post.userOwn ? `<a href="modifyPost.html?id=${post.postId}"` : `<a href="ViewPost.html?id=${post.postId}"`} class="card-title" id="${post.postId}">${post.title}</a>
-                        <h6 class="card-subtitle text-muted">${post.username}</h5>
-                        <p class="card-body description">${post.description}</p>
+                    ${e.userOwn ? `<a href="modifyPost.html?id=${e.postId}"` : `<a href="ViewPost.html?id=${e.postId}"`} class="card-title" id="${e.postId}">${e.title}</a>
+                        <h6 class="card-subtitle text-muted">${e.username}</h5>
+                        <p class="card-body description">${e.description}</p>
     
                         <div class="btn-group card-link">`;
     
-                        for (let j = 0; j < post.categories.length; j++) {
+                        for (let j = 0; j < e.categories.length; j++) {
     
                             html +=  `
-                            <a href="AdvancedSearch.html?category=${post.categories[j].categoryId}&start=&end=&search=" class="btn btn-outline-primary p-0">${post.categories[j].name}</a>
+                            <a href="AdvancedSearch.html?category=${e.categories[j].categoryId}&start=&end=&search=" class="btn btn-outline-primary p-0">${e.categories[j].name}</a>
                             `;
     
                         }
@@ -102,13 +94,13 @@ $.ajax({
                         html += `</div>
     
                         <div class="card-text text-right">
-                            <p><small class="text-muted">Creada: ${post.creationDate}</small></p>
+                            <p><small class="text-muted">Creada: ${e.creationDate}</small></p>
                         </div>
     
-                        ${post.userOwn ?
+                        ${e.userOwn ?
 
                             `<div class="card-footer m-0 p-2 text-right">
-                                <a class="delete btn btn-danger" href="deletePost.html?id=${post.postId}">Eliminar</a>
+                                <a class="delete btn btn-danger" href="deletePost.html?id=${e.postId}">Eliminar</a>
                             </div>` : ``
                         }
     
@@ -118,9 +110,8 @@ $.ajax({
             `;
 
             $("#dashboard").append(html);
-
-        }
-
+        });
+        
         let category = new URLSearchParams(window.location.search).get("category");
         if (category !== null) {
             $(`option[value="${category}"`).attr("selected", "selected");
@@ -140,28 +131,25 @@ $.ajax({
         if (startDate !== null) {
             $(`#end-date`).val(endDate);
         }
-
-    if (data.page > 1) {
-
-        const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('page', data.page - 1);
         
-        $("ul.pagination").append(`
-        <li class="page-item">
+        if (data.page > 1) {
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', data.page - 1);
+            
+            $("ul.pagination").append(`
+            <li class="page-item">
             <a class="page-link" href="AdvancedSearch.html?${urlParams.toString()}">Anterior</a>
-        </li>
-        `);
-
-    }
-    else {
-
-        $("ul.pagination").append(`
-        <li class="page-item disabled">
+            </li>
+            `);
+        }
+        else {
+            $("ul.pagination").append(`
+            <li class="page-item disabled">
             <a class="page-link">Anterior</a>
-        </li>
-        `);
-
-    }
+            </li>
+            `);
+        }
     
     let numberOfButtons = (data.numberOfPages > 5) ? 5 : data.numberOfPages;
 
@@ -228,10 +216,6 @@ $.ajax({
 });
 
 
-
-
-
-
 $(document).ready(function() {
 
     $("#advanced-search").submit( function(e) {
@@ -250,24 +234,21 @@ $(document).ready(function() {
             $("#dashboard").empty();
             $("ul.pagination").empty();
             
-            for (let i = 0; i < data.posts.length; i++) {
-
-                let post = data.posts[i];
-        
+            $.each(data.posts, function(i, e) {
                 let html = `
                 <section>
                     <div class="container mt-5">
                         <article class="card bg-light m-4 p-4 rounded-3">
-                        ${post.userOwn ? `<a href="modifyPost.html?id=${post.postId}"` : `<a href="ViewPost.html?id=${post.postId}"`} class="card-title" id="${post.postId}">${post.title}</a>
-                            <h6 class="card-subtitle text-muted">${post.username}</h5>
-                            <p class="card-body description">${post.description}</p>
+                        ${e.userOwn ? `<a href="modifyPost.html?id=${e.postId}"` : `<a href="ViewPost.html?id=${e.postId}"`} class="card-title" id="${e.postId}">${e.title}</a>
+                            <h6 class="card-subtitle text-muted">${e.username}</h5>
+                            <p class="card-body description">${e.description}</p>
         
                             <div class="btn-group card-link">`;
         
-                            for (let j = 0; j < post.categories.length; j++) {
+                            for (let j = 0; j < e.categories.length; j++) {
         
                                 html +=  `
-                                <a href="AdvancedSearch.html?category=${post.categories[j].categoryId}&start=&end=&search=" class="btn btn-outline-primary p-0">${post.categories[j].name}</a>
+                                <a href="AdvancedSearch.html?category=${e.categories[j].categoryId}&start=&end=&search=" class="btn btn-outline-primary p-0">${e.categories[j].name}</a>
                                 `;
         
                             }
@@ -275,13 +256,13 @@ $(document).ready(function() {
                             html += `</div>
         
                             <div class="card-text text-right">
-                                <p><small class="text-muted">Creada: ${post.creationDate}</small></p>
+                                <p><small class="text-muted">Creada: ${e.creationDate}</small></p>
                             </div>
         
-                            ${post.userOwn ?
+                            ${e.userOwn ?
     
                                 `<div class="card-footer m-0 p-2 text-right">
-                                    <a class="delete btn btn-danger" href="deletePost.html?id=${post.postId}">Eliminar</a>
+                                    <a class="delete btn btn-danger" href="deletePost.html?id=${e.postId}">Eliminar</a>
                                 </div>` : ``
                             }
         
@@ -290,9 +271,8 @@ $(document).ready(function() {
                 </section>
                 `;
     
-        
                 $("#dashboard").append(html);
-            }
+            });
 
         }
 
@@ -354,7 +334,6 @@ $(document).ready(function() {
     
         }
     
-    
         if (data.page + 1 > data.numberOfPages) {
     
             $("ul.pagination").append(`
@@ -377,7 +356,6 @@ $(document).ready(function() {
     
         }
 
-        
        }).fail(function(jqXHR, state) {
         console.log("Ups...algo salio mal: " + state);
        });
@@ -385,22 +363,8 @@ $(document).ready(function() {
 
     });
 
-    $(document).on('click', '#close-session', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "CloseSession"
-        }).done(function(data) {
-            if (data.result) {
-                window.location.href = "index.html";
-            }
-            else {
-                alert('No se pudo cerrar la sesión');
-            }
-        }).fail(function(jqXHR, state) {
-            console.log("Ups...algo salio mal: " + state);
-        });
+    $(document).on('click', '#close-session', function() {
+        closeSession();
     });
 
 });

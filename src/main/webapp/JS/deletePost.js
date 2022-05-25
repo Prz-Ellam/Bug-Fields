@@ -1,3 +1,5 @@
+import closeSession from "./Utils/CloseSession.js";
+
 $.ajax({
     async: false,
     type: "GET",
@@ -38,7 +40,7 @@ $.ajax({
     async: false,
     type: "GET",
     dataType: "json",
-    url: "GetPostData"
+    url: "GetPostById"
 }).done(function(data) {
 
     if (data.status) {
@@ -48,7 +50,6 @@ $.ajax({
         $.each(data.categories, function(i, e) {
             $("#post-categories").append(`<option>${e.name}</option>`);
         });
-
     }
     else {
         window.location.href = "index.html";
@@ -60,41 +61,6 @@ $.ajax({
 
 
 $(document).ready(function(){
-
-    $(".btn-delete-pub").on('click', function() {
-        
-        $.ajax({
-            data: "post-id=" + new URLSearchParams(window.location.search).get("id"),
-            method: "POST",
-            dataType: "json",
-            url: "DeletePostController"
-        }).done(function(data) {
-            if (data.status){
-                console.log("Good");
-            }
-        }).fail(function(jqXHR, state) {
-            console.log("Ups...algo salio mal: " + state);
-        });
-
-    })
-
-    $(document).on('click', '#close-session', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "CloseSession"
-        }).done(function(data) {
-            if (data.result) {
-                window.location.href = "index.html";
-            }
-            else {
-                alert('No se pudo cerrar la sesión');
-            }
-        }).fail(function(jqXHR, state) {
-            console.log("Ups...algo salio mal: " + state);
-        });
-    });
 
     $("#delete-post").submit(function(e) {
 
@@ -133,6 +99,10 @@ $(document).ready(function(){
             console.log("Ups...algo salio mal: " + state);
         });
 
+    });
+
+    $(document).on('click', '#close-session', function(e) {
+        closeSession();
     });
 
 });

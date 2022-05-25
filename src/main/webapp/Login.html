@@ -7,6 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <!-- Icon -->
         <link rel="shortcut icon" href="Assets/bugFields logo.png" type="image/x-icon">
 
         <!-- Boostrap -->
@@ -17,7 +18,6 @@
         <link rel="stylesheet" href="CSS/Login.css">
     </head>
     <body>
-
         <nav class="navbar navbar-dark navbar-expand-md fixed-top py-1">
 
             <a class="navbar-brand" href="index.html">
@@ -46,39 +46,36 @@
                 </ul>
                 
             </div>
-        
         </nav>
 
         <div class="container main">
             <div class="row d-flex justify-content-center">
-                <div class="col-md-5">
-                    <form class="card p-5" id="login-form" method="post" action="LoginController">
+                <div class="col-lg-5 col-md-8">
+                    <form class="card p-5 rounded" id="login-form" method="post" action="LoginController">
+                        
+                        <h1 class="form-title text-center h2 mb-4">Iniciar sesión</h1>
 
-                            <div class="mb-4">
-                                <h1 class="form-title text-center h2">Iniciar sesión</h1>
-                            </div>
+                        <hr class="mb-4">
 
-                            <hr class="mb-4">
+                        <div class="form-group mb-4">
+                            <label class="form-label username-label" for="username">Nombre de usuario:</label>
+                            <input type="text" class="form-control username shadow-none login-input" name="username" id="username" autocomplete="off">
+                        </div>
 
-                            <div class="form-group mb-4">
-                                <label class="form-label username-label" for="username">Nombre de usuario:</label>
-                                <input type="text" class="form-control username shadow-none" name="username" id="username" autocomplete="off">
-                            </div>
+                        <div class="form-group mb-4">
+                            <label class="form-label password-label" for="password">Contraseña:</label>
+                            <input type="password" class="form-control password shadow-none login-input" name="password" id="password">
+                        </div>
 
-                            <div class="form-group mb-4">
-                                <label class="form-label password-label" for="password">Contraseña:</label>
-                                <input type="password" class="form-control password shadow-none" name="password" id="password">
-                            </div>
+                        <div class="mb-4">
+                            <input type="submit" class="btn btn-dark w-100 btn-submit shadow-none" value="Iniciar sesión">
+                        </div>
 
-                            <div class="mb-4">
-                                <input type="submit" class="btn btn-dark w-100 btn-submit" value="Iniciar sesión">
-                            </div>
-
-                            <div class="mb-4 text-center">
-                                <label class="form-label">¿No tienes una cuenta?
-                                    <a href="Registration.html">Regístrate ahora</a>
-                                </label>
-                            </div>
+                        <div class="mb-4 text-center">
+                            <label class="form-label">¿No tienes una cuenta?
+                                <a href="Registration.html">Regístrate ahora</a>
+                            </label>
+                        </div>
                         
                         <p class="login-fail text-danger text-center d-none">Compruebe sus credenciales</p>
                         
@@ -90,13 +87,10 @@
 
         <!-- Footer -->
         <footer class="page-footer font-small bg-dark pt-4">
-
             <!-- Footer Links -->
             <div class="container-fluid text-center text-md-center">
-        
                 <!-- Grid row -->
                 <div class="row">
-            
                     <hr class="clearfix w-100 d-md-none pb-3">
             
                     <!-- Grid column -->
@@ -117,13 +111,10 @@
             
                     </div>
                     <!-- Grid column -->
-            
                 </div>
                 <!-- Grid row -->
-        
             </div>
             <!-- Footer Links -->
-        
         </footer>
 
         <!-- jQuery -->
@@ -142,7 +133,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             
         <!-- JavaScript -->
-        <script src="JS/Login.js"></script>
+        <script src="JS/Login.js" type="module"></script>
 
         <script src="https://kit.fontawesome.com/48ce36e499.js" crossorigin="anonymous"></script>
     </body>

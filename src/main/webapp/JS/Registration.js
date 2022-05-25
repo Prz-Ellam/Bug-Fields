@@ -13,11 +13,9 @@ $.ajax({
     dataType: "json",
     url: "VerifySession"
 }).done(function(data) {
-
     if (data.status) {
         window.location.href = "index.html";
     }
-
 }).fail(function(jqXHR, state) {
     console.log("Ups...algo salio mal: " + state);
 });
@@ -29,15 +27,11 @@ $(document).ready(function() {
     var validator = new SignupValidator(formID, dateFormat);
 
     $(inputClass).blur(function() {
-
         validator.validateInput(this);
-        
     });
 
     $(inputClass).focus(function() {
-
         validator.focusInput(this);
-
     });
 
     function validatePasswordRequirements() {
@@ -139,74 +133,41 @@ $(document).ready(function() {
         });
         
     });
-    
-});
 
+    photo.onchange = function(e) {
 
-photo.onchange = function(e) {
-
-    let fReader = new FileReader();
-    fReader.readAsDataURL(photo.files[0]);
-    
-    // A PARTIR DE AQUI ES TEST PARA VALIDAR QUE SOLO SE INGRESEN IMAGENES
-    var fileInput = document.getElementById('photo');
-    var filePath = fileInput.value;
-         
-    // Allowing file type
-    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        let fReader = new FileReader();
+        fReader.readAsDataURL(photo.files[0]);
+        
+        // A PARTIR DE AQUI ES TEST PARA VALIDAR QUE SOLO SE INGRESEN IMAGENES
+        var fileInput = document.getElementById('photo');
+        var filePath = fileInput.value;
              
-    if (!allowedExtensions.exec(filePath)) {
-            //alert('Invalid file type' + fileInput.value);
-            fileInput.value = '';
-            
-            fReader.onloadend = function(e) {
-                let img = document.getElementById('picture-box');
-                img.setAttribute('src', 'Assets/blank-profile-picture.svg');
-                img.style.opacity = '1';
-                photo.style.opacity = '1';
-            };
-            
-            return;
-     }     
-      // AQUI TERMINA LA VALIDACION PARA EL TIPO DE IMAGEN
+        // Allowing file type
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                 
+        if (!allowedExtensions.exec(filePath)) {
+                //alert('Invalid file type' + fileInput.value);
+                fileInput.value = '';
+                
+                fReader.onloadend = function(e) {
+                    let img = document.getElementById('picture-box');
+                    img.setAttribute('src', 'Assets/blank-profile-picture.svg');
+                    img.style.opacity = '1';
+                    photo.style.opacity = '1';
+                };
+                
+                return;
+         }     
+          // AQUI TERMINA LA VALIDACION PARA EL TIPO DE IMAGEN
+        
+        fReader.onloadend = function(e) {
+            let img = document.getElementById('picture-box');
+            img.setAttribute('src', e.target.result);
+            img.style.opacity = '1';
+            photo.style.opacity = '0';
+        };
     
-    fReader.onloadend = function(e) {
-        let img = document.getElementById('picture-box');
-        img.setAttribute('src', e.target.result);
-        img.style.opacity = '1';
-        photo.style.opacity = '0';
     };
-
-};
-
-
-
-
-
-
-// FORM BUSQUEDA NAVBAR
-
-function validateSearching(){
-
-    if($("#search-input").val() === ""){
-        return 1;      
-    }else if(!$("#search-input").val().match(rgxAlphas) || $("#search-input").val().match(rgxWhitespaces)){
-        return 1;
-    }else
-        return 0;
-
-}
-
-$("#SearchForm").submit(function(e){
-
-    let search = $("#search-input").val();
-
-    let result = 0;
-    result += validateSearching(search);
-
-    if(result > 0){
-        e.preventDefault();
-        alert("Búsqueda no válida.");
-    }
-
+    
 });

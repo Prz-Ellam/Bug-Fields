@@ -1,4 +1,5 @@
 import ModifyPostValidator from "./Validators/ModifyPostValidator.js";
+import closeSession from "./Utils/CloseSession.js";
 
 $.ajax({
     async: false,
@@ -26,7 +27,6 @@ $.ajax({
             </div>
         </li>`;
 
-
     $(".navbar-nav").append(html);
 
 }).fail(function(jqXHR, state) {
@@ -43,19 +43,13 @@ $.ajax({
 }).done(function(data) {
 
     if (data.status) {
-
-        for (let i = 0; i < data.categories.length; i++) {
-            $("#categories").append(`
-            <option value="${data.categories[i].categoryId}"> ${data.categories[i].name}</option>
-            `);
-        }
-
+        $.each(data.categories, function(i, e) {
+            $("#categories").append(`<option value="${e.categoryId}"> ${e.name}</option>`);
+        });
     }
 
 }).fail(function(jqXHR, state) {
-
     console.log("Ups...algo salio mal: " + state);
-
 });
 
 $.ajax({
@@ -63,7 +57,7 @@ $.ajax({
     async: false,
     type: "GET",
     dataType: "json",
-    url: "GetPostData"
+    url: "GetPostById"
 }).done(function(data) {
 
     if (data.status) {
@@ -99,15 +93,11 @@ $(document).ready(function() {
 
     //FUNCIONES PARA VALIDAR
     $(".form-input").blur(function() {
-
         validator.validateInput(this);
-        
     });
 
     $(".form-input").focus(function() {
-
         validator.focusInput(this);
-
     });
     
     $(formID).submit(function(e){
@@ -128,7 +118,6 @@ $(document).ready(function() {
         }).done(function(data) {
 
             if (data.status) {
-
                 Swal.fire({
                     icon: "success",
                     title: "Se ha editado con éxito tú publicación",
@@ -137,7 +126,6 @@ $(document).ready(function() {
                 }).then(function () {
                     window.location.href = "index.html";
                 });
-                
             }
             else {
 
@@ -148,7 +136,6 @@ $(document).ready(function() {
                     confirmButtonColor: "#de4f54",
                     background: "#EFEFEF"
                 });
-
             }
 
         }).fail(function(jqXHR, state) {
@@ -158,21 +145,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#close-session', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "CloseSession"
-        }).done(function(data) {
-            if (data.result) {
-                window.location.href = "index.html";
-            }
-            else {
-                alert('No se pudo cerrar la sesión');
-            }
-        }).fail(function(jqXHR, state) {
-            console.log("Ups...algo salio mal: " + state);
-        });
+        closeSession();
     });
 
 });

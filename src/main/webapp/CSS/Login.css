@@ -1,3 +1,15 @@
+label {
+    cursor: pointer;
+}
+
+.form-control.is-valid {
+    background-image: url("../Assets/check-circle-solid.svg");
+}
+
+.form-control.is-invalid {
+    background-image: url("../Assets/exclamation-circle-solid.svg");
+}
+
 .github {
     color: rgb(224, 224, 224);
     font-size: 48px;
@@ -7,8 +19,4 @@
     padding: 48px;
     margin-top: 50px;
     height: 224px;
-}
-
-label {
-    cursor: pointer;
 }

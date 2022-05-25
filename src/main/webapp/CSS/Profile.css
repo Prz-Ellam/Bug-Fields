@@ -106,3 +106,11 @@ body {
 
     transition: background-color 1000ms linear;
 }
+
+.form-control.is-valid {
+    background-image: url("../Assets/check-circle-solid.svg");
+}
+
+.form-control.is-invalid {
+    background-image: url("../Assets/exclamation-circle-solid.svg");
+}

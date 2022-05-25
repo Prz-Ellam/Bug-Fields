@@ -2,41 +2,42 @@ CREATE DATABASE IF NOT EXISTS bug_fields;
 USE bug_fields;
 
 CREATE TABLE IF NOT EXISTS users(
-	user_id				INT NOT NULL AUTO_INCREMENT,
-	name				VARCHAR(50) NOT NULL,
-    last_name			VARCHAR(50) NOT NULL,
-    date_of_birth		DATE NOT NULL,
-    email				VARCHAR(50) UNIQUE NOT NULL,
-    photo				VARCHAR(50) NOT NULL,
-    username			VARCHAR(20) UNIQUE NOT NULL,
-    password			VARCHAR(50) NOT NULL,
-    creation_date		TIMESTAMP NOT NULL DEFAULT NOW(),
-    active				BOOLEAN DEFAULT TRUE,
-    CONSTRAINT users_pk PRIMARY KEY (user_id)
+	user_id						INT NOT NULL AUTO_INCREMENT,
+	name						VARCHAR(50) NOT NULL,
+	last_name					VARCHAR(50) NOT NULL,
+	date_of_birth				DATE NOT NULL,
+	email						VARCHAR(50) UNIQUE NOT NULL,
+	photo						VARCHAR(50) NOT NULL,
+	username					VARCHAR(20) UNIQUE NOT NULL,
+	password					VARCHAR(50) NOT NULL,
+	creation_date				TIMESTAMP NOT NULL DEFAULT NOW(),
+	active						BOOLEAN DEFAULT TRUE,
+    CONSTRAINT users_pk
+    	PRIMARY KEY (user_id)
 );
 
 CREATE TABLE IF NOT EXISTS posts(
-	post_id			INT NOT NULL AUTO_INCREMENT,
-    title			VARCHAR(100) NOT NULL,
-    description		VARCHAR(500) NOT NULL,
-    creation_date	TIMESTAMP NOT NULL DEFAULT NOW(),
-    active			BOOLEAN DEFAULT TRUE,
-    user_id			INT NOT NULL,
-    CONSTRAINT posts_pk PRIMARY KEY (post_id)
+	post_id						INT NOT NULL AUTO_INCREMENT,
+    title						VARCHAR(100) NOT NULL,
+    description					VARCHAR(500) NOT NULL,
+    creation_date				TIMESTAMP NOT NULL DEFAULT NOW(),
+    active						BOOLEAN DEFAULT TRUE,
+    user_id						INT NOT NULL,
+    CONSTRAINT posts_pk 		PRIMARY KEY (post_id)
 );
 
 CREATE TABLE IF NOT EXISTS categories(
-	category_id			INT NOT NULL AUTO_INCREMENT,
-    name				VARCHAR(30) NOT NULL,
-    creation_date		TIMESTAMP NOT NULL DEFAULT NOW(),
-    active				BOOLEAN DEFAULT TRUE,
-    CONSTRAINT categories_pk PRIMARY KEY (category_id)
+	category_id					INT NOT NULL AUTO_INCREMENT,
+    name						VARCHAR(30) NOT NULL,
+    creation_date				TIMESTAMP NOT NULL DEFAULT NOW(),
+    active						BOOLEAN DEFAULT TRUE,
+    CONSTRAINT categories_pk 	PRIMARY KEY (category_id)
 );
 
 CREATE TABLE IF NOT EXISTS posts_categories(
-	post_category_id	INT NOT NULL AUTO_INCREMENT,
-    post_id			INT NOT NULL,
-    category_id		INT NOT NULL,
+	post_category_id			INT NOT NULL AUTO_INCREMENT,
+    post_id						INT NOT NULL,
+    category_id					INT NOT NULL,
     CONSTRAINT posts_categories_pk PRIMARY KEY (post_category_id)
 );
 

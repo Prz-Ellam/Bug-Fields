@@ -1,3 +1,5 @@
+import closeSession from "./Utils/CloseSession.js";
+
 $.ajax({
     async: false,
     type: "GET",
@@ -129,7 +131,7 @@ $.ajax({
 
         $("ul.pagination").append(`
         <li class="page-item">
-            <a class="page-link" href="?page=${i + 1}">${i + 1}</a>
+            <a class="page-link shadow-none" href="?page=${i + 1}">${i + 1}</a>
         </li>
         `);
 
@@ -139,13 +141,13 @@ $.ajax({
 
         $("ul.pagination").append(`
         <li class="page-item disabled">
-            <span class="page-link">...</span>
+            <span class="page-link shadow-none">...</span>
         </li>
         `);
 
         $("ul.pagination").append(`
         <li class="page-item">
-            <a class="page-link" href="?page=${data.numberOfPages}">${data.numberOfPages}</a>
+            <a class="page-link shadow-none" href="?page=${data.numberOfPages}">${data.numberOfPages}</a>
         </li>
         `);
 
@@ -156,7 +158,7 @@ $.ajax({
 
         $("ul.pagination").append(`
         <li class="page-item disabled">
-            <a class="page-link">Siguiente</a>
+            <a class="page-link shadow-none">Siguiente</a>
         </li>
         `);
 
@@ -165,7 +167,7 @@ $.ajax({
 
         $("ul.pagination").append(`
         <li class="page-item">
-            <a class="page-link" href="?page=${parseInt(data.page) + 1}">Siguiente</a>
+            <a class="page-link shadow-none" href="?page=${parseInt(data.page) + 1}">Siguiente</a>
         </li>
         `);
 
@@ -181,45 +183,9 @@ $(document).ready(function() {
     $("#btn-createPub").click(function(){
         location.href = "createPost.html";
     });
-
-    // FORM BUSQUEDA
-    $("#search-box").submit(function(e) {
-
-        if ($("#searching").val() === "") {
-             e.preventDefault();
-            return;
-        }
-/*
-        $.ajax({
-            data: $(this).serialize(),
-            type: "POST",
-            dataType: "json",
-            url: "SearchBoxController"
-        }).done(function(data) {
-            alert(data.posts);
-        }).fail(function(jqXHR, state) {
-            console.log("Ups...algo salio mal: " + state);
-        });
-*/
-    });
     
-    $(document).on('click', '#close-session', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "CloseSession",
-            cache: false
-        }).done(function(data) {
-            if (data.result) {
-                window.location.href = "index.html";
-            }
-            else {
-                alert('No se pudo cerrar la sesión');
-            }
-        }).fail(function(jqXHR, state) {
-            console.log("Ups...algo salio mal: " + state);
-        });
+    $(document).on('click', '#close-session', function() {
+        closeSession();
     });
 
 });

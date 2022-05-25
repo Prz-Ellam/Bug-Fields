@@ -27,8 +27,6 @@ DELIMITER ;
 
 
 
-
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_GetUserPostByID;
 
@@ -46,12 +44,13 @@ BEGIN
     FROM
     		posts
     WHERE
-    		post_id = _post_id AND user_id = _user_id AND active = TRUE;
+    		post_id = _post_id
+            AND user_id = _user_id
+            AND active = TRUE;
 
 END$$
 
 DELIMITER ;
-
 
 
 
@@ -74,16 +73,12 @@ BEGIN
     		JOIN users AS u
     		ON p.user_id = u.user_id
     WHERE 
-    		p.post_id = _post_id AND p.active = TRUE;
+    		p.post_id = _post_id
+            AND p.active = TRUE;
 
 END$$
 
 DELIMITER ;
-
-
-
-
-
 
 
 
@@ -103,7 +98,8 @@ BEGIN
     		title 			= IFNULL(_title, title),
     		description 	= IFNULL(_description, description)
     WHERE 
-    		post_id = _post_id AND user_id = _user_id;
+    		post_id = _post_id
+            AND user_id = _user_id;
 
 END$$
 
@@ -123,7 +119,8 @@ BEGIN
 	UPDATE posts
     SET
     active = FALSE
-    WHERE post_id = _post_id AND user_id = _user_id;
+    WHERE post_id = _post_id
+    AND user_id = _user_id;
 
 END$$
 
@@ -168,8 +165,6 @@ DELIMITER ;
 
 
 
-
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_GetUserPosts;
 
@@ -205,8 +200,6 @@ DELIMITER ;
 
 
 
-
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_GetUserPostsCount;
 
@@ -231,7 +224,7 @@ DELIMITER ;
 
 
 
-
+/*
 CREATE  OR REPLACE VIEW vw_AdvancedSearchCategories AS
 SELECT DISTINCT 
         			p.post_id, 
@@ -246,9 +239,7 @@ SELECT DISTINCT
 					JOIN posts_categories AS pc
         			ON p.post_id = pc.post_id;
 
-
-
-
+*/
 
 
 DELIMITER $$

@@ -16,9 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "GetCategories", urlPatterns = {"/GetCategories"})
 public class GetCategories extends HttpServlet {
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    
+    private HashMap getRequestData(HttpServletRequest request) {
         
         HashMap result = new HashMap();
         
@@ -27,12 +26,23 @@ public class GetCategories extends HttpServlet {
         
         if (categories == null) {
             result.put("status", false);
-        }
-        else {
-            result.put("categories", categories);
-            result.put("status", true);
+            return result;
         }
         
+        result.put("categories", categories);
+        result.put("status", true);
+        return result;
+        
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        request.setCharacterEncoding("UTF-8");
+        
+        HashMap result = getRequestData(request);
+        
+
         Gson gson = new Gson();
         String json = gson.toJson(result);
             

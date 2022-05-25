@@ -1,5 +1,6 @@
 import ProfileValidator from "./Validators/ProfileValidator.js";
 import PasswordValidator from "./Validators/PasswordValidator.js";
+import closeSession from "./Utils/CloseSession.js";
 
 var date = new Date();
 var dateFormat = date.getFullYear() + '-' + 
@@ -11,17 +12,18 @@ $.ajax({
     async: false,
     type: "GET",
     dataType: "json",
-    url: "InitProfileController"
+    url: "VerifySession"
 }).done(function(data) {
-    if (!data.session) {
+
+    if (!data.status) {
         window.location.href = "index.html";
     }
     else {
         const html = `
         <li class="nav-item dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle">
-                <span class="text-white mr-2">${data.profile.username}</span>
-                <img src=${data.profile.photo} alt="logo" class="login-logo img-fluid rounded-circle">
+                <span class="text-white mr-2">${data.user.username}</span>
+                <img src=${data.user.photo} alt="logo" class="login-logo img-fluid rounded-circle">
             </a>
             <div class="dropdown-menu">
             <a href="Profile.html" class="dropdown-item">Perfil</a>
@@ -34,17 +36,19 @@ $.ajax({
 
         $(".navbar-nav").append(html);
     
-        $("#first-name").val(data.profile.name);
-        $("#last-name").val(data.profile.lastName);
-        $("#date-of-birth").val(data.profile.dateOfBirth);
-        $("#email").val(data.profile.email);
-        $("#username").val(data.profile.username);
-        $("#age").val(data.profile.age);
-        $("#picture-box").attr("src", data.profile.photo);
+        $("#first-name").val(data.user.name);
+        $("#last-name").val(data.user.lastName);
+        $("#date-of-birth").val(data.user.dateOfBirth);
+        $("#email").val(data.user.email);
+        $("#username").val(data.user.username);
+        $("#age").val(data.user.age);
+        $("#picture-box").attr("src", data.user.photo);
     }
 }).fail(function(jqXHR, state) {
     console.log("Ups...algo salio mal: " + state);
 });
+
+
 
 $(document).ready(function() {
 
@@ -58,29 +62,20 @@ $(document).ready(function() {
 
     //FUNCIONES PARA VALIDAR
     $(".form-input").blur(function() {
-
         validator.validateInput(this);
-        
     });
 
     $(".form-input").focus(function() {
-
         validator.focusInput(this);
-
     });
 
     $(".password-input").blur(function() {
-
         passwordValidator.validateInput(this);
-        
     });
 
     $(".password-input").focus(function() {
-
         passwordValidator.focusInput(this);
-
     });
-
 
     $('#date-of-birth').on('input', function() { 
         
@@ -236,44 +231,45 @@ $(document).ready(function() {
         
 });
 
-
-
-   $(document).on('click', '#closeSession', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "CloseSession"
-        }).done(function(data) {
-            if (data.result) {
-                window.location.href = "index.html";
-            }
-            else {
-                console.log('No se pudo cerrar la sesión');
-            }
-        }).fail(function(jqXHR, state) {
-            console.log("Ups...algo salio mal: " + state);
-        });
-    });
-    
-    $(document).on('click', '#profile', function(e) {
-        e.preventDefault();
-        window.location.href = "Profile.html";
+   $(document).on('click', '#close-session', function() {
+        closeSession();
     });
     
     photo.onchange = function(e) {
 
-    let fReader = new FileReader();
-    fReader.readAsDataURL(photo.files[0]);
-    fReader.onloadend = function(e) {
-        let img = document.getElementById('picture-box');
-        img.setAttribute('src', e.target.result);
-        img.style.opacity = '1';
-        photo.style.opacity = '0';
-    }
-
-}
-
+        let fReader = new FileReader();
+        fReader.readAsDataURL(photo.files[0]);
+        
+        // A PARTIR DE AQUI ES TEST PARA VALIDAR QUE SOLO SE INGRESEN IMAGENES
+        var fileInput = document.getElementById('photo');
+        var filePath = fileInput.value;
+             
+        // Allowing file type
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+                 
+        if (!allowedExtensions.exec(filePath)) {
+                //alert('Invalid file type' + fileInput.value);
+                fileInput.value = '';
+                
+                fReader.onloadend = function(e) {
+                    let img = document.getElementById('picture-box');
+                    img.setAttribute('src', 'Assets/blank-profile-picture.svg');
+                    img.style.opacity = '1';
+                    photo.style.opacity = '1';
+                };
+                
+                return;
+         }     
+          // AQUI TERMINA LA VALIDACION PARA EL TIPO DE IMAGEN
+        
+        fReader.onloadend = function(e) {
+            let img = document.getElementById('picture-box');
+            img.setAttribute('src', e.target.result);
+            img.style.opacity = '1';
+            photo.style.opacity = '0';
+        };
+    
+    };
 
 });
 

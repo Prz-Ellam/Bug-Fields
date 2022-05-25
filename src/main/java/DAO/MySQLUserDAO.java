@@ -17,10 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Types;
 
-/**
- *
- * @author eliam
- */
 public class MySQLUserDAO implements UserDAO {
     
     private final String CREATE = "CALL sp_InsertUser(?, ?, ?, ?, ?, ?, ?)";
@@ -107,18 +103,14 @@ public class MySQLUserDAO implements UserDAO {
             System.out.println(e.getMessage());
         }
         finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                }
-                catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
+            try {
+                if (connection != null) connection.close();
             }
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }    
         }
-        
         return null;
-        
     }
     
     @Override
