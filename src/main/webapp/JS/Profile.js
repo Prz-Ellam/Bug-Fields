@@ -8,6 +8,8 @@ String(date.getMonth() + 1).padStart(2, '0') + '-' +
 String(date.getDate()).padStart(2, '0');
 $('#dateOfBirth').val(dateFormat);
 
+var userPhoto;
+
 $.ajax({
     async: false,
     type: "GET",
@@ -43,6 +45,7 @@ $.ajax({
         $("#username").val(data.user.username);
         $("#age").val(data.user.age);
         $("#picture-box").attr("src", data.user.photo);
+        userPhoto = data.user.photo;
     }
 }).fail(function(jqXHR, state) {
     console.log("Ups...algo salio mal: " + state);
@@ -236,6 +239,16 @@ $(document).ready(function() {
     });
     
     photo.onchange = function(e) {
+        
+        // Si se le da Cancelar, se pone la imagen por defecto y el path vacio
+        if(photo.files.length === 0){
+            let img = document.getElementById('picture-box');
+            img.setAttribute('src', userPhoto);
+            
+            var fileInputPhoto = document.getElementById('photo');
+            fileInputPhoto.value = '';
+            return;
+        }
 
         let fReader = new FileReader();
         fReader.readAsDataURL(photo.files[0]);

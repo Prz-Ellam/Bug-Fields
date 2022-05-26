@@ -28,34 +28,6 @@ DELIMITER ;
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS sp_GetPostByID;
-
-CREATE PROCEDURE sp_GetPostByID(
-	_post_id 				INT
-)
-BEGIN
-
-	SELECT 
-    		p.post_id, 
-            p.title, 
-            p.description, 
-            u.username, 
-            p.creation_date
-    FROM 
-    		posts AS p
-    		INNER JOIN users AS u
-    		ON p.user_id = u.user_id
-    WHERE 
-    		p.post_id = _post_id
-            AND p.active = TRUE;
-
-END$$
-
-DELIMITER ;
-
-
-
-DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_UpdatePost;
 
 CREATE PROCEDURE sp_UpdatePost(
@@ -101,7 +73,6 @@ DELIMITER ;
 
 
 
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS sp_ReadPosts;
 
@@ -131,6 +102,34 @@ BEGIN
     		_limit
 	OFFSET 
     		_offset;
+
+END$$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS sp_GetPostByID;
+
+CREATE PROCEDURE sp_GetPostByID(
+	_post_id 				INT
+)
+BEGIN
+
+	SELECT 
+    		p.post_id, 
+            p.title, 
+            p.description, 
+            u.username, 
+            p.creation_date
+    FROM 
+    		posts AS p
+    		INNER JOIN users AS u
+    		ON p.user_id = u.user_id
+    WHERE 
+    		p.post_id = _post_id
+            AND p.active = TRUE;
 
 END$$
 
@@ -238,7 +237,6 @@ BEGIN
 END$$
 
 DELIMITER ;
-
 
 
 

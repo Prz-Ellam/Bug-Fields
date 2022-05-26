@@ -150,7 +150,6 @@ public class MySQLPostDAO implements PostDAO {
                 System.out.println(e.getMessage());
             }
         }
-        
         return false;
     }
     
@@ -211,7 +210,6 @@ public class MySQLPostDAO implements PostDAO {
             statement.setString(2, startDate);
             statement.setString(3, endDate);
             statement.setString(4, filter);
-            
             rs = statement.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
@@ -244,7 +242,6 @@ public class MySQLPostDAO implements PostDAO {
             connection = DBConnection.getConnection();
             statement = connection.prepareStatement("SELECT COUNT(*) FROM posts WHERE active = TRUE");
             rs = statement.executeQuery();
-            
             if(rs.next()){
                 
                 return rs.getInt(1);
@@ -259,13 +256,13 @@ public class MySQLPostDAO implements PostDAO {
         }
         finally {
             try {
+                if (statement != null) statement.close();
                 if (connection != null) connection.close();
             }
             catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
         }
-        
         return 0;
     }
     
@@ -279,9 +276,10 @@ public class MySQLPostDAO implements PostDAO {
     
     public boolean delete(int postId, int userId) {
         Connection connection = null;
+        CallableStatement statement = null;
         try {
             connection = DBConnection.getConnection();
-            CallableStatement statement = connection.prepareCall(DELETE);
+            statement = connection.prepareCall(DELETE);
             statement.setInt(1, postId);
             statement.setInt(2, userId);
             int rowCount = statement.executeUpdate();
@@ -292,15 +290,14 @@ public class MySQLPostDAO implements PostDAO {
         }
         finally {
             try {
+                if (statement != null) statement.close();
                 if (connection != null) connection.close();
             }
             catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
         }
-        
         return false;
-        
     }
     
     public PostDTO getById(int postId, int userId) {
@@ -313,7 +310,6 @@ public class MySQLPostDAO implements PostDAO {
             statement.setInt(1, postId);
             statement.setInt(2, userId);
             rs = statement.executeQuery();
-            
             PostDTO post = null;
             if(rs.next()){
                 post = new PostDTO();
@@ -340,7 +336,6 @@ public class MySQLPostDAO implements PostDAO {
                 System.out.println(e.getMessage());
             }
         }
-        
         return null;  
     }
     
@@ -353,7 +348,6 @@ public class MySQLPostDAO implements PostDAO {
             statement = connection.prepareCall("CALL sp_GetPostByID(?)");
             statement.setInt(1, postId);
             rs = statement.executeQuery();
-            
             PostViewModel post = null;
             if(rs.next()){
                 post = new PostViewModel();
@@ -384,7 +378,6 @@ public class MySQLPostDAO implements PostDAO {
         return null;
     }
     
-    
     public List<PostViewModel> getByAdvancedSearch(Integer categoryId, String startDate, String endDate, 
         String filter, int limit, int offset, int userId) {
         Connection connection = null;
@@ -401,7 +394,6 @@ public class MySQLPostDAO implements PostDAO {
             statement.setInt(6, offset);
             statement.setInt(7, userId);
             rs = statement.executeQuery();
-            
             List<PostViewModel> posts = new ArrayList<PostViewModel>();
             while (rs.next()) {
                 PostViewModel post = new PostViewModel();
@@ -413,7 +405,6 @@ public class MySQLPostDAO implements PostDAO {
                 post.setUserOwn(rs.getBoolean("Own"));
                 posts.add(post);
             }
-            
             return posts;
         }
         catch (SQLException ex) {

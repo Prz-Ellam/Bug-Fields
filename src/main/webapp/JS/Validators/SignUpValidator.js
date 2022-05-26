@@ -120,6 +120,7 @@ export default class SignUpValidator extends GenericValidator {
                     required: true,
                     whitespaces: true,
                     emailForm: true,
+                    email: false,
                     duplicateEmail: true,
                     maxlength: 50
                 },
